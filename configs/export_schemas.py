@@ -36,7 +36,6 @@ import pathlib
 
 import msgspec
 import vllm
-
 from cosmos_reason1_utils.vision import VisionConfig
 
 SCRIPT = pathlib.Path(__file__).resolve()

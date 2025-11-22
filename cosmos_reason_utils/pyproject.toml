@@ -13,21 +13,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-line-length = 88
-target-version = "py310"
+[build-system]
+requires = ["uv_build>=0.7.21,<0.8.0"]
+build-backend = "uv_build"
 
-[lint]
-select = [
-    "B", # bugbear
-    "E", # pycodestyle errors
-    "I", # isort
-    "F", # pyflakes
-    "UP", # pyupgrade
-    "RUF", # ruff
-    "T10", # debugger
+[project]
+name = "cosmos-reason-utils"
+version = "0.2.0"
+description = "Cosmos-Reason inference utilities"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib>=3.10.7",
+    "numpy>=2.2.6",
+    "pillow>=12.0.0",
+    "pydantic>=2.12.4",
+    "torch>=2.9.0",
+    "torchvision>=0.24.0",
 ]
-ignore = [
-    "E402", # module-import-not-at-top-of-file
-    "E501", # line too long
+
+[tool.uv.build-backend]
+source-exclude = [
+    "*_test.py",
 ]
-fixable = ["ALL"]

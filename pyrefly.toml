@@ -13,21 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-line-length = 88
-target-version = "py310"
-
-[lint]
-select = [
-    "B", # bugbear
-    "E", # pycodestyle errors
-    "I", # isort
-    "F", # pyflakes
-    "UP", # pyupgrade
-    "RUF", # ruff
-    "T10", # debugger
+project-includes = [
+    "cosmos_reason_utils/",
+    "scripts/",
 ]
-ignore = [
-    "E402", # module-import-not-at-top-of-file
-    "E501", # line too long
-]
-fixable = ["ALL"]

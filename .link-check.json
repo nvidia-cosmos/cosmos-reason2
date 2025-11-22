@@ -1,7 +1,7 @@
 {
     "ignorePatterns": [
         {
-            "pattern": "^https://huggingface.co/docs/transformers"
+            "pattern": "^https://huggingface.co/collections/nvidia/cosmos-reason2"
         }
     ]
 }

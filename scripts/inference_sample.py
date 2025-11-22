@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Minimal example of inference with Cosmos-Reason1.
+"""Minimal example of inference with Cosmos-Reason2.
 
 Example:
 
@@ -22,22 +22,26 @@ uv run scripts/inference_sample.py
 ```
 """
 
+# Source: https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#new-qwen-vl-utils-usage
+
 from pathlib import Path
 
-import qwen_vl_utils
+import torch
 import transformers
+from qwen_vl_utils import process_vision_info
 
-ROOT = Path(__file__).parents[2]
+ROOT = Path(__file__).parents[1]
 SEPARATOR = "-" * 20
 
 
 def main():
     # Load model
-    model_name = "nvidia/Cosmos-Reason1-7B"
-    model = transformers.Qwen2_5_VLForConditionalGeneration.from_pretrained(
-        model_name, torch_dtype="auto", device_map="auto"
+    model_name = "nvidia/Cosmos-Reason2-2B-v1.0"
+    model = transformers.Qwen3VLForConditionalGeneration.from_pretrained(
+        model_name, dtype=torch.float16, device_map="auto", attn_implementation="sdpa"
     )
-    processor: transformers.Qwen2_5_VLProcessor = (
+    processor: transformers.Qwen3VLProcessor = (
+        # pyrefly: ignore [bad-assignment]
         transformers.AutoProcessor.from_pretrained(model_name)
     )
 
@@ -60,15 +64,34 @@ def main():
 
     # Process inputs
     text = processor.apply_chat_template(
-        conversation, tokenize=False, add_generation_prompt=True
+        conversation,
+        tokenize=False,
+        add_generation_prompt=True,
     )
-    image_inputs, video_inputs = qwen_vl_utils.process_vision_info(conversation)
+
+    images, videos, video_kwargs = process_vision_info(
+        conversation,
+        # pyrefly: ignore [missing-attribute]
+        image_patch_size=processor.image_processor.patch_size,
+        return_video_kwargs=True,
+        return_video_metadata=True,
+    )
+    if videos is not None:
+        videos, video_metadatas = zip(*videos, strict=False)
+        videos, video_metadatas = list(videos), list(video_metadatas)
+    else:
+        video_metadatas = None
     inputs = processor(
-        text=[text],
-        images=image_inputs,
-        videos=video_inputs,
-        padding=True,
+        text=text,
+        # pyrefly: ignore [bad-argument-type]
+        images=images,
+        # pyrefly: ignore [bad-argument-type]
+        videos=videos,
+        video_metadata=video_metadatas,
         return_tensors="pt",
+        do_resize=False,
+        # pyrefly: ignore [bad-unpacking]
+        **video_kwargs,
     )
     inputs = inputs.to(model.device)
 

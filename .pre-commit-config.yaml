@@ -14,38 +14,54 @@
 # limitations under the License.
 
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-executables-have-shebangs
-      - id: check-shebang-scripts-are-executable
   - repo: https://github.com/google/addlicense
-    rev: v1.2.0-rc0
+    rev: v1.2.0
     hooks:
       - id: addlicense
-        args: ["-f", "bin/_license.txt"]
+        args: ["-f", "bin/license.txt"]
+  - repo: https://github.com/jsh9/markdown-toc-creator
+    rev: 0.0.11
+    hooks:
+      - id: markdown-toc-creator
+        args: ["-q"]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude_types: [python]
+      - id: end-of-file-fixer
+        exclude_types: [python]
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
   - repo: local
     hooks:
       - id: uv-lock
         name: Generate uv lock files for projects
-        entry: ./bin/_uv_lock.sh
+        entry: ./bin/uv_lock.sh
         language: script
         files: pyproject\.toml$
       - id: uv-lock-script
         name: Generate uv lock files for scripts
-        entry: ./bin/_uv_lock_script.sh
+        entry: ./bin/uv_lock_script.sh
         language: script
         types: [python]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.8
+    rev: v0.14.6
     hooks:
       - id: ruff-check
         args: [--fix]
       - id: ruff-format
   - repo: https://github.com/tcort/markdown-link-check
-    rev: v3.12.2 # DO NOT UPDATE UNTIL https://github.com/tcort/markdown-link-check/pull/452 IS MERGED
+    rev: v3.14.2
     hooks:
-      - id: markdown-link-check
+      - alias: link-check-relative
+        name: link check relative
+        id: markdown-link-check
+        args: [--config, ".link-check-relative.json", --quiet]
+        exclude: \bATTRIBUTIONS\b
+      - alias: link-check
+        name: link check
+        id: markdown-link-check
         args: [--config, ".link-check.json", --quiet]
+        stages: [manual]
+        exclude: \bATTRIBUTIONS\b

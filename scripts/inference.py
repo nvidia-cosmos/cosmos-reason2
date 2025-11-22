@@ -1,4 +1,3 @@
-#!/usr/bin/env -S uv run --script
 # SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -14,70 +13,44 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://docs.astral.sh/uv/guides/scripts/#using-a-shebang-to-create-an-executable-file
-# /// script
-# requires-python = ">=3.10"
-# dependencies = [
-#   "accelerate>=1.10.1",
-#   "cosmos-reason1-utils",
-#   "pyyaml>=6.0.2",
-#   "qwen-vl-utils>=0.0.11",
-#   "rich",
-#   "torch>=2.7.1",
-#   "torchcodec>=0.6.0",
-#   "transformers>=4.51.3",
-#   "vllm>=0.10.1.1",
-# ]
-# [tool.uv.sources]
-# cosmos-reason1-utils = {path = "../cosmos_reason1_utils", editable = true}
-# torch = [
-#   { index = "pytorch-cu128"},
-# ]
-# torchvision = [
-#   { index = "pytorch-cu128"},
-# ]
-# [[tool.uv.index]]
-# name = "pytorch-cu128"
-# url = "https://download.pytorch.org/whl/cu128"
-# explicit = true
-# ///
-
-"""Full example of inference with Cosmos-Reason1.
+"""Full example of inference with Cosmos-Reason2.
 
 Example:
 
 ```shell
-./scripts/inference.py --prompt prompts/caption.yaml --videos assets/sample.mp4 -v
+uv run scripts/inference.py --prompt prompts/caption.yaml --videos assets/sample.mp4 -v
 ```
 """
-# ruff: noqa: E402
 
-from cosmos_reason1_utils.script import init_script
+# Source: https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#offline-inference
+
+from cosmos_reason_utils.script import init_script
 
 init_script()
 
-import argparse
 import collections
 import pathlib
 import textwrap
+from typing import Annotated
 
+import pydantic
 import qwen_vl_utils
 import transformers
+import tyro
 import vllm
 import yaml
-from rich import print
-from rich.pretty import pprint
-
-from cosmos_reason1_utils.text import (
+from cosmos_reason_utils.text import (
     PromptConfig,
     create_conversation,
     extract_tagged_text,
 )
-from cosmos_reason1_utils.vision import (
+from cosmos_reason_utils.vision import (
     VisionConfig,
     overlay_text_on_tensor,
     save_tensor,
 )
+from rich import print
+from rich.pretty import pprint
 
 ROOT = pathlib.Path(__file__).parents[1].resolve()
 SEPARATOR = "-" * 20
@@ -88,68 +61,37 @@ def pprint_dict(d: dict, name: str):
     pprint(collections.namedtuple(name, d.keys())(**d), expand_all=True)
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--images", type=str, nargs="*", help="Image paths")
-    parser.add_argument("--videos", type=str, nargs="*", help="Video paths")
-    parser.add_argument(
-        "--timestamp",
-        action="store_true",
-        help="Overlay timestamp on video frames",
-    )
-    parser.add_argument(
-        "--prompt",
-        type=str,
-        required=True,
-        help="Path to prompt yaml file",
-    )
-    parser.add_argument(
-        "--question",
-        type=str,
-        help="Question to ask the model (user prompt)",
-    )
-    parser.add_argument(
-        "--reasoning",
-        action="store_true",
-        help="Enable reasoning trace",
-    )
-    parser.add_argument(
-        "--vision-config",
-        type=str,
-        default=f"{ROOT}/configs/vision_config.yaml",
-        help="Path to vision config json file",
-    )
-    parser.add_argument(
-        "--sampling-params",
-        type=str,
-        default=f"{ROOT}/configs/sampling_params.yaml",
-        help="Path to sampling parameters yaml file",
-    )
-    parser.add_argument(
-        "--model",
-        type=str,
-        default="nvidia/Cosmos-Reason1-7B",
-        help="Model name or path (Cosmos-Reason1: https://huggingface.co/collections/nvidia/cosmos-reason1-67c9e926206426008f1da1b7)",
-    )
-    parser.add_argument(
-        "--revision",
-        type=str,
-        help="Model revision (branch name, tag name, or commit id)",
-    )
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        action="store_true",
-        help="Verbose output",
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        type=str,
-        help="Output directory for debugging",
-    )
-    args = parser.parse_args()
+class Args(pydantic.BaseModel):
+    model_config = pydantic.ConfigDict(extra="forbid", frozen=True)
 
+    prompt: pydantic.FilePath
+    """Path to prompt yaml file"""
+
+    images: list[str] = pydantic.Field(default_factory=list)
+    """Image paths"""
+    videos: list[str] = pydantic.Field(default_factory=list)
+    """Video paths"""
+    timestamp: bool = False
+    """Overlay timestamp on video frames"""
+    question: str | None = None
+    """Question to ask the model (user prompt)"""
+    reasoning: bool = False
+    """Enable reasoning trace"""
+    vision_config: pydantic.FilePath = ROOT / "configs/vision_config.yaml"
+    """Path to vision config yaml file"""
+    sampling_params: pydantic.FilePath = ROOT / "configs/sampling_params.yaml"
+    """Path to sampling parameters yaml file"""
+    model: str = "nvidia/Cosmos-Reason2-2B-v1.0"
+    """Model name or path (Cosmos-Reason2: https://huggingface.co/collections/nvidia/cosmos-reason2)"""
+    revision: str | None = None
+    """Model revision (branch name, tag name, or commit id)"""
+    verbose: Annotated[bool, tyro.conf.arg(aliases=("-v",))] = False
+    """Verbose output"""
+    output: Annotated[str | None, tyro.conf.arg(aliases=("-o",))] = None
+    """Output directory for debugging"""
+
+
+def main(args: Args):
     images: list[str] = args.images or []
     videos: list[str] = args.videos or []
 
@@ -174,6 +116,7 @@ def main():
                 "Prompt already contains output format. Cannot add reasoning."
             )
         system_prompts.append(open(f"{ROOT}/prompts/addons/reasoning.txt").read())
+    # pyrefly: ignore [no-matching-overload]
     system_prompt = "\n\n".join(map(str.rstrip, system_prompts))
     if args.question:
         user_prompt = args.question
@@ -207,24 +150,36 @@ def main():
     )
 
     # Process inputs
-    processor: transformers.Qwen2_5_VLProcessor = (
+    processor: transformers.Qwen3VLProcessor = (
+        # pyrefly: ignore [bad-assignment]
         transformers.AutoProcessor.from_pretrained(args.model)
     )
     prompt = processor.apply_chat_template(
         conversation, tokenize=False, add_generation_prompt=True
     )
     image_inputs, video_inputs, video_kwargs = qwen_vl_utils.process_vision_info(
-        conversation, return_video_kwargs=True
+        conversation,
+        # pyrefly: ignore [missing-attribute]
+        image_patch_size=processor.image_processor.patch_size,
+        return_video_kwargs=True,
+        return_video_metadata=True,
     )
     if args.timestamp:
-        for i, video in enumerate(video_inputs):
-            video_inputs[i] = overlay_text_on_tensor(video, fps=video_kwargs["fps"][i])
+        video_inputs = [
+            # pyrefly: ignore [bad-argument-type, bad-index]
+            (overlay_text_on_tensor(video, fps=video_metadata["fps"]), video_metadata)
+            # pyrefly: ignore [not-iterable]
+            for video, video_metadata in video_inputs
+        ]
     if args.output:
         if image_inputs is not None:
             for i, image in enumerate(image_inputs):
+                # pyrefly: ignore [bad-argument-type]
                 save_tensor(image, f"{args.output}/image_{i}")
         if video_inputs is not None:
-            for i, video in enumerate(video_inputs):
+            # pyrefly: ignore [bad-argument-type]
+            for i, (video, _) in enumerate(video_inputs):
+                # pyrefly: ignore [bad-argument-type]
                 save_tensor(video, f"{args.output}/video_{i}")
 
     # Run inference
@@ -232,12 +187,14 @@ def main():
     if image_inputs is not None:
         mm_data["image"] = image_inputs
     if video_inputs is not None:
+        # pyrefly: ignore [unsupported-operation]
         mm_data["video"] = video_inputs
     llm_inputs = {
         "prompt": prompt,
         "multi_modal_data": mm_data,
         "mm_processor_kwargs": video_kwargs,
     }
+    # pyrefly: ignore [bad-argument-type]
     outputs = llm.generate([llm_inputs], sampling_params=sampling_params)
     print(SEPARATOR)
     for output in outputs[0].outputs:
@@ -246,10 +203,7 @@ def main():
         print(textwrap.indent(output_text.rstrip(), "  "))
     print(SEPARATOR)
 
-    result, _ = extract_tagged_text(output_text)
-    if args.verbose and result:
-        pprint_dict(result, "Result")
-
 
 if __name__ == "__main__":
-    main()
+    args = tyro.cli(Args, description=__doc__)
+    main(args)

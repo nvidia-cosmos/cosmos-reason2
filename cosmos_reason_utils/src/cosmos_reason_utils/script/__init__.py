@@ -13,21 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-line-length = 88
-target-version = "py310"
+import os
+import resource
+import warnings
 
-[lint]
-select = [
-    "B", # bugbear
-    "E", # pycodestyle errors
-    "I", # isort
-    "F", # pyflakes
-    "UP", # pyupgrade
-    "RUF", # ruff
-    "T10", # debugger
-]
-ignore = [
-    "E402", # module-import-not-at-top-of-file
-    "E501", # line too long
-]
-fixable = ["ALL"]
+
+def init_script(verbose: bool = False):
+    """Initialize inference script."""
+    # Suppress core dumps
+    resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+
+    # Tokenizers parallelism doesn't work with vllm
+    os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+
+    if not verbose:
+        warnings.filterwarnings("ignore")
+        os.environ.setdefault("GLOO_LOG_LEVEL", "3")
+        os.environ.setdefault("TRANSFORMERS_VERBOSITY", "error")
+        os.environ.setdefault("VLLM_LOGGING_LEVEL", "ERROR")

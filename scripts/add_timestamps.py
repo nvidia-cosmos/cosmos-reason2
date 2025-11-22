@@ -1,4 +1,3 @@
-#!/usr/bin/env -S uv run --script
 # SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -14,40 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# https://docs.astral.sh/uv/guides/scripts/#using-a-shebang-to-create-an-executable-file
-# /// script
-# requires-python = ">=3.10"
-# dependencies = [
-#   "cosmos-reason1-utils",
-#   "imageio_ffmpeg>=0.6.0",
-#   "torch>=2.7.1",
-#   "torchcodec>=0.6.0",
-# ]
-# [tool.uv.sources]
-# cosmos-reason1-utils = {path = "../cosmos_reason1_utils", editable = true}
-# torch = [
-#   { index = "pytorch-cu128"},
-# ]
-# torchvision = [
-#   { index = "pytorch-cu128"},
-# ]
-# [[tool.uv.index]]
-# name = "pytorch-cu128"
-# url = "https://download.pytorch.org/whl/cu128"
-# explicit = true
-# ///
-
 """Overlay timestamps at the bottom of a video.
 
 Example:
 
 ```shell
-./scripts/add_timestamps.py --video assets/sample.mp4 -o outputs/sample_timestamped.mp4
+uv run scripts/add_timestamps.py --video assets/sample.mp4 -o outputs/sample_timestamped.mp4
 ```
 """
-# ruff: noqa: E402
 
-from cosmos_reason1_utils.script import init_script
+from cosmos_reason_utils.script import init_script
 
 init_script()
 
@@ -58,8 +33,7 @@ import pathlib
 import imageio_ffmpeg
 import torch
 import torchcodec
-
-from cosmos_reason1_utils.vision import (
+from cosmos_reason_utils.vision import (
     overlay_text_on_tensor,
 )
 
@@ -91,11 +65,13 @@ def main():
     print(SEPARATOR)
     metadata = _get_metadata(video_path)
     print("Adding watermark to each frame.")
+    # pyrefly: ignore [bad-index]
     video_tensor = overlay_text_on_tensor(video_tensor, fps=metadata["fps"])
 
     print(SEPARATOR)
     print(f"Saving frames to {args.output}.")
 
+    # pyrefly: ignore [bad-index]
     pix_fmt = metadata["pix_fmt"]
     suffix = "(progressive)"
     if pix_fmt.endswith(suffix):
@@ -103,8 +79,10 @@ def main():
     _write_video(
         video_tensor,
         args.output,
+        # pyrefly: ignore [bad-index]
         fps=metadata["fps"],
         pix_fmt_out=pix_fmt,
+        # pyrefly: ignore [bad-index]
         bitrate=str(metadata["bitrate"]),
     )
 
@@ -119,8 +97,10 @@ def _read_video(video_path):
     channels = 3
 
     # Preallocate tensor: [T, C, H, W].
+    # pyrefly: ignore [no-matching-overload]
     video_tensor = torch.empty((num_frames, channels, height, width), dtype=torch.uint8)
 
+    # pyrefly: ignore [bad-argument-type]
     for idx, frame in enumerate(decoder):
         assert frame.shape == (3, height, width)
         video_tensor[idx, ...] = frame
@@ -138,6 +118,7 @@ def _get_metadata(video_path):
         reader.close()
 
     metadata = torchcodec.decoders.VideoDecoder(video_path).metadata
+    # pyrefly: ignore [no-matching-overload, unsupported-operation]
     merged_metadata["bitrate"] = int(metadata.bit_rate)
 
     return merged_metadata

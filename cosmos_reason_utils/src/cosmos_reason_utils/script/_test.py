@@ -13,21 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-line-length = 88
-target-version = "py310"
+import pytest
 
-[lint]
-select = [
-    "B", # bugbear
-    "E", # pycodestyle errors
-    "I", # isort
-    "F", # pyflakes
-    "UP", # pyupgrade
-    "RUF", # ruff
-    "T10", # debugger
-]
-ignore = [
-    "E402", # module-import-not-at-top-of-file
-    "E501", # line too long
-]
-fixable = ["ALL"]
+from cosmos_reason_utils.script import init_script
+
+
+@pytest.mark.parametrize("verbose", [True, False])
+def test_init_script(verbose: bool):
+    init_script(verbose=verbose)

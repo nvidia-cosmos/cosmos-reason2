@@ -2,12 +2,34 @@
 
 We'd love to receive your patches and contributions. Please keep your PRs as draft until such time that you would like us to review them.
 
-## Testing
+## Test
 
-To test your changes locally, run
+Install system dependencies:
+
+[just](https://just.systems/man/en/pre-built-binaries.html#pre-built-binaries)
+
+```shell
+uv tool install -U rust-just
+```
+
+Run linting and formatting:
+
+```shell
+just lint
+```
+
+This will also run auto-fixes and linting. We recommend that you commit your changes first.
+
+Run all tests:
 
 ```shell
 just test
+```
+
+To see all available commands, run
+
+```shell
+just
 ```
 
 ## Code Reviews
