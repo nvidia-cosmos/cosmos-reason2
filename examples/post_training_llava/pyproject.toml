@@ -19,16 +19,7 @@ version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "cosmos-reason-utils",
-    "cosmos-rl",
-    "datasets",
-    "pydantic",
-    "rich",
-    "toml",
-    "torch",
-    "torchcodec",
-    "transformers",
-    "wandb",
+    "cosmos-reason-utils[inference,post-training,cu128_torch28]",
 ]
 
 [tool.uv.sources]

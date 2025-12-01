@@ -40,7 +40,6 @@ inference = [
     "pyyaml>=6.0.3",
     "qwen-vl-utils>=0.0.14",
     "rich>=14.2.0",
-    "torchcodec>=0.8.1",
     "transformers>=4.57.0",
     "tyro>=0.9.35",
 ]
@@ -52,8 +51,9 @@ post-training = [
 ]
 cu128_torch28 = [
     "flash-attn>=2.8.3",
-    "torch==2.8.0",
-    "torchvision",
+    "torch==2.8.0", # version required by vLLM: https://github.com/vllm-project/vllm/releases
+    "torchcodec==0.7.0", # version required by torch: https://github.com/meta-pytorch/torchcodec/releases
+    "torchvision", # version pinned by torch
     "vllm==0.11.0",
 ]
 

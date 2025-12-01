@@ -33,7 +33,7 @@ wget http://images.cocodataset.org/zips/train2017.zip -O data/sft/media.zip && u
 Run SFT:
 
 ```shell
-cosmos-rl --config configs/sft.toml scripts/custom_sft.py
+uv run cosmos-rl --config configs/sft.toml scripts/custom_sft.py
 ```
 
 The full config is saved to `outputs/sft/config.toml`.
