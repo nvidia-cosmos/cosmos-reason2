@@ -15,7 +15,7 @@
 
 """Supervised Fine-Tuning (SFT) dataset."""
 
-from cosmos_reason1_utils.script import init_script
+from cosmos_reason_utils.script import init_script
 
 init_script()
 

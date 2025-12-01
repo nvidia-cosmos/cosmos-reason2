@@ -14,7 +14,7 @@ Install the package:
 
 ```shell
 cd examples/post_training_hf
-just install
+uv sync
 source .venv/bin/activate
 ```
 
@@ -23,13 +23,13 @@ source .venv/bin/activate
 Download the [Nexar collision prediction](https://huggingface.co/datasets/nexar-ai/nexar_collision_prediction) dataset:
 
 ```shell
-./scripts/download_nexar_collision_prediction.py data/sft --split "train[:10]"
+uv run scripts/download_nexar_collision_prediction.py data/sft --split "train[:10]"
 ```
 
 Run SFT:
 
 ```shell
-cosmos-rl --config configs/sft.toml scripts/custom_sft.py
+uv run cosmos-rl --config configs/sft.toml scripts/custom_sft.py
 ```
 
 The full config is saved to `outputs/sft/config.toml`.

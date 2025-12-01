@@ -19,7 +19,7 @@ version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.10, <3.13"
 dependencies = [
-    "cosmos-reason1-utils",
+    "cosmos-reason-utils",
     "cosmos-rl",
     "datasets",
     "toml",
@@ -29,13 +29,5 @@ dependencies = [
     "wandb",
 ]
 
-[dependency-groups]
-build = ["torch"]
-
-[tool.uv]
-no-build-isolation-package = ["flash-attn"]
-override-dependencies = ["transformers>=4.53"]
-
 [tool.uv.sources]
-cosmos-reason1-utils = { path = "../../cosmos_reason1_utils", editable = true }
-cosmos-rl = { git = "https://github.com/nvidia-cosmos/cosmos-rl.git" }
+cosmos-reason-utils = { path = "../../cosmos_reason_utils", editable = true }

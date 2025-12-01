@@ -24,7 +24,6 @@ Install the package:
 
 ```shell
 cd examples/post_training
-just install
 source .venv/bin/activate
 ```
 

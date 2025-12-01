@@ -1,4 +1,3 @@
-#!/usr/bin/env -S uv run --script
 # SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -14,38 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# /// script
-# requires-python = ">=3.10"
-# dependencies = [
-#   "accelerate",
-#   "cosmos-reason-utils",
-#   "pydantic",
-#   "pyyaml",
-#   "qwen-vl-utils",
-#   "rich",
-#   "torch",
-#   "torchcodec",
-#   "torchvision",
-#   "transformers>=4.51.3",
-#   "vllm",
-# ]
-# [tool.uv]
-# exclude-newer = "2025-07-31T00:00:00Z"
-# [tool.uv.sources]
-# cosmos-reason1-utils = { path = "../../cosmos_reason1_utils", editable = true }
-# ///
-
-"""Example script for using Cosmos-Reason1 as a video critic.
+"""Example script for using Cosmos-Reason2 as a video critic.
 
 Example:
 
 ```shell
-./examples/video_critic/video_critic.py --video_path assets/sample.mp4
+uv run examples/video_critic/video_critic.py --video_path examples/video_critic/assets/sample.mp4
 ```
 """
 
-from cosmos_reason1_utils.script import init_script
+from cosmos_reason_utils.script import init_script
 
 init_script()
 
@@ -61,7 +38,7 @@ from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor
 from vllm import LLM, SamplingParams
 
-ROOT = pathlib.Path(__file__).parents[2].resolve()
+ROOT = pathlib.Path(__file__).parents[2].absolute()
 
 
 class Prompt(pydantic.BaseModel):
@@ -309,7 +286,7 @@ def parse_args():
         help="Number of critic trials for each video",
     )
     parser.add_argument(
-        "--model", type=str, default="nvidia/Cosmos-Reason1-7B", help="Model path"
+        "--model", type=str, default="nvidia/Cosmos-Reason2-2B", help="Model path"
     )
     return parser.parse_args()
 

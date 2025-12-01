@@ -942,46 +942,64 @@ dependencies = [
     { name = "torchvision" },
 ]
 
+[package.optional-dependencies]
+inference = [
+    { name = "accelerate" },
+    { name = "av" },
+    { name = "imageio-ffmpeg" },
+    { name = "pydantic" },
+    { name = "pyyaml" },
+    { name = "qwen-vl-utils" },
+    { name = "rich" },
+    { name = "torchcodec" },
+    { name = "transformers" },
+    { name = "tyro" },
+    { name = "vllm" },
+]
+post-training = [
+    { name = "cosmos-rl" },
+    { name = "datasets" },
+    { name = "toml" },
+    { name = "wandb" },
+]
+
 [package.metadata]
 requires-dist = [
+    { name = "accelerate", marker = "extra == 'inference'", specifier = ">=1.12.0" },
+    { name = "av", marker = "extra == 'inference'", specifier = ">=16.0.1" },
+    { name = "cosmos-reason-utils", marker = "extra == 'inference'", editable = "../../cosmos_reason_utils" },
+    { name = "cosmos-rl", marker = "extra == 'post-training'", specifier = ">=0.3.6" },
+    { name = "datasets", marker = "extra == 'post-training'", specifier = ">=4.4.1" },
+    { name = "imageio-ffmpeg", marker = "extra == 'inference'", specifier = ">=0.6.0" },
     { name = "matplotlib", specifier = ">=3.10.7" },
     { name = "numpy", specifier = ">=2.2.6" },
     { name = "pillow", specifier = ">=12.0.0" },
     { name = "pydantic", specifier = ">=2.12.4" },
+    { name = "pydantic", marker = "extra == 'inference'", specifier = ">=2.12.4" },
+    { name = "pyyaml", marker = "extra == 'inference'", specifier = ">=6.0.3" },
+    { name = "qwen-vl-utils", marker = "extra == 'inference'", specifier = ">=0.0.14" },
+    { name = "rich", marker = "extra == 'inference'", specifier = ">=14.2.0" },
+    { name = "toml", marker = "extra == 'post-training'", specifier = ">=0.10.2" },
     { name = "torch", specifier = ">=2.9.0" },
+    { name = "torchcodec", marker = "extra == 'inference'", specifier = ">=0.8.1" },
     { name = "torchvision", specifier = ">=0.24.0" },
+    { name = "transformers", marker = "extra == 'inference'", specifier = ">=4.57.0" },
+    { name = "tyro", marker = "extra == 'inference'", specifier = ">=0.9.35" },
+    { name = "vllm", marker = "extra == 'inference'", specifier = ">=0.11.2" },
+    { name = "wandb", marker = "extra == 'post-training'", specifier = ">=0.23.0" },
 ]
+provides-extras = ["inference", "post-training"]
 
 [[package]]
 name = "cosmos-reason2-post-training-hf"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
-    { name = "cosmos-reason-utils" },
-    { name = "cosmos-rl" },
-    { name = "datasets" },
-    { name = "pydantic" },
-    { name = "rich" },
-    { name = "toml" },
-    { name = "torch" },
-    { name = "torchcodec" },
-    { name = "transformers" },
-    { name = "wandb" },
+    { name = "cosmos-reason-utils", extra = ["inference", "post-training"] },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "cosmos-reason-utils", editable = "../../cosmos_reason_utils" },
-    { name = "cosmos-rl" },
-    { name = "datasets", specifier = ">=4.4.1" },
-    { name = "pydantic", specifier = ">=2.12.5" },
-    { name = "rich", specifier = ">=14.2.0" },
-    { name = "toml", specifier = ">=0.10.2" },
-    { name = "torch", specifier = ">=2.9.0" },
-    { name = "torchcodec", specifier = ">=0.8.1" },
-    { name = "transformers", specifier = ">=4.57.0" },
-    { name = "wandb", specifier = ">=0.23.0" },
-]
+requires-dist = [{ name = "cosmos-reason-utils", extras = ["inference", "post-training"], editable = "../../cosmos_reason_utils" }]
 
 [[package]]
 name = "cosmos-rl"
@@ -1850,6 +1868,20 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/6f/6d/0703ccc57f3a7233505399edb88de3cbd678da106337b9fcde432b65ed60/idna-3.11.tar.gz", hash = "sha256:795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902", size = 194582, upload-time = "2025-10-12T14:55:20.501Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/0e/61/66938bbb5fc52dbdf84594873d5b51fb1f7c7794e9c0f5bd885f30bc507b/idna-3.11-py3-none-any.whl", hash = "sha256:771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea", size = 71008, upload-time = "2025-10-12T14:55:18.883Z" },
+]
+
+[[package]]
+name = "imageio-ffmpeg"
+version = "0.6.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/44/bd/c3343c721f2a1b0c9fc71c1aebf1966a3b7f08c2eea8ed5437a2865611d6/imageio_ffmpeg-0.6.0.tar.gz", hash = "sha256:e2556bed8e005564a9f925bb7afa4002d82770d6b08825078b7697ab88ba1755", size = 25210, upload-time = "2025-01-16T21:34:32.747Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/da/58/87ef68ac83f4c7690961bce288fd8e382bc5f1513860fc7f90a9c1c1c6bf/imageio_ffmpeg-0.6.0-py3-none-macosx_10_9_intel.macosx_10_9_x86_64.whl", hash = "sha256:9d2baaf867088508d4a3458e61eeb30e945c4ad8016025545f66c4b5aaef0a61", size = 24932969, upload-time = "2025-01-16T21:34:20.464Z" },
+    { url = "https://files.pythonhosted.org/packages/40/5c/f3d8a657d362cc93b81aab8feda487317da5b5d31c0e1fdfd5e986e55d17/imageio_ffmpeg-0.6.0-py3-none-macosx_11_0_arm64.whl", hash = "sha256:b1ae3173414b5fc5f538a726c4e48ea97edc0d2cdc11f103afee655c463fa742", size = 21113891, upload-time = "2025-01-16T21:34:00.277Z" },
+    { url = "https://files.pythonhosted.org/packages/33/e7/1925bfbc563c39c1d2e82501d8372734a5c725e53ac3b31b4c2d081e895b/imageio_ffmpeg-0.6.0-py3-none-manylinux2014_aarch64.whl", hash = "sha256:1d47bebd83d2c5fc770720d211855f208af8a596c82d17730aa51e815cdee6dc", size = 25632706, upload-time = "2025-01-16T21:33:53.475Z" },
+    { url = "https://files.pythonhosted.org/packages/a0/2d/43c8522a2038e9d0e7dbdf3a61195ecc31ca576fb1527a528c877e87d973/imageio_ffmpeg-0.6.0-py3-none-manylinux2014_x86_64.whl", hash = "sha256:c7e46fcec401dd990405049d2e2f475e2b397779df2519b544b8aab515195282", size = 29498237, upload-time = "2025-01-16T21:34:13.726Z" },
+    { url = "https://files.pythonhosted.org/packages/a0/13/59da54728351883c3c1d9fca1710ab8eee82c7beba585df8f25ca925f08f/imageio_ffmpeg-0.6.0-py3-none-win32.whl", hash = "sha256:196faa79366b4a82f95c0f4053191d2013f4714a715780f0ad2a68ff37483cc2", size = 19652251, upload-time = "2025-01-16T21:34:06.812Z" },
+    { url = "https://files.pythonhosted.org/packages/2c/c6/fa760e12a2483469e2bf5058c5faff664acf66cadb4df2ad6205b016a73d/imageio_ffmpeg-0.6.0-py3-none-win_amd64.whl", hash = "sha256:02fa47c83703c37df6bfe4896aab339013f62bf02c5ebf2dce6da56af04ffc0a", size = 31246824, upload-time = "2025-01-16T21:34:28.6Z" },
 ]
 
 [[package]]
@@ -5324,6 +5356,15 @@ wheels = [
 ]
 
 [[package]]
+name = "shtab"
+version = "1.8.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b0/7a/7f131b6082d8b592c32e4312d0a6da3d0b28b8f0d305ddd93e49c9d89929/shtab-1.8.0.tar.gz", hash = "sha256:75f16d42178882b7f7126a0c2cb3c848daed2f4f5a276dd1ded75921cc4d073a", size = 46062, upload-time = "2025-11-18T10:57:47.601Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8e/e1/202a31727b0d096a04380f78e809074d7a1d0a22d9d5a39fea1d2353fd02/shtab-1.8.0-py3-none-any.whl", hash = "sha256:f0922a82174b4007e06ac0bac4f79abd826c5cca88e201bfd927f889803c571d", size = 14457, upload-time = "2025-11-18T10:57:45.906Z" },
+]
+
+[[package]]
 name = "six"
 version = "1.17.0"
 source = { registry = "https://pypi.org/simple" }
@@ -5794,6 +5835,18 @@ wheels = [
 ]
 
 [[package]]
+name = "typeguard"
+version = "4.4.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c7/68/71c1a15b5f65f40e91b65da23b8224dad41349894535a97f63a52e462196/typeguard-4.4.4.tar.gz", hash = "sha256:3a7fd2dffb705d4d0efaed4306a704c89b9dee850b688f060a8b1615a79e5f74", size = 75203, upload-time = "2025-06-18T09:56:07.624Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1b/a9/e3aee762739c1d7528da1c3e06d518503f8b6c439c35549b53735ba52ead/typeguard-4.4.4-py3-none-any.whl", hash = "sha256:b5f562281b6bfa1f5492470464730ef001646128b180769880468bd84b68b09e", size = 34874, upload-time = "2025-06-18T09:56:05.999Z" },
+]
+
+[[package]]
 name = "typer"
 version = "0.20.0"
 source = { registry = "https://pypi.org/simple" }
@@ -5827,6 +5880,23 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/55/e3/70399cb7dd41c10ac53367ae42139cf4b1ca5f36bb3dc6c9d33acdb43655/typing_inspection-0.4.2.tar.gz", hash = "sha256:ba561c48a67c5958007083d386c3295464928b01faa735ab8547c5692e87f464", size = 75949, upload-time = "2025-10-01T02:14:41.687Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/dc/9b/47798a6c91d8bdb567fe2698fe81e0c6b7cb7ef4d13da4114b41d239f65d/typing_inspection-0.4.2-py3-none-any.whl", hash = "sha256:4ed1cacbdc298c220f1bd249ed5287caa16f34d44ef4e9c3d0cbad5b521545e7", size = 14611, upload-time = "2025-10-01T02:14:40.154Z" },
+]
+
+[[package]]
+name = "tyro"
+version = "0.9.35"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "colorama", marker = "sys_platform == 'win32'" },
+    { name = "docstring-parser" },
+    { name = "rich" },
+    { name = "shtab" },
+    { name = "typeguard" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4d/40/7a84e7652f75526b31f45c2565b5db9e9e21d37201fd44bc341ea90edc53/tyro-0.9.35.tar.gz", hash = "sha256:e38dd3528ae6f8fc74e21c7e21ac412d22d237739758d521f470e7a20eb46e92", size = 325648, upload-time = "2025-10-13T08:55:57.631Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bb/bc/943b35b1a139a602a730e56592a3639bf796a87c91eebcd40cc51043ee5b/tyro-0.9.35-py3-none-any.whl", hash = "sha256:82d656389d3041c04dd68542f8ba9b77baf91a4aaaa627cd5c88af3b3dc6a2cd", size = 132641, upload-time = "2025-10-13T08:55:56.54Z" },
 ]
 
 [[package]]

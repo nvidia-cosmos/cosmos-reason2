@@ -1,4 +1,3 @@
-#!/usr/bin/env -S uv run --script
 # SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -14,22 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# /// script
-# requires-python = ">=3.10"
-# dependencies = [
-#   "cosmos-reason1-utils",
-#   "datasets",
-#   "pyyaml",
-#   "rich",
-#   "tqdm",
-# ]
-# [tool.uv]
-# exclude-newer = "2025-07-31T00:00:00Z"
-# [tool.uv.sources]
-# cosmos-reason1-utils = {path = "../../../cosmos_reason1_utils", editable = true}
-# ///
-
 """Download Nexar collision prediction dataset.
 
 https://huggingface.co/datasets/nexar-ai/nexar_collision_prediction
@@ -41,7 +24,7 @@ from pathlib import Path
 
 import datasets
 import yaml
-from cosmos_reason1_utils.text import PromptConfig, create_conversation
+from cosmos_reason_utils.text import PromptConfig, create_conversation
 from rich import print
 from tqdm import tqdm
 
