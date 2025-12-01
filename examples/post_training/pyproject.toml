@@ -14,34 +14,28 @@
 # limitations under the License.
 
 [project]
-name = "cosmos-reason2"
+name = "cosmos-reason1-post-training"
 version = "0.1.0"
-requires-python = ">=3.10"
+readme = "README.md"
+requires-python = ">=3.10, <3.13"
 dependencies = [
-  "accelerate>=1.12.0",
-  "av>=16.0.1",
-  "cosmos-reason-utils",
-  "imageio-ffmpeg>=0.6.0",
-  "pydantic>=2.12.4",
-  "qwen-vl-utils>=0.0.14",
-  "rich>=14.2.0",
-  "torchcodec>=0.8.1",
-  "transformers>=4.57.0",
-  "tyro>=0.9.35",
-  "vllm>=0.11.2",
+    "cosmos-reason1-utils",
+    "cosmos-rl",
+    "datasets",
+    "toml",
+    "torch",
+    "torchcodec",
+    "transformers",
+    "wandb",
 ]
 
 [dependency-groups]
-dev = [
-    "pyrefly==0.42.3",
-    "pytest>=9.0.1",
-    "ruff==0.14.6",
-]
+build = ["torch"]
+
+[tool.uv]
+no-build-isolation-package = ["flash-attn"]
+override-dependencies = ["transformers>=4.53"]
 
 [tool.uv.sources]
-cosmos-reason-utils = { workspace = true }
-
-[tool.uv.workspace]
-members = [
-  "cosmos_reason_utils",
-]
+cosmos-reason1-utils = { path = "../../cosmos_reason1_utils", editable = true }
+cosmos-rl = { git = "https://github.com/nvidia-cosmos/cosmos-rl.git" }

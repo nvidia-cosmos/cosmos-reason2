@@ -13,35 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-[project]
-name = "cosmos-reason2"
-version = "0.1.0"
-requires-python = ">=3.10"
-dependencies = [
-  "accelerate>=1.12.0",
-  "av>=16.0.1",
-  "cosmos-reason-utils",
-  "imageio-ffmpeg>=0.6.0",
-  "pydantic>=2.12.4",
-  "qwen-vl-utils>=0.0.14",
-  "rich>=14.2.0",
-  "torchcodec>=0.8.1",
-  "transformers>=4.57.0",
-  "tyro>=0.9.35",
-  "vllm>=0.11.2",
-]
+import subprocess
+from pathlib import Path
 
-[dependency-groups]
-dev = [
-    "pyrefly==0.42.3",
-    "pytest>=9.0.1",
-    "ruff==0.14.6",
-]
+PARENT_DIR = Path(__file__).parent.absolute()
 
-[tool.uv.sources]
-cosmos-reason-utils = { workspace = true }
 
-[tool.uv.workspace]
-members = [
-  "cosmos_reason_utils",
-]
+def test_inference_sample():
+    cmd = [
+        f"{PARENT_DIR}/inference_sample.py",
+    ]
+    subprocess.run(cmd, check=True)
