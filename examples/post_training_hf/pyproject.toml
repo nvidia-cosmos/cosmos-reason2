@@ -19,8 +19,16 @@ version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "cosmos-reason-utils[inference,post-training]",
+    "cosmos-reason-utils[inference,post-training,cu128_torch28]",
 ]
 
+[tool.uv]
+no-build-isolation-package = ["flash-attn"]
+
 [tool.uv.sources]
-cosmos-reason-utils = { path = "../../cosmos_reason_utils", editable = true }
+cosmos-reason-utils = { workspace = true }
+
+[tool.uv.workspace]
+members = [
+  "../../cosmos_reason_utils",
+]

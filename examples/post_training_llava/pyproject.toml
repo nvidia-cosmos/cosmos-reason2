@@ -32,4 +32,9 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-cosmos-reason-utils = { path = "../../cosmos_reason_utils", editable = true }
+cosmos-reason-utils = { workspace = true }
+
+[tool.uv.workspace]
+members = [
+  "../../cosmos_reason_utils",
+]

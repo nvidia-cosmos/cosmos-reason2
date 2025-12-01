@@ -28,8 +28,6 @@ dependencies = [
     "numpy>=2.2.6",
     "pillow>=12.0.0",
     "pydantic>=2.12.4",
-    "torch>=2.9.0",
-    "torchvision>=0.24.0",
 ]
 
 [project.optional-dependencies]
@@ -45,7 +43,6 @@ inference = [
     "torchcodec>=0.8.1",
     "transformers>=4.57.0",
     "tyro>=0.9.35",
-    "vllm>=0.11.2",
 ]
 post-training = [
     "cosmos-rl>=0.3.6",
@@ -53,6 +50,15 @@ post-training = [
     "toml>=0.10.2",
     "wandb>=0.23.0",
 ]
+cu128_torch28 = [
+    "flash-attn>=2.8.3",
+    "torch==2.8.0",
+    "torchvision",
+    "vllm==0.11.0",
+]
+
+[tool.uv]
+no-build-isolation-package = ["flash-attn"]
 
 [tool.uv.build-backend]
 source-exclude = [
