@@ -42,7 +42,7 @@
 Example:
 
 ```shell
-./scripts/quantize.py --model nvidia/Cosmos-Reason2-2B --save_dir checkpoints/Cosmos-Reason2-2B-FP4
+./scripts/quantize.py --model nvidia/Cosmos-Reason2-2B
 ```
 """
 
@@ -79,7 +79,7 @@ def parse_arguments():
     parser.add_argument(
         "--save_dir",
         type=str,
-        default="./",
+        default="checkpoints",
         help="Directory to save the quantized model. Model will be saved in {save_dir}/model_{precision}.",
     )
     parser.add_argument(
