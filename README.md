@@ -84,6 +84,14 @@ We provide example inference scripts:
 
 The [nvidia-cosmos/cosmos-rl](https://github.com/nvidia-cosmos/cosmos-rl) repository is an async post-training framework specialized for Supervised Fine-Tuning (SFT) and Reinforcement Learning with Human Feedback (RLHF). It prioritizes performance, scalability, and fault tolerance.
 
+## Quantization
+
+[Example](scripts/quantize.py):
+
+```shell
+./scripts/quantize.py --model nvidia/Cosmos-Reason2-2B --save_dir checkpoints/Cosmos-Reason2-2B-FP4
+```
+
 ## Additional Resources
 
 The Cosmos-Reason2 model is based on the Qwen3-VL model architecture. Useful resources:
