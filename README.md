@@ -80,6 +80,13 @@ We provide example inference scripts:
 
 ## Tutorials
 
+* [Video Critic](examples/video_critic/README.md) **TODO**
+* Post-Training
+  * [Full example](examples/post_training/README.md) **TODO**
+  * [Minimal Hugging Face example](examples/post_training_hf/README.md)
+  * [Minimal Llava example](examples/post_training_llava/README.md)
+* [Benchmark](examples/benchmark/README.md) **TODO**
+
 ## Post-Training
 
 The [nvidia-cosmos/cosmos-rl](https://github.com/nvidia-cosmos/cosmos-rl) repository is an async post-training framework specialized for Supervised Fine-Tuning (SFT) and Reinforcement Learning with Human Feedback (RLHF). It prioritizes performance, scalability, and fault tolerance.

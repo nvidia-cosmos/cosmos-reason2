@@ -1,4 +1,3 @@
-#!/usr/bin/env -S uv run --script
 # SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -13,19 +12,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-# /// script
-# requires-python = ">=3.10"
-# dependencies = [
-#   "cosmos-reason1-benchmark",
-#   "cosmos-reason1-utils",
-# ]
-# [tool.uv]
-# exclude-newer = "2025-08-05T00:00:00Z"
-# [tool.uv.sources]
-# cosmos-reason1-benchmark = { path = "../../", editable = true }
-# cosmos-reason1-utils = { path = "../../../../cosmos_reason1_utils", editable = true }
-# ///
 
 """Evaluate a model on a dataset."""
 

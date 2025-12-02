@@ -28,8 +28,6 @@ dependencies = [
     "numpy>=2.2.6",
     "pillow>=12.0.0",
     "pydantic>=2.12.4",
-    "torch>=2.9.0",
-    "torchvision>=0.24.0",
 ]
 
 [project.optional-dependencies]
@@ -42,10 +40,8 @@ inference = [
     "pyyaml>=6.0.3",
     "qwen-vl-utils>=0.0.14",
     "rich>=14.2.0",
-    "torchcodec>=0.8.1",
     "transformers>=4.57.0",
     "tyro>=0.9.35",
-    "vllm>=0.11.2",
 ]
 post-training = [
     "cosmos-rl>=0.3.6",
@@ -53,6 +49,39 @@ post-training = [
     "toml>=0.10.2",
     "wandb>=0.23.0",
 ]
+cu128_torch28 = [
+    "vllm==0.11.0",
+    "torch==2.8.0", # version required by vLLM: https://github.com/vllm-project/vllm/releases
+    "torchvision", # version pinned by torch
+    "torchao==0.13.0", # version compatible with torch 2.8: https://github.com/pytorch/ao/issues/2919
+    "torchcodec==0.7.0", # version compatible with torch 2.8: https://github.com/meta-pytorch/torchcodec/releases
+    "flash-attn>=2.8.3", # minimum version with pre-build wheels for torch 2.8
+]
+cu129_torch29 = [
+    "vllm==0.11.2",
+    "torch==2.9.0", # version required by vLLM: https://github.com/vllm-project/vllm/releases
+    "torchvision", # version pinned by torch
+    "torchao==0.14.1", # version compatible with torch 2.9: https://github.com/pytorch/ao/issues/2919
+    "torchcodec==0.8.1", # version compatible with torch 2.9: https://github.com/meta-pytorch/torchcodec/releases
+    # "flash-attn", # minimum version with pre-build wheels for torch 2.9
+]
+
+[tool.uv]
+conflicts = [
+    [{extra = "cu128_torch28"}, {extra = "cu129_torch29"}],
+]
+no-build-isolation-package = ["flash-attn"]
+
+# TODO: Build wheel
+# [tool.uv.sources]
+# flash-attn = [
+#     { index = "cosmos-cu129-torch29", extra = "cu129_torch29" },
+# ]
+
+# [[tool.uv.index]]
+# name = "cosmos-cu129-torch29"
+# url = "https://nvidia-cosmos.github.io/cosmos-dependencies/v1.2.0/cu129_torch29/simple"
+# explicit = true
 
 [tool.uv.build-backend]
 source-exclude = [

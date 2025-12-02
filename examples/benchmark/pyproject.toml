@@ -18,25 +18,24 @@ requires = ["uv_build>=0.7.21,<0.8.0"]
 build-backend = "uv_build"
 
 [project]
-name = "cosmos-reason1-benchmark"
+name = "cosmos-reason2-benchmark"
 version = "0.1.0"
 readme = "README.md"
-requires-python = ">=3.10, <3.13"
+requires-python = ">=3.10"
 dependencies = [
+    "cosmos-reason-utils[inference,post-training,cu128_torch28]",
     "attrs",
-    "datasets",
     "ffmpeg-python",
-    "huggingface-hub",
-    "numpy",
     "opencv-python",
-    "pillow",
-    "pyyaml",
-    "qwen_vl_utils",
     "tensorflow_datasets",
-    "torch",
-    "tqdm",
-    "transformers",
-    "vllm",
+]
+
+[tool.uv.sources]
+cosmos-reason-utils = { workspace = true }
+
+[tool.uv.workspace]
+members = [
+  "../../cosmos_reason_utils",
 ]
 
 [tool.uv.build-backend]
