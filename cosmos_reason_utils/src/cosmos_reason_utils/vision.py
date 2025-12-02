@@ -33,7 +33,7 @@ class VisionConfig(pydantic.BaseModel):
     """Config for vision processing.
 
     Source:
-    https://github.com/QwenLM/Qwen2.5-VL/blob/main/qwen-vl-utils/src/qwen_vl_utils/vision_process.py
+    https://github.com/QwenLM/Qwen3-VL/blob/main/qwen-vl-utils/src/qwen_vl_utils/vision_process.py
 
     Attributes are sorted by priority. Higher priority attributes override lower
     priority attributes.

@@ -22,9 +22,6 @@ dependencies = [
     "cosmos-reason-utils[inference,post-training,cu128_torch28]",
 ]
 
-[tool.uv]
-no-build-isolation-package = ["flash-attn"]
-
 [tool.uv.sources]
 cosmos-reason-utils = { workspace = true }
 

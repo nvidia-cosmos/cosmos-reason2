@@ -47,7 +47,6 @@ class CustomConfig(pydantic.BaseModel):
     vision: VisionConfig = pydantic.Field(
         default=VisionConfig(
             fps=1,
-            max_pixels=81920,
         )
     )
     """Vision processor config."""
@@ -114,6 +113,7 @@ if __name__ == "__main__":
         config_kwargs = toml.load(f)
     config = cosmos_rl.policy.config.Config.from_dict(config_kwargs)
     custom_config = CustomConfig.model_validate(config_kwargs["custom"])
+    custom_config.vision.total_pixels = int(config.policy.model_max_length * 32**2 * 0.9)
 
     # Log
     role = os.environ.get("COSMOS_ROLE")
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         custom_config=custom_config,
     )
     # Check dataset
-    print(dataset[0])
+    dataset[0]
 
     # Launch worker
     cosmos_rl.launcher.worker_entry.main(
