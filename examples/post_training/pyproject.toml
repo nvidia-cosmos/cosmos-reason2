@@ -22,9 +22,10 @@ dependencies = [
     "cosmos-reason-utils[inference,post-training,cu128_torch28]",
 ]
 
+[tool.uv.sources]
+cosmos-reason-utils = { workspace = true }
+
 [tool.uv.workspace]
 members = [
   "../../cosmos_reason_utils",
 ]
-[tool.uv.sources]
-cosmos-reason-utils = { workspace = true }

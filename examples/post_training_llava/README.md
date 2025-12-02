@@ -15,7 +15,6 @@ Install the package:
 ```shell
 cd examples/post_training_llava
 uv sync
-source .venv/bin/activate
 ```
 
 ## Example

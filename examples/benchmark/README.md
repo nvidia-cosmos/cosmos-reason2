@@ -49,7 +49,7 @@ for file in data/benchmark/**/*.tar.gz; do tar -xzf "$file" -C "$(dirname "$file
 [Optional] Downloading the full dataset will take a very long time and requires multiple terabytes of disk space:
 
 ```bash
-./tools/eval/process_raw_data.py --data_dir data --task benchmark
+uv run tools/eval/process_raw_data.py --data_dir data --task benchmark
 ```
 
 > **Note:**
@@ -67,7 +67,7 @@ Configure evaluation settings by editing [`configs/evaluate.yaml`](configs/evalu
 Evaluate the model on the dataset:
 
 ```bash
-./tools/eval/evaluate.py --config configs/evaluate.yaml --data_dir data --results_dir outputs/benchmark
+uv run tools/eval/evaluate.py --config configs/evaluate.yaml --data_dir data --results_dir outputs/benchmark
 ```
 
 ### Calculate Accuracy
@@ -75,7 +75,7 @@ Evaluate the model on the dataset:
 Calculate accuracy of the results:
 
 ```bash
-./tools/eval/calculate_accuracy.py --result_dir outputs/benchmark
+uv run tools/eval/calculate_accuracy.py --result_dir outputs/benchmark
 ```
 
 The script compares model predictions against ground-truth answers:
