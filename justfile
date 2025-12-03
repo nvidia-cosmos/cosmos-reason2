@@ -24,3 +24,23 @@ _pyrefly-ignore *args: (_pyrefly '--suppress-errors' args)
 # Run tests
 test:
   uv run pytest
+
+docker_build_args := ''
+docker_run_args := '--ipc=host -v /root/.cache:/root/.cache'
+
+# Run the docker container
+_docker build_args='' run_args='':
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  docker build {{docker_build_args}} {{build_args}} .
+  image_tag=$(docker build {{docker_build_args}} {{build_args}} -q .)
+  docker run \
+    -it \
+    --gpus all \
+    --rm \
+    -v .:/workspace \
+    {{docker_run_args}} \
+    {{run_args}} \
+    $image_tag
+
+docker-cu130 *run_args: (_docker '-f docker/nightly.Dockerfile' run_args)

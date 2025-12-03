@@ -36,7 +36,7 @@ SEPARATOR = "-" * 20
 
 def main():
     # Load model
-    model_name = "nvidia/Cosmos-Reason2-2B-v1.0"
+    model_name = "nvidia/Cosmos-Reason2-2B"
     model = transformers.Qwen3VLForConditionalGeneration.from_pretrained(
         model_name, dtype=torch.float16, device_map="auto", attn_implementation="sdpa"
     )

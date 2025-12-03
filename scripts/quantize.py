@@ -42,7 +42,7 @@
 Example:
 
 ```shell
-./scripts/quantize.py --model nvidia/Cosmos-Reason2-2B
+./scripts/quantize.py
 ```
 """
 
@@ -74,7 +74,8 @@ def parse_arguments():
     parser.add_argument(
         "--model",
         type=str,
-        help="Should be `nvidia/Cosmos-Reason2-2B`, `nvidia/Cosmos-Reason2-8B` or local path to a model.",
+        default="nvidia/Cosmos-Reason2-2B",
+        help="Local path to a model or model name from https://huggingface.co/collections/nvidia/cosmos-reason2.",
     )
     parser.add_argument(
         "--save_dir",
