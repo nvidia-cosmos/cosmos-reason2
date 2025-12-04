@@ -13,5 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-system_prompt: |
-  You are the person driving the vehicle. Please answer the question from the first-person view.
+user_prompt: |
+  You are given the task "{task_instruction}". Specify the 2D trajectory your end effector should follow in pixel space. Return the trajectory coordinates in JSON format like this: {"point_2d": [x, y], "label": "gripper trajectory"}.

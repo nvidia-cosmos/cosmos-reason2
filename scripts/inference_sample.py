@@ -47,6 +47,9 @@ def main():
 
     # Create inputs
     conversation = [
+        {    "role": "system",
+                "content": [{"type": "text", "text": "You are a helpful assistant."}]
+        },
         {
             "role": "user",
             "content": [
@@ -54,10 +57,10 @@ def main():
                     "type": "video",
                     "video": f"{ROOT}/assets/sample.mp4",
                     "fps": 4,
-                    # 6422528 = 8192 * 28**2 = vision_tokens * (2*spatial_patch_size)^2
+                    # 8388608 = 8192 * (16*2)**2 = vision_tokens * (image_patch_size*spatial_merge_size)^2
                     "total_pixels": 6422528,
                 },
-                {"type": "text", "text": "Describe this video."},
+                {"type": "text", "text": "Caption the video in detail."},
             ],
         }
     ]

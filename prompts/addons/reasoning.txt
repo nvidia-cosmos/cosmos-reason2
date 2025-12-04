@@ -1,8 +1,7 @@
-Answer the question with provided options in the following format:
+Answer the question using the following format:
+
 <think>
-your reasoning
+Your reasoning.
 </think>
 
-<answer>
-your answer
-</answer>.
+Write your final answer immediately after the </think> tag.

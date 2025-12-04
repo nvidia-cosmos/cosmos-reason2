@@ -4,7 +4,7 @@
 
 ### [Paper](https://arxiv.org/abs/2503.15558) [HuggingFace](https://huggingface.co/collections/nvidia/cosmos-reason2) | [Cosmos Cookbook](https://github.com/nvidia-cosmos/cosmos-cookbook)
 
-NVIDIA Cosmos Reason – an open, customizable, 7B-parameter reasoning vision language model (VLM) for physical AI and robotics - enables robots and vision AI agents to reason like humans, using prior knowledge, physics understanding and common sense to understand and act in the real world. This model understands space, time, and fundamental physics, and can serve as a planning model to reason what steps an embodied agent might take next.
+NVIDIA Cosmos Reason – an open, customizable, reasoning vision language model (VLM) for physical AI and robotics - enables robots and vision AI agents to reason like humans, using prior knowledge, physics understanding and common sense to understand and act in the real world. This model understands space, time, and fundamental physics, and can serve as a planning model to reason what steps an embodied agent might take next.
 Cosmos Reason excels at navigating the long tail of diverse scenarios of the physical world with spatial-temporal understanding. Cosmos Reason is post-trained with physical common sense and embodied reasoning data with supervised fine-tuning and reinforcement learning. It uses chain-of-thought reasoning capabilities to understand world dynamics without human annotations.
 
 ## News
@@ -60,16 +60,16 @@ We provide example inference scripts:
   uv run scripts/inference.py --prompt prompts/caption.yaml --videos assets/sample.mp4 -v
   ```
 
-  Ask a question about the video with reasoning:
-
-  ```shell
-  uv run scripts/inference.py --prompt prompts/question.yaml --question 'What are the potential safety hazards?' --reasoning --videos assets/sample.mp4 -v
-  ```
-
   Temporally caption the video and save the input frames to `outputs/temporal_caption_text` for debugging:
 
   ```shell
-  uv run scripts/inference.py --prompt prompts/temporal_caption_text.yaml --videos assets/sample.mp4 --timestamp -v -o outputs/temporal_caption_text
+  uv run scripts/inference.py --prompt prompts/temporal_localization.yaml --videos assets/sample.mp4 --timestamp -v -o outputs/temporal_localization
+  ```
+
+  Embodied reasoning:
+
+  ```shell
+  uv run scripts/inference.py --prompt prompts/embodied_reasoning.yaml --reasoning --images assets/sample.png
   ```
 
   Configure inference by editing:

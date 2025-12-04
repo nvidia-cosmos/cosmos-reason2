@@ -13,5 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-system_prompt: |
-  You are a helpful video analyzer. Please answer the question.
+user_prompt: |
+  What will the person likely do next in this situation?

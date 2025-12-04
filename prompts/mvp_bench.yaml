@@ -13,11 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-system_prompt: |
-  You are a helpful video analyzer.
 user_prompt: |
-  [YOUR QUESTION]
-  (A) [OPTION]
-  (B) [OPTION]
-  (C) [OPTION]
-  (D) [OPTION]
+  Is this video physically plausible/possible according to your understanding of e.g. object permanence, shape constancy (objects maintain shape over time), continuous trajectories of objects? Assume it is the normal laws of physics. Your answer should be based on the events in the video and ignore the quality of the simulation engine. The rising wall is part of the experiment setup and should not be judged for plausibility.
+  (A) Possible
+  (B) Impossible

@@ -13,8 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-system_prompt: |
-  You are a helpful video analyzer. Please locate the start and end time of a given event specified by the user using the following format:
-  <start time> <end time>
 user_prompt: |
-  Describe the notable events in the provided video.
+  Describe the notable events in the provided video. Provide the result in json format with 'mm:ss.ff' format for time depiction for each event. Use keywords 'start', 'end' and 'caption' in the json output.
