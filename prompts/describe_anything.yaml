@@ -13,25 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-[project]
-name = "cosmos-reason2"
-version = "0.1.0"
-requires-python = ">=3.10"
-dependencies = [
-  "cosmos-reason-utils[inference,cu128_torch29]",
-]
-
-[dependency-groups]
-dev = [
-    "pyrefly==0.42.3",
-    "pytest>=9.0.1",
-    "ruff==0.14.6",
-]
-
-[tool.uv.sources]
-cosmos-reason-utils = { workspace = true }
-
-[tool.uv.workspace]
-members = [
-  "cosmos_reason_utils",
-]
+user_prompt: |
+  Please caption the notable attributes in the provided image. List and describe all marked subjects in the image with their categories and detailed captions using a json with keyword "subject_id", "category" and "caption".

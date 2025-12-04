@@ -65,8 +65,10 @@ def pprint_dict(d: dict, name: str):
 class Args(pydantic.BaseModel):
     model_config = pydantic.ConfigDict(extra="forbid", frozen=True)
 
-    prompt: pydantic.FilePath
+    prompt: pydantic.FilePath | None = None
     """Path to prompt yaml file"""
+    question: str | None = None
+    """Question to ask the model (user prompt)"""
 
     images: list[str] = pydantic.Field(default_factory=list)
     """Image paths"""
@@ -74,8 +76,6 @@ class Args(pydantic.BaseModel):
     """Video paths"""
     timestamp: bool = False
     """Overlay timestamp on video frames"""
-    question: str | None = None
-    """Question to ask the model (user prompt)"""
     reasoning: bool = False
     """Enable reasoning trace"""
 
@@ -100,8 +100,11 @@ def main(args: Args):
     videos: list[str] = args.videos or []
 
     # Load configs
-    prompt_kwargs = yaml.safe_load(open(args.prompt, "rb"))
-    prompt_config = PromptConfig.model_validate(prompt_kwargs)
+    if args.prompt is not None:
+        prompt_kwargs = yaml.safe_load(open(args.prompt, "rb"))
+        prompt_config = PromptConfig.model_validate(prompt_kwargs)
+    else:
+        prompt_config = PromptConfig()
     vision_kwargs = yaml.safe_load(open(args.vision_config, "rb"))
     vision_config = VisionConfig.model_validate(vision_kwargs)
     sampling_kwargs = yaml.safe_load(open(args.sampling_params, "rb"))
@@ -115,17 +118,9 @@ def main(args: Args):
         raise ValueError("Max tokens must be set in sampling params.")
 
     # Create conversation
-    system_prompts = [open(f"{ROOT}/prompts/addons/english.txt").read()]
-    if prompt_config.system_prompt:
-        system_prompts.append(prompt_config.system_prompt)
-    if args.reasoning and "<think>" not in prompt_config.system_prompt:
-        if extract_tagged_text(prompt_config.system_prompt)[0]:
-            raise ValueError(
-                "Prompt already contains output format. Cannot add reasoning."
-            )
-        system_prompts.append(open(f"{ROOT}/prompts/addons/reasoning.txt").read())
-    # pyrefly: ignore [no-matching-overload]
-    system_prompt = "\n\n".join(map(str.rstrip, system_prompts))
+    addon_prompts = []
+    if args.reasoning:
+        addon_prompts.append(open(f"{ROOT}/prompts/addons/reasoning.txt").read())
     if args.question:
         user_prompt = args.question
     else:
@@ -133,8 +128,10 @@ def main(args: Args):
     if not user_prompt:
         raise ValueError("No user prompt provided.")
     user_prompt = user_prompt.rstrip()
+    if addon_prompts:
+        user_prompt = "\n\n".join([user_prompt, *addon_prompts])
     conversation = create_conversation(
-        system_prompt=system_prompt,
+        system_prompt=prompt_config.system_prompt,
         user_prompt=user_prompt,
         images=images,
         videos=videos,
@@ -144,9 +141,9 @@ def main(args: Args):
         pprint(conversation, expand_all=True)
     print(SEPARATOR)
     print("System:")
-    print(textwrap.indent(system_prompt.rstrip(), "  "))
+    print(textwrap.indent(prompt_config.system_prompt, "  "))
     print("User:")
-    print(textwrap.indent(user_prompt.rstrip(), "  "))
+    print(textwrap.indent(user_prompt, "  "))
     print(SEPARATOR)
 
     # Create model

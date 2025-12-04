@@ -22,21 +22,22 @@ from pydantic import Field
 
 """Text processing utilities."""
 
+SYSTEM_PROMPT = "You are a helpful assistant."
 
 class PromptConfig(pydantic.BaseModel):
     """Prompt config."""
 
     model_config = pydantic.ConfigDict(extra="forbid")
 
-    system_prompt: str = Field(default="", description="System prompt")
     user_prompt: str = Field(default="", description="User prompt")
+    system_prompt: str = Field(default=SYSTEM_PROMPT, description="System prompt")
 
 
 def create_conversation(
     *,
-    system_prompt: str = "",
     user_prompt: str = "",
     response: str = "",
+    system_prompt: str = SYSTEM_PROMPT,
     images: list[Any] | None = None,
     videos: list[Any] | None = None,
     vision_kwargs: dict | None = None,

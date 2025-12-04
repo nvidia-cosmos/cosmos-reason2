@@ -13,5 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-system_prompt: |
-  You are observing a video showing embodied agents (robots or humans) demonstration. Please answer the question.
+user_prompt: |
+  What can be the next immediate action? 
