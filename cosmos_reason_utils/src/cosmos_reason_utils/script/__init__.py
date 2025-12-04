@@ -28,6 +28,7 @@ def init_script(verbose: bool = False):
 
     if not verbose:
         warnings.filterwarnings("ignore")
-        os.environ.setdefault("GLOO_LOG_LEVEL", "3")
+        # https://huggingface.co/docs/transformers/v4.37.0/main_classes/logging
         os.environ.setdefault("TRANSFORMERS_VERBOSITY", "error")
+        # https://docs.vllm.ai/en/stable/api/vllm/logger/
         os.environ.setdefault("VLLM_LOGGING_LEVEL", "ERROR")

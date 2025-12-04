@@ -25,8 +25,14 @@ import torchvision
 import torchvision.transforms.functional
 from PIL import Image, ImageDraw, ImageFont
 from pydantic import Field
+from qwen_vl_utils.vision_process import SPATIAL_MERGE_SIZE as SPATIAL_MERGE_SIZE
 
 """Vision processing utilities."""
+
+# https://huggingface.co/nvidia/Cosmos-Reason2-2B/blob/main/video_preprocessor_config.json#L6
+IMAGE_PATCH_SIZE = 16
+IMAGE_FACTOR = IMAGE_PATCH_SIZE * SPATIAL_MERGE_SIZE
+VIDEO_FACTOR = IMAGE_FACTOR**2
 
 
 class VisionConfig(pydantic.BaseModel):

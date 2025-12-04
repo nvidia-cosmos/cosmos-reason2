@@ -54,34 +54,24 @@ cu128_torch28 = [
     "torch==2.8.0", # version required by vLLM: https://github.com/vllm-project/vllm/releases
     "torchvision", # version pinned by torch
     "torchao==0.13.0", # version compatible with torch 2.8: https://github.com/pytorch/ao/issues/2919
-    "torchcodec==0.7.0", # version compatible with torch 2.8: https://github.com/meta-pytorch/torchcodec/releases
-    "flash-attn>=2.8.3", # minimum version with pre-build wheels for torch 2.8
+    "torchcodec==0.7.0; platform_machine != 'aarch64'", # version compatible with torch 2.8: https://github.com/meta-pytorch/torchcodec/releases
+    # Dependencies determined from 'uv pip install "torch==2.8.0" --torch-backend=cu128'
+    # Issue: https://github.com/astral-sh/uv/issues/14237
 ]
-cu129_torch29 = [
-    "vllm==0.11.2",
+cu130_torch29 = [
+    "vllm==0.12.0",
     "torch==2.9.0", # version required by vLLM: https://github.com/vllm-project/vllm/releases
     "torchvision", # version pinned by torch
     "torchao==0.14.1", # version compatible with torch 2.9: https://github.com/pytorch/ao/issues/2919
-    "torchcodec==0.8.1", # version compatible with torch 2.9: https://github.com/meta-pytorch/torchcodec/releases
-    # "flash-attn", # minimum version with pre-build wheels for torch 2.9
+    "torchcodec==0.8.1; platform_machine != 'aarch64'", # version compatible with torch 2.9: https://github.com/meta-pytorch/torchcodec/releases
+    # Dependencies determined from 'uv pip install "torch==2.9.0" --torch-backend=cu130'
+    # Issue: https://github.com/astral-sh/uv/issues/14237
 ]
 
 [tool.uv]
 conflicts = [
-    [{extra = "cu128_torch28"}, {extra = "cu129_torch29"}],
+    [{extra = "cu128_torch28"}, {extra = "cu130_torch29"}],
 ]
-no-build-isolation-package = ["flash-attn"]
-
-# TODO: Build wheel
-# [tool.uv.sources]
-# flash-attn = [
-#     { index = "cosmos-cu129-torch29", extra = "cu129_torch29" },
-# ]
-
-# [[tool.uv.index]]
-# name = "cosmos-cu129-torch29"
-# url = "https://nvidia-cosmos.github.io/cosmos-dependencies/v1.2.0/cu129_torch29/simple"
-# explicit = true
 
 [tool.uv.build-backend]
 source-exclude = [

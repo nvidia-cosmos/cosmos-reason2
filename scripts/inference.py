@@ -45,6 +45,7 @@ from cosmos_reason_utils.text import (
     extract_tagged_text,
 )
 from cosmos_reason_utils.vision import (
+    VIDEO_FACTOR,
     VisionConfig,
     overlay_text_on_tensor,
     save_tensor,
@@ -77,14 +78,17 @@ class Args(pydantic.BaseModel):
     """Question to ask the model (user prompt)"""
     reasoning: bool = False
     """Enable reasoning trace"""
+
     vision_config: pydantic.FilePath = ROOT / "configs/vision_config.yaml"
     """Path to vision config yaml file"""
     sampling_params: pydantic.FilePath = ROOT / "configs/sampling_params.yaml"
     """Path to sampling parameters yaml file"""
-    model: str = "nvidia/Cosmos-Reason2-2B-v1.0"
+
+    model: str = "nvidia/Cosmos-Reason2-2B"
     """Model name or path (Cosmos-Reason2: https://huggingface.co/collections/nvidia/cosmos-reason2)"""
     revision: str | None = None
     """Model revision (branch name, tag name, or commit id)"""
+
     verbose: Annotated[bool, tyro.conf.arg(aliases=("-v",))] = False
     """Verbose output"""
     output: Annotated[str | None, tyro.conf.arg(aliases=("-o",))] = None
@@ -99,12 +103,16 @@ def main(args: Args):
     prompt_kwargs = yaml.safe_load(open(args.prompt, "rb"))
     prompt_config = PromptConfig.model_validate(prompt_kwargs)
     vision_kwargs = yaml.safe_load(open(args.vision_config, "rb"))
-    _vision_config = VisionConfig.model_validate(vision_kwargs)
+    vision_config = VisionConfig.model_validate(vision_kwargs)
     sampling_kwargs = yaml.safe_load(open(args.sampling_params, "rb"))
     sampling_params = vllm.SamplingParams(**sampling_kwargs)
     if args.verbose:
         pprint_dict(vision_kwargs, "VisionConfig")
         pprint_dict(sampling_kwargs, "SamplingParams")
+    if vision_config.total_pixels is None:
+        raise ValueError("Total pixels must be set in vision config.")
+    if sampling_params.max_tokens is None:
+        raise ValueError("Max tokens must be set in sampling params.")
 
     # Create conversation
     system_prompts = [open(f"{ROOT}/prompts/addons/english.txt").read()]
@@ -142,9 +150,13 @@ def main(args: Args):
     print(SEPARATOR)
 
     # Create model
+    max_model_len = (
+        vision_config.total_pixels / VIDEO_FACTOR + sampling_params.max_tokens
+    )
     llm = vllm.LLM(
         model=args.model,
         revision=args.revision,
+        max_model_len=max_model_len,
         limit_mm_per_prompt={"image": len(images), "video": len(videos)},
         enforce_eager=True,
     )

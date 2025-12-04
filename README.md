@@ -96,7 +96,7 @@ The [nvidia-cosmos/cosmos-rl](https://github.com/nvidia-cosmos/cosmos-rl) reposi
 [Example](scripts/quantize.py):
 
 ```shell
-./scripts/quantize.py --model nvidia/Cosmos-Reason2-2B
+./scripts/quantize.py
 ```
 
 ## Additional Resources
