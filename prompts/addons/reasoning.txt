@@ -1,7 +1,0 @@
-Answer the question using the following format:
-
-<think>
-Your reasoning.
-</think>
-
-Write your final answer immediately after the </think> tag.

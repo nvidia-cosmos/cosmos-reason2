@@ -1,6 +1,8 @@
-# Cosmos-Reason1 Post-Training Llava Example
+# Post-Training Llava Example
 
-This package provides a minimal Cosmos-Reason1 post-training example using the [Llava datasets](https://github.com/haotian-liu/LLaVA/blob/main/docs/Finetune_Custom_Data.md) format. You should first read the full post-training example, see [Cosmos-Reason1 Post-Training Full](../post_training/README.md).
+This package provides a post-training example using the [LLaVA datasets](https://github.com/haotian-liu/LLaVA/blob/main/docs/Finetune_Custom_Data.md) format.
+
+You should first read the [Post-Training Guide](../post_training/README.md).
 
 ## Setup
 
@@ -19,7 +21,7 @@ uv sync
 
 ## Example
 
-Please update the fields `annotation_path` and `media_path` in `configs/sft.toml` to your custom dataset. `media_path` can be left as empty (`""`) if the paths in your annotation are absolute paths.
+Please update the fields `annotation_path` and `media_path` in [sft.toml](configs/sft.toml) to your custom dataset. `media_path` can be left as empty (`""`) if the paths in your annotation are absolute paths.
 
 Here is one example of downloading the [Llava-Instruct-150K](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K) dataset and [COCO](https://cocodataset.org/#home) images:
 

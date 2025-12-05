@@ -1,4 +1,3 @@
-#!/usr/bin/env -S uv run --script
 # SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -14,20 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# /// script
-# requires-python = ">=3.10"
-# dependencies = [
-#   "cosmos-reason1-utils",
-#   "msgspec",
-#   "vllm",
-# ]
-# [tool.uv]
-# exclude-newer = "2025-07-31T00:00:00Z"
-# [tool.uv.sources]
-# cosmos-reason1-utils = {path = "../cosmos_reason1_utils", editable = true}
-# ///
-
 """Export config schemas."""
 
 import argparse
@@ -36,7 +21,8 @@ import pathlib
 
 import msgspec
 import vllm
-from cosmos_reason1_utils.vision import VisionConfig
+from cosmos_reason_utils.vision import VisionConfig
+from cosmos_rl.policy.config import COSMOS_CONFIG_SCHEMA as COSMOS_RL_SCHEMA
 
 SCRIPT = pathlib.Path(__file__).resolve()
 
@@ -58,9 +44,13 @@ def main():
     vision_schema = VisionConfig.model_json_schema()
     (output_dir / "vision_config.json").write_text(json.dumps(vision_schema, indent=2))
 
-    sampling_params = msgspec.json.schema(vllm.SamplingParams)
+    sampling_schema = msgspec.json.schema(vllm.SamplingParams)
     (output_dir / "sampling_params.json").write_bytes(
-        msgspec.json.format(msgspec.json.encode(sampling_params), indent=2)
+        msgspec.json.format(msgspec.json.encode(sampling_schema), indent=2)
+    )
+
+    (output_dir / "cosmos_rl_config.json").write_text(
+        json.dumps(COSMOS_RL_SCHEMA, indent=2)
     )
 
 

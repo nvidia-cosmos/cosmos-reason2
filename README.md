@@ -42,62 +42,83 @@ Minimum Requirements:
 
 * 1 GPU with 24GB memory
 
+### Transformers
+
 Cosmos-Reason2 is included in [`transformers>=4.57.0`](https://huggingface.co/docs/transformers/en/index).
 
-We provide example inference scripts:
+[Minimal example](scripts/inference_sample.py):
 
-* [Minimal example](scripts/inference_sample.py)
+```shell
+uv run scripts/inference_sample.py
+```
 
-  ```shell
-  uv run scripts/inference_sample.py
-  ```
+### Deployment
 
-* [Full example](scripts/inference.py)
+For deployment and batch inference, we recommend using [`vllm`](https://docs.vllm.ai/en/stable/).
 
-  Caption the video:
+* [Online Serving](https://docs.vllm.ai/en/stable/serving/openai_compatible_server/)
+* [Offline Inference](https://docs.vllm.ai/en/stable/serving/offline_inference/)
+* [Multimodal Inputs](https://docs.vllm.ai/en/stable/features/multimodal_inputs/)
+* [LoRA](https://docs.vllm.ai/en/stable/features/lora/)
 
-  ```shell
-  uv run scripts/inference.py --prompt prompts/caption.yaml --videos assets/sample.mp4 -v
-  ```
+#### Online Serving
 
-  Temporally caption the video and save the input frames to `outputs/temporal_caption_text` for debugging:
+Start the server:
 
-  ```shell
-  uv run scripts/inference.py --prompt prompts/temporal_localization.yaml --videos assets/sample.mp4 --timestamp -v -o outputs/temporal_localization
-  ```
+```shell
+uv run vllm serve nvidia/Cosmos-Reason2-2B \
+  --max-model-len 8192 \
+  --allowed-local-media-path "$(pwd)" \
+  --media-io-kwargs '{"video": {"num_frames": -1}}'
+```
 
-  Embodied reasoning:
+Caption the video:
 
-  ```shell
-  uv run scripts/inference.py --prompt prompts/embodied_reasoning.yaml --reasoning --images assets/sample.png
-  ```
+```shell
+uv run cosmos-reason2 online --prompt prompts/caption.yaml --videos assets/sample.mp4 --fps 2 -v
+```
 
-  Configure inference by editing:
+Embodied reasoning:
 
-  * [Prompts](prompts/README.md)
-  * [Sampling Parameters](configs/sampling_params.yaml)
-  * [Vision Processor Config](configs/vision_config.yaml)
+```shell
+uv run cosmos-reason2 online --prompt prompts/embodied_reasoning.yaml --reasoning --images assets/sample.png
+```
 
-## Tutorials
+To list available parameters:
 
-* [Video Critic](examples/video_critic/README.md) **TODO**
-* Post-Training
-  * [Full example](examples/post_training/README.md) **TODO**
-  * [Minimal Hugging Face example](examples/post_training_hf/README.md)
-  * [Minimal Llava example](examples/post_training_llava/README.md)
-* [Benchmark](examples/benchmark/README.md) **TODO**
+```shell
+uv run cosmos-reason2 online --help
+```
 
-## Post-Training
+#### Offline Inference
 
-The [nvidia-cosmos/cosmos-rl](https://github.com/nvidia-cosmos/cosmos-rl) repository is an async post-training framework specialized for Supervised Fine-Tuning (SFT) and Reinforcement Learning with Human Feedback (RLHF). It prioritizes performance, scalability, and fault tolerance.
+Temporally caption the video and save the input frames to `outputs/temporal_caption_text` for debugging:
+
+```shell
+uv run cosmos-reason2 offline --prompt prompts/temporal_localization.yaml --videos assets/sample.mp4 --fps 2 -v -o outputs/temporal_localization
+```
+
+To list available parameters:
+
+```shell
+uv run cosmos-reason2 offline --help
+```
 
 ## Quantization
+
+For model quantization, we recommend using [llmcompressor](https://github.com/vllm-project/llm-compressor)
 
 [Example](scripts/quantize.py):
 
 ```shell
 ./scripts/quantize.py
 ```
+
+## Tutorials
+
+* [Post-Training](examples/post_training/README.md)
+  * [Hugging Face example](examples/post_training_hf/README.md)
+  * [Llava example](examples/post_training_llava/README.md)
 
 ## Additional Resources
 

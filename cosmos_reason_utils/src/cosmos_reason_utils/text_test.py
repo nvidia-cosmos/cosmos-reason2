@@ -15,7 +15,6 @@
 
 from cosmos_reason_utils.text import (
     create_conversation,
-    extract_tagged_text,
     set_vision_kwargs,
 )
 
@@ -46,22 +45,3 @@ def test_create_conversation():
             ],
         },
     ]
-
-
-def test_extract_tagged_text():
-    text = """Intro text
-<question>
-What is the capital of France?
-</question>
-Middle text
-<answer>
-Paris
-</answer>
-End text
-"""
-    result, remaining = extract_tagged_text(text)
-    assert result == {
-        "question": ["\nWhat is the capital of France?\n"],
-        "answer": ["\nParis\n"],
-    }
-    assert remaining == ["Intro text\n", "\nMiddle text\n", "\nEnd text\n"]
