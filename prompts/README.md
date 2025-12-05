@@ -13,9 +13,3 @@ We provide a set of task-specific prompt templates:
   * [AV COT](av_cot.yaml)
   * [MVP Bench](mvp_bench.yaml)
   * [Causal VQA](causal_vqa.yaml)
-
-## Addons
-
-These are added to the system prompt to provide additional instructions:
-
-* [Reasoning](addons/reasoning.txt)

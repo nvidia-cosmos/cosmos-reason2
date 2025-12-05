@@ -1,0 +1,1847 @@
+{
+  "$defs": {
+    "CheckpointConfig": {
+      "properties": {
+        "enable_checkpoint": {
+          "default": false,
+          "description": "Enable checkpointing for training. If set to False, no checkpoint will be saved.",
+          "title": "Enable Checkpoint",
+          "type": "boolean"
+        },
+        "save_freq": {
+          "default": 20,
+          "description": "Checkpoint save frequency for training steps",
+          "title": "Save Freq",
+          "type": "integer"
+        },
+        "save_freq_in_epoch": {
+          "default": 0,
+          "description": "Checkpoint save frequency for training epochs. Default to 0 (disabled).",
+          "title": "Save Freq In Epoch",
+          "type": "integer"
+        },
+        "save_mode": {
+          "choices": [
+            "async",
+            "sync"
+          ],
+          "default": "async",
+          "description": "Checkpoint save mode for training steps",
+          "title": "Save Mode",
+          "type": "string"
+        },
+        "max_keep": {
+          "default": 5,
+          "description": "Maximum number of checkpoints to keep. If set to -1, all checkpoints will be kept.",
+          "title": "Max Keep",
+          "type": "integer"
+        },
+        "export_safetensors": {
+          "default": true,
+          "description": "Whether to export a safetensors weight for huggingface usage, include related config files.",
+          "title": "Export Safetensors",
+          "type": "boolean"
+        },
+        "upload_hf": {
+          "default": false,
+          "description": "Whether to upload the safetensors weight to huggingface.",
+          "title": "Upload Hf",
+          "type": "boolean"
+        },
+        "hf_repo_name": {
+          "default": "Comos-Reason1",
+          "description": "The huggingface repo name to upload the safetensors weight.",
+          "title": "Hf Repo Name",
+          "type": "string"
+        },
+        "upload_s3": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": false,
+          "description": "Whether to upload the checkpoint and safetensors to S3. Default to False, set `final` will upload the final checkpoint, `all` will upload all checkpoints.",
+          "title": "Upload S3"
+        },
+        "s3_bucket": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The S3 bucket name to upload the checkpoint and safetensors weight.",
+          "title": "S3 Bucket"
+        },
+        "s3_prefix": {
+          "default": "outputs",
+          "description": "The S3 prefix to upload the checkpoint and safetensors weight.",
+          "title": "S3 Prefix",
+          "type": "string"
+        }
+      },
+      "title": "CheckpointConfig",
+      "type": "object"
+    },
+    "DatasetConfig": {
+      "properties": {
+        "name": {
+          "default": "",
+          "description": "Huggingface dataset name or local path to parquet file",
+          "title": "Name",
+          "type": "string"
+        },
+        "subset": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "",
+          "description": "Dataset subset if exists",
+          "title": "Subset"
+        },
+        "revision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "",
+          "description": {
+            "help": "Dataset git revision if exist, can be a branch name, a tag, or a commit hash."
+          },
+          "title": "Revision"
+        },
+        "split": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "default": "",
+          "description": "A list of dataset splits to train",
+          "title": "Split"
+        },
+        "test_size": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Size of the test set. If float, it is the ratio (between 0.0 and 1.0) of the dataset; if int, it is the absolute size of the test set.",
+          "title": "Test Size"
+        }
+      },
+      "title": "DatasetConfig",
+      "type": "object"
+    },
+    "FP4Config": {
+      "properties": {
+        "enable_fp4": {
+          "default": false,
+          "description": "Whether to enable fp4.",
+          "title": "Enable Fp4",
+          "type": "boolean"
+        },
+        "fp4_recipe": {
+          "choices": [
+            "dynamic_scaling",
+            "delayed_scaling"
+          ],
+          "default": "dynamic_scaling",
+          "description": "Recipe for weight scale calculation.",
+          "title": "Fp4 Recipe",
+          "type": "string"
+        },
+        "quant_recipe": {
+          "choices": [
+            "rowwise",
+            "tensorwise"
+          ],
+          "default": "rowwise",
+          "description": "Quantization strategy for weight.",
+          "title": "Quant Recipe",
+          "type": "string"
+        }
+      },
+      "title": "FP4Config",
+      "type": "object"
+    },
+    "FP8Config": {
+      "properties": {
+        "enable_fp8": {
+          "default": false,
+          "description": "Whether to enable fp8.",
+          "title": "Enable Fp8",
+          "type": "boolean"
+        },
+        "fp8_recipe": {
+          "choices": [
+            "dynamic_scaling",
+            "delayed_scaling"
+          ],
+          "default": "dynamic_scaling",
+          "description": "Recipe for weight scale calculation.",
+          "title": "Fp8 Recipe",
+          "type": "string"
+        },
+        "quant_recipe": {
+          "choices": [
+            "rowwise",
+            "tensorwise"
+          ],
+          "default": "rowwise",
+          "description": "Quantization strategy for weight.",
+          "title": "Quant Recipe",
+          "type": "string"
+        }
+      },
+      "title": "FP8Config",
+      "type": "object"
+    },
+    "GrpoConfig": {
+      "properties": {
+        "type": {
+          "const": "grpo",
+          "title": "Type",
+          "type": "string"
+        },
+        "variant": {
+          "choices": [
+            "grpo",
+            "gspo",
+            "dapo"
+          ],
+          "default": "grpo",
+          "description": "Variant of the GRPO, currently support `grpo`, `gspo`, `dapo`",
+          "title": "Variant",
+          "type": "string"
+        },
+        "dataset": {
+          "$ref": "#/$defs/DatasetConfig",
+          "description": "Dataset configuration for GRPO training. It includes dataset name, subset, revision, train split, test split and test size."
+        },
+        "dataloader_shuffle": {
+          "default": true,
+          "description": "Shuffle the dataloader. If False, the dataloader will be used in the order it is loaded.",
+          "title": "Dataloader Shuffle",
+          "type": "boolean"
+        },
+        "enable_dataset_cache": {
+          "default": false,
+          "description": "Enable dataset cache process results, maybe accelerate the dataset loading",
+          "title": "Enable Dataset Cache",
+          "type": "boolean"
+        },
+        "dataloader_num_workers": {
+          "default": 0,
+          "description": "Number of subprocess to use for data loading",
+          "title": "Dataloader Num Workers",
+          "type": "integer"
+        },
+        "dataloader_prefetch_factor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Number of batches loaded in advance by each worker.",
+          "title": "Dataloader Prefetch Factor"
+        },
+        "dataloader_batch_size": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 1,
+          "description": "Batch size for each iteration of the dataloader for when fetch prompts from controller. This is only the setting of the dataloader iterator on the controller side.",
+          "title": "Dataloader Batch Size"
+        },
+        "prompt_column_name": {
+          "default": "",
+          "description": "Column name for prompt",
+          "title": "Prompt Column Name",
+          "type": "string"
+        },
+        "response_column_name": {
+          "default": "",
+          "description": "Column name for response/reference answer",
+          "title": "Response Column Name",
+          "type": "string"
+        },
+        "reward_function": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "type": "object"
+            }
+          ],
+          "description": "Reward functions for the model. Currently support `single_choice`, `boxed_math`, and `format`. You can add weight to each reward function by passing a dict, e.g., {'single_choice': 0.9, 'format': 0.1}",
+          "title": "Reward Function"
+        },
+        "filter_reward_metric": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "Reward function to filter in dynamic sampling for DAPO. If specified, only samples with different this rewards will be used for training. If None, no filtering will be applied.",
+          "title": "Filter Reward Metric"
+        },
+        "temperature": {
+          "default": 1.0,
+          "description": "Temperature for sampling. The higher the temperature, the more random the completions.",
+          "title": "Temperature",
+          "type": "number"
+        },
+        "epsilon_low": {
+          "default": 0.2,
+          "description": "Epsilon value for clipping.",
+          "title": "Epsilon Low",
+          "type": "number"
+        },
+        "epsilon_high": {
+          "default": 0.2,
+          "description": "Upper-bound epsilon value for clipping. If not specified, it defaults to the same value as the lower-bound specified in argument `epsilon`. Paper DAPO recommends `0.28`.",
+          "title": "Epsilon High",
+          "type": "number"
+        },
+        "positive_nll_coef": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Coefficient for Positive Example LM Loss. Set a positive value to enable; None disables the feature.",
+          "title": "Positive Nll Coef"
+        },
+        "lower_bound_ratio": {
+          "default": 3.0,
+          "description": "Lower-bound ratio for dual-clip.",
+          "title": "Lower Bound Ratio",
+          "type": "number"
+        },
+        "loss_type": {
+          "choices": [
+            "token-mean",
+            "seq-mean-token-sum",
+            "seq-mean-token-mean"
+          ],
+          "default": "token-mean",
+          "description": "The type of loss to use for GRPO training.",
+          "title": "Loss Type",
+          "type": "string"
+        },
+        "unbiased_loss_max_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Maximum number of tokens to use for unbiased loss introduced in Dr.GRPO. If set to None, will not use unbiased loss.Only available when `loss_type` is `seq-mean-token-mean`",
+          "title": "Unbiased Loss Max Tokens"
+        },
+        "unbiased_advantage": {
+          "default": false,
+          "description": "Whether to divide the advantage by the standard deviation of rewards.",
+          "title": "Unbiased Advantage",
+          "type": "boolean"
+        },
+        "overlong_reward": {
+          "$ref": "#/$defs/OverlongRewardConfig",
+          "description": "Configuration for overlong reward penalty. If enabled, the output will be penalized for responses that are too long."
+        },
+        "kl_beta": {
+          "default": 0.0,
+          "description": "KL coefficient. If `0.0`, the reference model is not loaded, reducing memory usage and improving training speed, but may be numerically unstable for long training runs.",
+          "title": "Kl Beta",
+          "type": "number"
+        },
+        "aipo_rho": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Rho value for AIPO (Asynchronous Importance weighted Policy Optimization). The clipping constant of the importance sampling ratio, suggest [2,10]. reference: https://arxiv.org/pdf/2505.24034",
+          "title": "Aipo Rho"
+        },
+        "mu_iterations": {
+          "default": 1,
+          "description": "Number of iterations per batch (denoted as \u03bc in the algorithm).",
+          "title": "Mu Iterations",
+          "type": "integer"
+        },
+        "mini_batch": {
+          "default": 2,
+          "description": "mini-batch size for GRPO training. Mini-batch is used to split the batch per optimization into smaller batches to fit into GPU memory.",
+          "title": "Mini Batch",
+          "type": "integer"
+        },
+        "batch_size_per_optimize": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "batch size for each optimization in GRPO training. The batch in each training step is split into smaller batches which each performs one step optimization. If not set, it will be the same as the whole batch size per GPU for each training step.",
+          "title": "Batch Size Per Optimize"
+        },
+        "max_token_len_per_mini_batch": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Maximum token length per mini batch. If set, dynamic mini-batch sizing will be applied based on this limit.",
+          "title": "Max Token Len Per Mini Batch"
+        },
+        "entropy_coeff": {
+          "default": 0.0,
+          "description": "Coefficient for entropy regularization.",
+          "title": "Entropy Coeff",
+          "type": "number"
+        },
+        "allowed_outdated_steps": {
+          "default": 4,
+          "description": "Allowed outdated-async steps for rollout engine. If the number of left uncompleted rollout samples is larger than the `(allowed_outdated_steps + 1) * n_policy_replicas * train_batch_per_replica`, then rollout engine traffic will be throttled. ",
+          "title": "Allowed Outdated Steps",
+          "type": "integer"
+        },
+        "on_policy": {
+          "default": false,
+          "description": "Enable fully synchronized (on-policy) rollout. If set to True, the rollout engine will wait until the expected weight version is updated before next generation starts.",
+          "title": "On Policy",
+          "type": "boolean"
+        },
+        "outdated_rollout_fetch_batch_size": {
+          "default": 1,
+          "description": "Number of outdated rollouts to fetch. If set to 0, the rollout engine will stop generating rollouts if the weight is outdated.",
+          "title": "Outdated Rollout Fetch Batch Size",
+          "type": "integer"
+        },
+        "min_filter_prefix_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum number of tokens to filter the prefix tokens for the rollouts inside the same group. If the number of tokens is larger than the `min_filter_prefix_tokens`, the rollouts with the same prefix but different rewards will be filtered out in loss calculation.",
+          "title": "Min Filter Prefix Tokens"
+        },
+        "max_retry_for_on_policy": {
+          "default": 10,
+          "description": "Maximum number of retries for on-policy rollout to have enough samples. If non-positive, will retry with no upper limit until enough samples are generated.",
+          "title": "Max Retry For On Policy",
+          "type": "integer"
+        },
+        "reference_reset_interval": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Interval to reset the reference model to the current model. If set to None or 0, the reference model will not be reset during training.",
+          "title": "Reference Reset Interval"
+        },
+        "reset_optimizer_with_reference": {
+          "default": true,
+          "description": "Whether to reset the optimizer state when the reference model is reset.",
+          "title": "Reset Optimizer With Reference",
+          "type": "boolean"
+        },
+        "balance_dp_token": {
+          "default": false,
+          "description": "Whether to balance the number of tokens in each data parallel replica when calculating the loss.",
+          "title": "Balance Dp Token",
+          "type": "boolean"
+        },
+        "use_decoupled_loss": {
+          "default": false,
+          "description": "Whether to use decoupled loss. A decoupled loss separates the optimization of the behavior policy and the target policy, which can help to reduce the variance of the gradient estimate.",
+          "title": "Use Decoupled Loss",
+          "type": "boolean"
+        },
+        "behav_imp_weight_cap": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Clipping cap for behavior importance weights. Useful when decoupled loss is used to avoid large variance.",
+          "title": "Behav Imp Weight Cap"
+        },
+        "rollout_as_token_ids": {
+          "default": false,
+          "description": "Whether to use token ids for rollouts instead of text. This can save tokenization time during rollout generation.",
+          "title": "Rollout As Token Ids",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "GrpoConfig",
+      "type": "object"
+    },
+    "LoggingConfig": {
+      "properties": {
+        "logger": {
+          "description": "List of loggers to use, e.g., ['console', 'wandb']",
+          "items": {
+            "type": "string"
+          },
+          "title": "Logger",
+          "type": "array"
+        },
+        "project_name": {
+          "default": "cosmos_rl",
+          "description": "Wandb project name for logging. If set, the training will be logged to this project.",
+          "title": "Project Name",
+          "type": "string"
+        },
+        "experiment_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A short display name for this run. If not set, will use the `output_dir` as the experiment name.",
+          "title": "Experiment Name"
+        }
+      },
+      "title": "LoggingConfig",
+      "type": "object"
+    },
+    "LoraConfig": {
+      "properties": {
+        "r": {
+          "default": 8,
+          "description": "LoRA rank",
+          "title": "R",
+          "type": "integer"
+        },
+        "lora_alpha": {
+          "default": 8.0,
+          "description": "LoRA alpha",
+          "title": "Lora Alpha",
+          "type": "number"
+        },
+        "lora_dropout": {
+          "default": 0.0,
+          "description": "LoRA dropout",
+          "title": "Lora Dropout",
+          "type": "number"
+        },
+        "target_modules": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": null,
+          "description": "LoRA target modules, can be a list of strings or 'all-linear'",
+          "title": "Target Modules"
+        },
+        "use_rslora": {
+          "default": false,
+          "description": "When set to True, uses [Rank-Stabilized LoRA](https://huggingface.co/papers/2312.03732) which sets the adapter scaling factor to `lora_alpha/math.sqrt(r)`, since it was proven to work better. Otherwise, it will use the original default value of `lora_alpha/r`.",
+          "title": "Use Rslora",
+          "type": "boolean"
+        },
+        "modules_to_save": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "List of modules apart from LoRA layers to be set as trainable and saved in the final checkpoint. ",
+          "title": "Modules To Save"
+        },
+        "alpha_pattern": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Per-module overrides for lora_alpha. Keys are regex patterns; evaluated in insertion order, first match wins.",
+          "title": "Alpha Pattern"
+        },
+        "r_pattern": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Per-module overrides for LoRA rank r. Keys are regex patterns; evaluated in insertion order, first match wins.",
+          "title": "R Pattern"
+        },
+        "init_lora_weights": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "enum": [
+                "gaussian",
+                "eva",
+                "olora",
+                "pissa",
+                "pissa_niter_[number of iters]"
+              ],
+              "type": "string"
+            }
+          ],
+          "default": true,
+          "description": "How to initialize the weights of the adapter layers.Passing True (default) results in the default initialization from the reference implementation from Microsoft, with the LoRA B weight being set to 0. This means that without further training, the LoRA adapter will be a no-op.Setting the initialization to False leads to random initialization of LoRA A and B, meaning that LoRA is not a no-op before training; this setting is intended for debugging purposes.Passing \u2018gaussian\u2019 results in Gaussian initialization scaled by the LoRA rank for linear and layers. Pass 'loftq' to use LoftQ initialization. Passing 'eva' results in a data-driven initialization of Explained Variance Adaptation.EVA initializes LoRA based on the SVD of layer input activations and achieves SOTA performance due to its ability to adapt to the finetuning data. Pass 'olora' to use OLoRA initialization. Passing 'pissa' results in the initialization of https://huggingface.co/papers/2404.02948",
+          "title": "Init Lora Weights"
+        }
+      },
+      "title": "LoraConfig",
+      "type": "object"
+    },
+    "MultiTurnRolloutConfig": {
+      "properties": {
+        "enable": {
+          "default": false,
+          "description": "Whether to enable multi-turn rollout.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "enable_tools": {
+          "default": false,
+          "description": "Whether to enable tools in multi-turn rollout.",
+          "title": "Enable Tools",
+          "type": "boolean"
+        },
+        "enable_thinking": {
+          "default": false,
+          "description": "Whether to enable thinking in multi-turn rollout.",
+          "title": "Enable Thinking",
+          "type": "boolean"
+        },
+        "custom_chat_template_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The path to the custom chat template in chat.",
+          "title": "Custom Chat Template Path"
+        },
+        "max_assistant_turns": {
+          "default": 5,
+          "description": "Max assistant turn count for multi-turn rollout.",
+          "title": "Max Assistant Turns",
+          "type": "integer"
+        },
+        "add_generation_prompt": {
+          "default": true,
+          "description": "Whether to add generation prompt in multi-turn rollout.",
+          "title": "Add Generation Prompt",
+          "type": "boolean"
+        },
+        "continue_final_message": {
+          "default": false,
+          "description": "Whether to continue the final message in multi-turn rollout.",
+          "title": "Continue Final Message",
+          "type": "boolean"
+        }
+      },
+      "title": "MultiTurnRolloutConfig",
+      "type": "object"
+    },
+    "OverlongRewardConfig": {
+      "properties": {
+        "enable_overlong_penalty": {
+          "default": false,
+          "description": "Enable overlong penalty for the model. If set to True, the output will be penalized for responses that are too long.",
+          "title": "Enable Overlong Penalty",
+          "type": "boolean"
+        },
+        "buffer_length": {
+          "default": 4096,
+          "description": "Length of the buffer for overlong penalty. If the response length exceeds this value, the output will be penalized.",
+          "title": "Buffer Length",
+          "type": "integer"
+        },
+        "penalty_factor": {
+          "default": 1.0,
+          "description": "Penalty factor for overlong penalty. The penalty increases linearly with the length of the response exceeding the buffer length from 0 to the penalty_factor.",
+          "title": "Penalty Factor",
+          "type": "number"
+        }
+      },
+      "title": "OverlongRewardConfig",
+      "type": "object"
+    },
+    "ParallelismConfig": {
+      "properties": {
+        "n_init_replicas": {
+          "default": 1,
+          "description": "Number of initial replicas to be created",
+          "title": "N Init Replicas",
+          "type": "integer"
+        },
+        "tp_size": {
+          "default": 2,
+          "description": "Tensor parallelism size",
+          "title": "Tp Size",
+          "type": "integer"
+        },
+        "cp_size": {
+          "default": 1,
+          "description": "Context parallelism size",
+          "title": "Cp Size",
+          "type": "integer"
+        },
+        "ep_size": {
+          "default": 1,
+          "description": "Expert parallelism size",
+          "title": "Ep Size",
+          "type": "integer"
+        },
+        "dp_shard_size": {
+          "default": 1,
+          "description": "Data Parallelism size in sharded mode",
+          "title": "Dp Shard Size",
+          "type": "integer"
+        },
+        "pp_size": {
+          "default": 1,
+          "description": "Pipeline parallelism size",
+          "title": "Pp Size",
+          "type": "integer"
+        },
+        "pp_dynamic_shape": {
+          "default": false,
+          "description": "Pipeline parallelism dynamic shape",
+          "title": "Pp Dynamic Shape",
+          "type": "boolean"
+        },
+        "pp_micro_batch_size": {
+          "default": 1,
+          "description": "Pipeline parallelism micro batch size, `n_micro_batch = batch_size / pp_micro_batch_size`, which must be divisible by `pp` stages",
+          "title": "Pp Micro Batch Size",
+          "type": "integer"
+        },
+        "dp_replicate_size": {
+          "choices": [
+            1
+          ],
+          "default": 1,
+          "description": "Data Parallelism size in replica mode. Only configurable in SFT type job, must be 1 in GRPO type job for dynamic scaling support purpose.",
+          "title": "Dp Replicate Size",
+          "type": "integer"
+        }
+      },
+      "title": "ParallelismConfig",
+      "type": "object"
+    },
+    "PolicyConfig": {
+      "properties": {
+        "parallelism": {
+          "$ref": "#/$defs/ParallelismConfig"
+        },
+        "model_name_or_path": {
+          "default": "Qwen/Qwen2.5-VL-7B-Instruct",
+          "description": "The model name or path, compatible with huggingface model name or local path",
+          "title": "Model Name Or Path",
+          "type": "string"
+        },
+        "model_revision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The revision of the model to use",
+          "title": "Model Revision"
+        },
+        "model_max_length": {
+          "default": 4096,
+          "description": "The maximum length for training, longer than this will be ignored for training stability",
+          "title": "Model Max Length",
+          "type": "integer"
+        },
+        "model_gradient_checkpointing": {
+          "default": true,
+          "description": "Whether to use gradient checkpointing",
+          "title": "Model Gradient Checkpointing",
+          "type": "boolean"
+        },
+        "lora": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LoraConfig"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "LoRA configuration"
+        },
+        "trainable_map": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "boolean"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Mapping of name -> bool. Keys can either be: - exact parameter names (from model.named_parameters()) - exact module paths (from model.named_modules()) ",
+          "title": "Trainable Map"
+        },
+        "enable_liger_kernel": {
+          "default": false,
+          "description": "Whether to use liger kernel.",
+          "title": "Enable Liger Kernel",
+          "type": "boolean"
+        }
+      },
+      "title": "PolicyConfig",
+      "type": "object"
+    },
+    "ProfilerConfig": {
+      "properties": {
+        "enable_profiler": {
+          "default": false,
+          "description": "Enable profiler for training",
+          "title": "Enable Profiler",
+          "type": "boolean"
+        },
+        "enable_nsys": {
+          "default": false,
+          "description": "Enable nsys for training",
+          "title": "Enable Nsys",
+          "type": "boolean"
+        },
+        "sub_profiler_config": {
+          "$ref": "#/$defs/SubProfilerConfig",
+          "description": "Sub profiler config"
+        }
+      },
+      "title": "ProfilerConfig",
+      "type": "object"
+    },
+    "RolloutConfig": {
+      "properties": {
+        "parallelism": {
+          "$ref": "#/$defs/RolloutParallelismConfig"
+        },
+        "enforce_eager": {
+          "default": true,
+          "description": "Whether to enable eager execution for vLLM.",
+          "title": "Enforce Eager",
+          "type": "boolean"
+        },
+        "include_stop_str_in_output": {
+          "default": false,
+          "description": "Whether to include stop string in output.",
+          "title": "Include Stop Str In Output",
+          "type": "boolean"
+        },
+        "gpu_memory_utilization": {
+          "default": 0.8,
+          "description": "GPU memory utilization factor for rollout backend.",
+          "title": "Gpu Memory Utilization",
+          "type": "number"
+        },
+        "enable_chunked_prefill": {
+          "default": false,
+          "description": "Whether to enable chunked prefill for vLLM.",
+          "title": "Enable Chunked Prefill",
+          "type": "boolean"
+        },
+        "max_response_length": {
+          "default": 2048,
+          "description": "Max output length of rollout generation.",
+          "title": "Max Response Length",
+          "type": "integer"
+        },
+        "n_generation": {
+          "default": 16,
+          "description": "n parameter same like what in OpenAI chat API.",
+          "title": "N Generation",
+          "type": "integer"
+        },
+        "n_generation_to_batch": {
+          "default": false,
+          "description": "Whether to treat n_generation as batch dimension in rollout generation.",
+          "title": "N Generation To Batch",
+          "type": "boolean"
+        },
+        "batch_size": {
+          "default": 1,
+          "description": "Batch size for rollout.",
+          "title": "Batch Size",
+          "type": "integer"
+        },
+        "quantization": {
+          "choices": [
+            "none",
+            "fp8"
+          ],
+          "default": "none",
+          "description": "Quantization in vllm rollout generation.",
+          "title": "Quantization",
+          "type": "string"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "random seed for rollout.",
+          "title": "Seed"
+        },
+        "sampling_config": {
+          "$ref": "#/$defs/SamplingConfig"
+        },
+        "vllm_use_flashinfer": {
+          "default": false,
+          "description": "Use flashinfer for vllm rollout.",
+          "title": "Vllm Use Flashinfer",
+          "type": "boolean"
+        },
+        "backend": {
+          "choices": [
+            "vllm",
+            "trtllm"
+          ],
+          "default": "vllm",
+          "description": "Backend for rollout. Currently support `vllm` and `trtllm`.",
+          "title": "Backend",
+          "type": "string"
+        },
+        "multi_turn_config": {
+          "$ref": "#/$defs/MultiTurnRolloutConfig",
+          "description": "Configuration for multi-turn rollout."
+        }
+      },
+      "title": "RolloutConfig",
+      "type": "object"
+    },
+    "RolloutParallelismConfig": {
+      "properties": {
+        "n_init_replicas": {
+          "default": 1,
+          "description": "Number of initial replicas to be created",
+          "title": "N Init Replicas",
+          "type": "integer"
+        },
+        "tp_size": {
+          "default": 2,
+          "description": "Tensor parallelism size",
+          "title": "Tp Size",
+          "type": "integer"
+        },
+        "cp_size": {
+          "default": 1,
+          "description": "Context parallelism size",
+          "title": "Cp Size",
+          "type": "integer"
+        },
+        "ep_size": {
+          "default": 1,
+          "description": "Expert parallelism size",
+          "title": "Ep Size",
+          "type": "integer"
+        },
+        "dp_shard_size": {
+          "default": -1,
+          "description": "Data Parallelism size in sharded mode",
+          "title": "Dp Shard Size",
+          "type": "integer"
+        },
+        "pp_size": {
+          "default": 1,
+          "description": "Pipeline parallelism size",
+          "title": "Pp Size",
+          "type": "integer"
+        },
+        "pp_dynamic_shape": {
+          "default": false,
+          "description": "Pipeline parallelism dynamic shape",
+          "title": "Pp Dynamic Shape",
+          "type": "boolean"
+        },
+        "pp_micro_batch_size": {
+          "default": 1,
+          "description": "Pipeline parallelism micro batch size, `n_micro_batch = batch_size / pp_micro_batch_size`, which must be divisible by `pp` stages",
+          "title": "Pp Micro Batch Size",
+          "type": "integer"
+        },
+        "dp_replicate_size": {
+          "choices": [
+            1
+          ],
+          "default": 1,
+          "description": "Data Parallelism size in replica mode, only 1 is supported for dynamic scaling purpose.",
+          "title": "Dp Replicate Size",
+          "type": "integer"
+        }
+      },
+      "title": "RolloutParallelismConfig",
+      "type": "object"
+    },
+    "SFTDataConfig": {
+      "properties": {
+        "type": {
+          "const": "sft",
+          "title": "Type",
+          "type": "string"
+        },
+        "dataset": {
+          "$ref": "#/$defs/DatasetConfig",
+          "description": "Dataset configuration for SFT training. It includes dataset name, subset, revision, train split, and test split."
+        },
+        "mini_batch": {
+          "default": 2,
+          "description": "mini-batch size for training.",
+          "title": "Mini Batch",
+          "type": "integer"
+        },
+        "dataloader_shuffle": {
+          "default": true,
+          "description": "Shuffle the dataloader. If False, the dataloader will be used in the order it is loaded.",
+          "title": "Dataloader Shuffle",
+          "type": "boolean"
+        },
+        "enable_dataset_cache": {
+          "default": false,
+          "description": "Enable dataset cache process results, maybe accelerate the dataset loading",
+          "title": "Enable Dataset Cache",
+          "type": "boolean"
+        },
+        "dataloader_num_workers": {
+          "default": 0,
+          "description": "Number of subprocess to use for data loading",
+          "title": "Dataloader Num Workers",
+          "type": "integer"
+        },
+        "dataloader_prefetch_factor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Number of batches loaded in advance by each worker.",
+          "title": "Dataloader Prefetch Factor"
+        },
+        "conversation_column_name": {
+          "default": "conversations",
+          "description": "Column name for formated conversation json",
+          "title": "Conversation Column Name",
+          "type": "string"
+        },
+        "system_prompt": {
+          "default": "",
+          "description": "System prompt for the model, which will be prepended to the prompt",
+          "title": "System Prompt",
+          "type": "string"
+        },
+        "balance_dp_token": {
+          "default": true,
+          "description": "Whether to balance the number of tokens in each data parallel replica when calculating the loss.",
+          "title": "Balance Dp Token",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "SFTDataConfig",
+      "type": "object"
+    },
+    "SamplingConfig": {
+      "properties": {
+        "temperature": {
+          "default": 1.0,
+          "description": "Temperature for sampling.",
+          "title": "Temperature",
+          "type": "number"
+        },
+        "top_p": {
+          "default": 1.0,
+          "description": "Top-p for sampling.",
+          "title": "Top P",
+          "type": "number"
+        },
+        "top_k": {
+          "default": -1,
+          "description": "Top-k for sampling.",
+          "title": "Top K",
+          "type": "integer"
+        },
+        "repetition_penalty": {
+          "default": 1.0,
+          "description": "Repetition penalty for sampling.",
+          "title": "Repetition Penalty",
+          "type": "number"
+        },
+        "use_flashinfer": {
+          "default": false,
+          "description": "Use flashinfer for sampling.",
+          "title": "Use Flashinfer",
+          "type": "boolean"
+        }
+      },
+      "title": "SamplingConfig",
+      "type": "object"
+    },
+    "SubProfilerConfig": {
+      "properties": {
+        "do_profile": {
+          "default": false,
+          "description": "Whether to profile, only used in runtime.",
+          "title": "Do Profile",
+          "type": "boolean"
+        },
+        "active_steps": {
+          "default": 1,
+          "description": "Number of active steps",
+          "title": "Active Steps",
+          "type": "integer"
+        },
+        "warmup_steps": {
+          "default": 1,
+          "description": "Number of warmup steps",
+          "title": "Warmup Steps",
+          "type": "integer"
+        },
+        "wait_steps": {
+          "default": 1,
+          "description": "Number of wait steps",
+          "title": "Wait Steps",
+          "type": "integer"
+        },
+        "rank_filter": {
+          "description": "Rank filter",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Rank Filter",
+          "type": "array"
+        },
+        "record_shape": {
+          "default": false,
+          "description": "Whether to record shape",
+          "title": "Record Shape",
+          "type": "boolean"
+        },
+        "profile_memory": {
+          "default": false,
+          "description": "Whether to profile memory",
+          "title": "Profile Memory",
+          "type": "boolean"
+        },
+        "with_stack": {
+          "default": false,
+          "description": "Whether to profile stack",
+          "title": "With Stack",
+          "type": "boolean"
+        },
+        "with_modules": {
+          "default": false,
+          "description": "Whether to profile modules",
+          "title": "With Modules",
+          "type": "boolean"
+        }
+      },
+      "title": "SubProfilerConfig",
+      "type": "object"
+    },
+    "TrainingConfig": {
+      "properties": {
+        "train_policy": {
+          "default": {
+            "type": "grpo",
+            "variant": "grpo",
+            "dataset": {
+              "name": "",
+              "revision": "",
+              "split": [
+                ""
+              ],
+              "subset": "",
+              "test_size": null
+            },
+            "dataloader_shuffle": true,
+            "enable_dataset_cache": false,
+            "dataloader_num_workers": 0,
+            "dataloader_prefetch_factor": null,
+            "dataloader_batch_size": 1,
+            "prompt_column_name": "",
+            "response_column_name": "",
+            "reward_function": {
+              "single_choice": 1.0
+            },
+            "filter_reward_metric": [],
+            "temperature": 1.0,
+            "epsilon_low": 0.2,
+            "epsilon_high": 0.2,
+            "positive_nll_coef": null,
+            "lower_bound_ratio": 3.0,
+            "loss_type": "token-mean",
+            "unbiased_loss_max_tokens": null,
+            "unbiased_advantage": false,
+            "overlong_reward": {
+              "buffer_length": 4096,
+              "enable_overlong_penalty": false,
+              "penalty_factor": 1.0
+            },
+            "kl_beta": 0.0,
+            "aipo_rho": null,
+            "mu_iterations": 1,
+            "mini_batch": 2,
+            "batch_size_per_optimize": null,
+            "max_token_len_per_mini_batch": null,
+            "entropy_coeff": 0.0,
+            "allowed_outdated_steps": 4,
+            "on_policy": false,
+            "outdated_rollout_fetch_batch_size": 1,
+            "min_filter_prefix_tokens": null,
+            "max_retry_for_on_policy": 10,
+            "reference_reset_interval": null,
+            "reset_optimizer_with_reference": true,
+            "balance_dp_token": false,
+            "use_decoupled_loss": false,
+            "behav_imp_weight_cap": null,
+            "rollout_as_token_ids": false
+          },
+          "discriminator": {
+            "mapping": {
+              "grpo": "#/$defs/GrpoConfig",
+              "sft": "#/$defs/SFTDataConfig"
+            },
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/SFTDataConfig"
+            },
+            {
+              "$ref": "#/$defs/GrpoConfig"
+            }
+          ],
+          "title": "Train Policy"
+        },
+        "optm_name": {
+          "choices": [
+            "AdamW",
+            "Adam"
+          ],
+          "default": "AdamW",
+          "description": "Optimizer name",
+          "title": "Optm Name",
+          "type": "string"
+        },
+        "optm_lr": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            }
+          ],
+          "default": 1e-06,
+          "description": "Learning rate for optimizer, can be a float or a list of floats for multiple optimizers",
+          "title": "Optm Lr"
+        },
+        "optm_impl": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "choices": [
+            "fused",
+            "foreach",
+            "for-loop"
+          ],
+          "default": "fused",
+          "description": "Implementation type for optimizer. More info: https://pytorch.org/docs/stable/optim.html, can be a list of strings for multiple optimizers",
+          "title": "Optm Impl"
+        },
+        "optm_weight_decay": {
+          "default": 0.01,
+          "description": "Weight decay for optimizer",
+          "title": "Optm Weight Decay",
+          "type": "number"
+        },
+        "optm_betas": {
+          "default": [
+            0.9,
+            0.999
+          ],
+          "description": "Betas for optimizer",
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Optm Betas",
+          "type": "array"
+        },
+        "optm_warmup_steps": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 20,
+          "description": "Warmup steps for optimizer, can be an integer or a float, if it is a float and range in [0.0, 1.0], it will be multiplied by the total steps",
+          "title": "Optm Warmup Steps"
+        },
+        "optm_decay_ratio": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Ratio of total steps for decay, range in [0.0, 1.0], 0 means no decay.",
+          "title": "Optm Decay Ratio"
+        },
+        "optm_decay_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "choices": [
+            "sqrt",
+            "cosine",
+            "linear",
+            "none"
+          ],
+          "default": null,
+          "description": "Type of decay for optimizer",
+          "title": "Optm Decay Type"
+        },
+        "optm_min_lr_factor": {
+          "default": 0.0,
+          "description": "Minimum lr factor for optimizer, range in [0.0, 1.0]",
+          "title": "Optm Min Lr Factor",
+          "type": "number"
+        },
+        "optm_grad_norm_clip": {
+          "default": 1.0,
+          "description": "Gradient norm clip for optimizer",
+          "title": "Optm Grad Norm Clip",
+          "type": "number"
+        },
+        "master_dtype": {
+          "choices": [
+            "bfloat16",
+            "float16",
+            "float32"
+          ],
+          "default": "float32",
+          "description": "The master weight data type for optimizers, is orthognal to `param_dtype`. Should be high precision for convergence consideration",
+          "title": "Master Dtype",
+          "type": "string"
+        },
+        "param_dtype": {
+          "choices": [
+            "bfloat16",
+            "float16",
+            "float32"
+          ],
+          "default": "bfloat16",
+          "description": "The data type for forward/backward. Outside forward/backward, params are in `master_dtype`",
+          "title": "Param Dtype",
+          "type": "string"
+        },
+        "transfer_dtype": {
+          "choices": [
+            "bfloat16",
+            "float16",
+            "float32"
+          ],
+          "default": null,
+          "description": "The data type for transfer parameters between Policy and Rollout.",
+          "title": "Transfer Dtype",
+          "type": "string"
+        },
+        "fsdp_reduce_dtype": {
+          "choices": [
+            "float32"
+          ],
+          "default": "float32",
+          "description": "The data type for reduction in FSDP",
+          "title": "Fsdp Reduce Dtype",
+          "type": "string"
+        },
+        "fsdp_offload": {
+          "default": false,
+          "description": "Whether to offload the model to CPU if using FSDP",
+          "title": "Fsdp Offload",
+          "type": "boolean"
+        },
+        "fsdp_reshard_after_forward": {
+          "choices": [
+            "always",
+            "never",
+            "default"
+          ],
+          "default": "default",
+          "description": "Reshard the param after forward pass in FSDP",
+          "title": "Fsdp Reshard After Forward",
+          "type": "string"
+        },
+        "train_batch_per_replica": {
+          "default": 8,
+          "description": "The batch size for training per iteration in one replica, this is the local batch size for each gradient accumulation step",
+          "title": "Train Batch Per Replica",
+          "type": "integer"
+        },
+        "fp8": {
+          "$ref": "#/$defs/FP8Config"
+        },
+        "fp4": {
+          "$ref": "#/$defs/FP4Config"
+        },
+        "ckpt": {
+          "$ref": "#/$defs/CheckpointConfig"
+        },
+        "resume": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": false,
+          "description": "Resume training from a checkpoint. If True, will resume from the latest checkpoint of the `output_dir`. If a string, will resume from the specified checkpoint path.",
+          "title": "Resume"
+        },
+        "epoch": {
+          "default": 1,
+          "description": "Number of epochs for training",
+          "title": "Epoch",
+          "type": "integer"
+        },
+        "output_dir": {
+          "default": "./outputs",
+          "description": "Output directory",
+          "title": "Output Dir",
+          "type": "string"
+        },
+        "timestamp": {
+          "default": "",
+          "description": "Timestamp for the output directory and wandb ID, if not set, will be generated automatically",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "epsilon": {
+          "default": 1e-06,
+          "description": "Epsilon for optimizer",
+          "title": "Epsilon",
+          "type": "number"
+        },
+        "async_tp_enabled": {
+          "default": false,
+          "description": "Whether to use async tensor parallelism",
+          "title": "Async Tp Enabled",
+          "type": "boolean"
+        },
+        "compile": {
+          "default": true,
+          "description": "Whether to use torch.compile",
+          "title": "Compile",
+          "type": "boolean"
+        },
+        "sync_weight_interval": {
+          "default": 1,
+          "description": "The interval of train step for synchronizing weights between replicas.",
+          "title": "Sync Weight Interval",
+          "type": "integer"
+        },
+        "deterministic": {
+          "default": false,
+          "description": "Whether to use deterministic training. If set to True, will use deterministic training, which is expected to be slower.",
+          "title": "Deterministic",
+          "type": "boolean"
+        },
+        "activation_offload": {
+          "default": false,
+          "description": "Whether to use activation offload",
+          "title": "Activation Offload",
+          "type": "boolean"
+        },
+        "fa_version": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "choices": [
+            2,
+            3
+          ],
+          "default": null,
+          "description": "FlashAttention version to use. If None, will use the default version.",
+          "title": "Fa Version"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Random seed for training. If deterministic is set to True, will by default be set to 42.",
+          "title": "Seed"
+        },
+        "local_dataset": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": true,
+          "description": "Whether to use local dataset to query sample. If set to True, will use the local dataset.",
+          "title": "Local Dataset"
+        },
+        "max_num_steps": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional upper bound on total training steps. If set, training stops when either this step count or the epoch-based limit is reached (whichever comes first). Handy for quick smoke tests.",
+          "title": "Max Num Steps"
+        },
+        "sequence_packing": {
+          "default": false,
+          "description": "Whether to enable sequence packing for training. If set to True, the input sequences will be packed into a single tensor for training.",
+          "title": "Sequence Packing",
+          "type": "boolean"
+        }
+      },
+      "title": "TrainingConfig",
+      "type": "object"
+    },
+    "ValidationConfig": {
+      "properties": {
+        "enable": {
+          "default": false,
+          "description": "Enable validation during training.",
+          "title": "Enable",
+          "type": "boolean"
+        },
+        "freq": {
+          "default": 20,
+          "description": "Validation frequency during training, in terms of training steps",
+          "title": "Freq",
+          "type": "integer"
+        },
+        "batch_size": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Batch size for validation, will use the same batch size as training if not set.",
+          "title": "Batch Size"
+        },
+        "dataset": {
+          "$ref": "#/$defs/DatasetConfig",
+          "description": "Dataset configuration for validation. It includes dataset name, subset, revision and test split."
+        },
+        "temperature": {
+          "default": 0.0,
+          "description": "Temperature for sampling during validation.",
+          "title": "Temperature",
+          "type": "number"
+        },
+        "top_p": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Top-p for sampling during validation.",
+          "title": "Top P"
+        },
+        "top_k": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 1,
+          "description": "Top-k for sampling during validation.",
+          "title": "Top K"
+        },
+        "repetition_penalty": {
+          "default": 1.0,
+          "description": "Repetition penalty for sampling during validation.",
+          "title": "Repetition Penalty",
+          "type": "number"
+        },
+        "n_generation": {
+          "default": 1,
+          "description": "n parameter same like what in OpenAI chat API for validation.",
+          "title": "N Generation",
+          "type": "integer"
+        },
+        "max_response_length": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Max output length of rollout generation during validation.",
+          "title": "Max Response Length"
+        },
+        "reward_function": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "additionalProperties": {
+                "type": "number"
+              },
+              "type": "object"
+            }
+          ],
+          "default": [],
+          "description": "Reward functions for the model. Currently support `single_choice`, `boxed_math`, and `format`. You can add weight to each reward function by passing a dict, e.g., {'single_choice': 0.9, 'format': 0.1}",
+          "title": "Reward Function"
+        }
+      },
+      "title": "ValidationConfig",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "custom": {
+      "additionalProperties": true,
+      "description": "Custom script configuration.",
+      "title": "Custom",
+      "type": "object"
+    },
+    "train": {
+      "$ref": "#/$defs/TrainingConfig"
+    },
+    "rollout": {
+      "$ref": "#/$defs/RolloutConfig"
+    },
+    "policy": {
+      "$ref": "#/$defs/PolicyConfig"
+    },
+    "logging": {
+      "$ref": "#/$defs/LoggingConfig"
+    },
+    "profiler": {
+      "$ref": "#/$defs/ProfilerConfig"
+    },
+    "validation": {
+      "$ref": "#/$defs/ValidationConfig"
+    }
+  },
+  "title": "Config",
+  "type": "object"
+}

@@ -1009,6 +1009,11 @@ dependencies = [
     { name = "cosmos-reason-utils", extra = ["cu128-torch29", "inference"] },
 ]
 
+[package.optional-dependencies]
+post-training = [
+    { name = "cosmos-reason-utils", extra = ["post-training"] },
+]
+
 [package.dev-dependencies]
 dev = [
     { name = "pyrefly" },
@@ -1017,7 +1022,11 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "cosmos-reason-utils", extras = ["inference", "cu128-torch29"], editable = "cosmos_reason_utils" }]
+requires-dist = [
+    { name = "cosmos-reason-utils", extras = ["inference", "cu128-torch29"], editable = "cosmos_reason_utils" },
+    { name = "cosmos-reason-utils", extras = ["post-training"], marker = "extra == 'post-training'", editable = "cosmos_reason_utils" },
+]
+provides-extras = ["post-training"]
 
 [package.metadata.requires-dev]
 dev = [

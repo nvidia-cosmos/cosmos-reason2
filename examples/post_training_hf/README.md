@@ -1,6 +1,8 @@
-# Cosmos-Reason1 Post-Training Hugging Face Example
+# Post-Training Hugging Face Example
 
-This package provides a minimal Cosmos-Reason1 post-training example using the [Hugging Face datasets](https://huggingface.co/docs/datasets/en/index) format. You should first read the full post-training example, see [Cosmos-Reason1 Post-Training Full](../post_training/README.md).
+This package provides a post-training example using the [Hugging Face datasets](https://huggingface.co/docs/datasets/en/index) format.
+
+You should first read the [Post-Training Guide](../post_training/README.md).
 
 ## Setup
 

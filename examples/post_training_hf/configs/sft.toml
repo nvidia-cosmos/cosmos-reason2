@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#:schema ../../../configs/schemas/cosmos_rl_config.json
+
 redis = "12800"
 
 [custom.dataset]

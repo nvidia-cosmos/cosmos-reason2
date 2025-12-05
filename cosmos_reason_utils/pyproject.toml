@@ -61,3 +61,6 @@ cu128_torch29 = [
 source-exclude = [
     "*_test.py",
 ]
+
+[project.scripts]
+cosmos-reason2 = "cosmos_reason_utils.script.inference:main"

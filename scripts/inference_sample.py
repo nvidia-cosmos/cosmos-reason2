@@ -47,8 +47,9 @@ def main():
 
     # Create inputs
     conversation = [
-        {    "role": "system",
-                "content": [{"type": "text", "text": "You are a helpful assistant."}]
+        {
+            "role": "system",
+            "content": [{"type": "text", "text": "You are a helpful assistant."}],
         },
         {
             "role": "user",
@@ -62,7 +63,7 @@ def main():
                 },
                 {"type": "text", "text": "Caption the video in detail."},
             ],
-        }
+        },
     ]
 
     # Process inputs

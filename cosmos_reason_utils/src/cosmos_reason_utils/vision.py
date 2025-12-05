@@ -13,17 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import functools
 import os
 from pathlib import Path
 
-import matplotlib.font_manager as fm
 import numpy as np
 import pydantic
 import torch
-import torchvision
-import torchvision.transforms.functional
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from pydantic import Field
 from qwen_vl_utils.vision_process import SPATIAL_MERGE_SIZE as SPATIAL_MERGE_SIZE
 
@@ -107,23 +103,6 @@ def _tensor_to_pil_images(tensor: torch.Tensor) -> list[Image.Image]:
     return [Image.fromarray(frame) for frame in frames]
 
 
-def _pil_images_to_tensor(images: list[Image.Image]) -> torch.Tensor:
-    """Convert a list of PIL images to a tensor.
-
-    Args:
-        images: List of PIL images
-
-    Returns:
-        Tensor with shape (C, H, W) or (T, C, H, W)
-    """
-    tensor = torch.stack(
-        [torchvision.transforms.functional.pil_to_tensor(image) for image in images],
-        dim=0,
-    )
-    tensor.squeeze_(0)
-    return tensor
-
-
 def save_tensor(tensor: torch.Tensor, path: str | Path) -> None:
     """Save a tensor as images to a directory.
 
@@ -135,123 +114,3 @@ def save_tensor(tensor: torch.Tensor, path: str | Path) -> None:
     images = _tensor_to_pil_images(tensor)
     for i, image in enumerate(images):
         image.save(f"{path}/{i}.png")
-
-
-class OverlayConfig(pydantic.BaseModel):
-    """Config for overlaying text on images."""
-
-    border_height: int = Field(
-        default=28, description="Height of the black border in pixels."
-    )
-    temporal_path_size: int = Field(
-        default=2, description="Number of positions to cycle through."
-    )
-
-    # Use 'DejaVu Sans Mono' font for better readability
-    font_family: str = Field(
-        default="DejaVu Sans Mono", description="Font family for the text."
-    )
-    font_size: int = Field(
-        default=20, description="Font size for the text (in pixels)."
-    )
-    font_color: str = Field(default="white", description="Color of the text.")
-
-
-@functools.cache
-def _get_overlay_font_path(family: str) -> str:
-    """Return the path to the font for overlaying text on images."""
-    return fm.findfont(fm.FontProperties(family=family))
-
-
-def overlay_text(
-    images: list[Image.Image],
-    *,
-    fps: float | None = None,
-    config: OverlayConfig = OverlayConfig(),  # noqa: B008
-) -> list[Image.Image]:
-    """Overlay text on a list of PIL images with black border.
-
-    The timestamp position cycles through available positions.
-
-    Args:
-        images: List of PIL images to process
-        fps: Frames per second
-        config: Config for overlaying text
-
-    Returns:
-        List of PIL images with text overlay
-    """
-    font = ImageFont.truetype(
-        _get_overlay_font_path(config.font_family), config.font_size
-    )
-
-    # Process each image
-    processed_images = []
-
-    for i, image in enumerate(images):
-        # Get original dimensions
-        width, height = image.size
-
-        # Create new image with black border at the bottom
-        new_height = height + config.border_height
-        new_image = Image.new("RGB", (width, new_height), color="black")
-
-        # Paste original image at the top
-        new_image.paste(image, (0, 0))
-
-        # Draw text on the black border
-        draw = ImageDraw.Draw(new_image)
-
-        # Calculate timestamp for current frame
-        total_seconds = i / fps
-        text = f"{total_seconds:.2f}s"
-
-        # Get text dimensions
-        try:
-            # Get text bounding box
-            bbox = draw.textbbox((0, 0), text, font=font)
-            text_width = bbox[2] - bbox[0]
-            text_height = bbox[3] - bbox[1]
-        except AttributeError:
-            # Fallback for older PIL versions
-            text_width, text_height = draw.textsize(text, font=font)
-
-        # Define available positions (cycling through horizontal positions)
-        position_idx = i % config.temporal_path_size
-        section_width = width // config.temporal_path_size
-
-        # Calculate x position based on cycling position
-        section_center_x = position_idx * section_width + section_width // 2
-        text_x = section_center_x - text_width // 2
-
-        # Ensure text doesn't go outside bounds
-        text_x = max(0, min(text_x, width - text_width))
-
-        # Center vertically in the border
-        text_y = height + (config.border_height - text_height) // 2
-
-        # Draw the single timestamp
-        draw.text((text_x, text_y), text, fill=config.font_color, font=font)
-
-        processed_images.append(new_image)
-
-    return processed_images
-
-
-def overlay_text_on_tensor(
-    tensor: torch.Tensor,
-    fps: float,
-    config: OverlayConfig = OverlayConfig(),  # noqa: B008
-) -> torch.Tensor:
-    """Overlay text on a tensor.
-
-    Args:
-        tensor: Tensor with shape (C, H, W) or (T, C, H, W)
-        fps: Frames per second
-        config: Config for overlaying text
-    Returns:
-        Tensor with shape (C, H, W) or (T, C, H, W)
-    """
-    return _pil_images_to_tensor(
-        overlay_text(_tensor_to_pil_images(tensor), fps=fps, config=config)
-    )

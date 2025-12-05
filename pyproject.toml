@@ -21,6 +21,9 @@ dependencies = [
   "cosmos-reason-utils[inference,cu128_torch29]",
 ]
 
+[project.optional-dependencies]
+post-training = ["cosmos-reason-utils[post-training]"]
+
 [dependency-groups]
 dev = [
     "pyrefly==0.42.3",
