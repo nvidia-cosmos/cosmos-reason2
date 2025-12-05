@@ -14,6 +14,6 @@
 # limitations under the License.
 
 project-includes = [
-    "cosmos_reason_utils/",
+    "cosmos_reason2_utils/",
     "scripts/",
 ]

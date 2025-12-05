@@ -15,9 +15,10 @@
 
 """Inference using vLLM."""
 
-# Source: https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#deployment
+# Sources
+# * https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#deployment
 
-from cosmos_reason_utils.script import init_script
+from cosmos_reason2_utils.init import init_script
 
 init_script()
 
@@ -37,13 +38,13 @@ from rich import print
 from rich.pretty import pprint
 from typing_extensions import assert_never
 
-from cosmos_reason_utils.text import (
+from cosmos_reason2_utils.text import (
     REASONING_PROMPT,
     PromptConfig,
     create_conversation,
     create_conversation_openai,
 )
-from cosmos_reason_utils.vision import (
+from cosmos_reason2_utils.vision import (
     VIDEO_FACTOR,
     VisionConfig,
     save_tensor,
@@ -95,9 +96,13 @@ class SamplingOverrides(pydantic.BaseModel):
     """Maximum number of tokens to generate per output sequence."""
 
     @classmethod
-    def get_default(cls, *, reasoning: bool = False) -> dict:
+    def get_defaults(cls, *, reasoning: bool = False) -> dict:
+        kwargs = dict(
+            max_tokens=4096,
+            seed=0,
+        )
         if reasoning:
-            return dict(
+            return kwargs | dict(
                 top_p=0.8,
                 top_k=20,
                 repetition_penalty=1.0,
@@ -105,7 +110,7 @@ class SamplingOverrides(pydantic.BaseModel):
                 temperature=0.7,
             )
         else:
-            return dict(
+            return kwargs | dict(
                 top_p=0.95,
                 top_k=20,
                 repetition_penalty=1.0,
@@ -115,13 +120,14 @@ class SamplingOverrides(pydantic.BaseModel):
 
 
 class Args(pydantic.BaseModel):
+    """Inference arguments."""
+
     model_config = pydantic.ConfigDict(extra="forbid", frozen=True)
 
     prompt: pydantic.FilePath | None = None
     """Path to prompt yaml file."""
     question: str | None = None
-    """Question to ask the model (user prompt)."""
-
+    """Override user prompt."""
     images: list[str] = pydantic.Field(default_factory=list)
     """Image paths or URLs."""
     videos: list[str] = pydantic.Field(default_factory=list)
@@ -129,7 +135,7 @@ class Args(pydantic.BaseModel):
     reasoning: bool = False
     """Enable reasoning trace."""
 
-    max_model_len: int | None = None
+    max_model_len: int | None = 8192
     """Maximum model length.
     
     If specified, input media will be resized to fit in the model length.
@@ -151,13 +157,6 @@ class Args(pydantic.BaseModel):
             return PromptConfig()
 
     @cached_property
-    def addon_prompts(self) -> list[str]:
-        addon_prompts = []
-        if self.reasoning:
-            addon_prompts.append(REASONING_PROMPT)
-        return addon_prompts
-
-    @cached_property
     def system_prompt(self) -> str:
         return self.prompt_config.system_prompt
 
@@ -170,8 +169,8 @@ class Args(pydantic.BaseModel):
         if not user_prompt:
             raise ValueError("No user prompt provided.")
         user_prompt = user_prompt.rstrip()
-        if self.addon_prompts:
-            user_prompt = "\n\n".join([user_prompt, *self.addon_prompts])
+        if self.reasoning:
+            user_prompt += f"\n\n{REASONING_PROMPT}"
         return user_prompt
 
     @cached_property
@@ -203,7 +202,7 @@ class Args(pydantic.BaseModel):
 
     @cached_property
     def sampling_kwargs(self) -> dict:
-        sampling_kwargs = SamplingOverrides.get_default(reasoning=self.reasoning)
+        sampling_kwargs = SamplingOverrides.get_defaults(reasoning=self.reasoning)
         sampling_kwargs.update(self.sampling.model_dump(exclude_none=True))
         return sampling_kwargs
 
@@ -213,6 +212,8 @@ class Args(pydantic.BaseModel):
 
 
 class Offline(Args):
+    """Offline inference arguments."""
+
     model: str = DEFAULT_MODEL
     """Model name or path (https://huggingface.co/collections/nvidia/cosmos-reason2)."""
     revision: str | None = None
@@ -223,8 +224,10 @@ class Offline(Args):
 
 
 class Online(Args):
+    """Online inference arguments."""
+
     host: str = "localhost"
-    """Server URL."""
+    """Server hostname."""
     port: int = 8000
     """Server port."""
     model: str | None = None

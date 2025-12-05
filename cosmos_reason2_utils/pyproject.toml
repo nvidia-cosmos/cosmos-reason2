@@ -14,13 +14,13 @@
 # limitations under the License.
 
 [build-system]
-requires = ["uv_build>=0.7.21,<0.8.0"]
-build-backend = "uv_build"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
-name = "cosmos-reason-utils"
+name = "cosmos-reason2-utils"
 version = "0.2.0"
-description = "Cosmos-Reason inference utilities"
+description = "Cosmos-Reason2 utilities for inference and post-training"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -34,7 +34,6 @@ dependencies = [
 inference = [
     "accelerate>=1.12.0",
     "av>=16.0.1",
-    "cosmos-reason-utils",
     "imageio-ffmpeg>=0.6.0",
     "pydantic>=2.12.4",
     "pyyaml>=6.0.3",
@@ -57,10 +56,18 @@ cu128_torch29 = [
     "torchcodec==0.8.1; platform_machine != 'aarch64'", # version compatible with torch 2.9: https://github.com/meta-pytorch/torchcodec/releases
 ]
 
-[tool.uv.build-backend]
-source-exclude = [
-    "*_test.py",
+[project.scripts]
+cosmos-reason2-inference = "cosmos_reason2_utils.script.inference:main"
+
+[tool.hatch.build.targets.sdist]
+packages = [
+  "cosmos_reason2_utils",
 ]
 
-[project.scripts]
-cosmos-reason2 = "cosmos_reason_utils.script.inference:main"
+[tool.hatch.build.targets.wheel]
+packages = [
+  "cosmos_reason2_utils",
+]
+exclude = [
+  "*_test.py",
+]

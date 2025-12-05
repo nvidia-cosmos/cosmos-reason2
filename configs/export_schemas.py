@@ -21,7 +21,7 @@ import pathlib
 
 import msgspec
 import vllm
-from cosmos_reason_utils.vision import VisionConfig
+from cosmos_reason2_utils.vision import VisionConfig
 from cosmos_rl.policy.config import COSMOS_CONFIG_SCHEMA as COSMOS_RL_SCHEMA
 
 SCRIPT = pathlib.Path(__file__).resolve()
