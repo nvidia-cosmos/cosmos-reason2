@@ -23,8 +23,7 @@ import json
 from pathlib import Path
 
 import datasets
-import yaml
-from cosmos_reason2_utils.text import PromptConfig, create_conversation
+from cosmos_reason2_utils.text import create_conversation
 from rich import print
 from tqdm import tqdm
 
@@ -35,16 +34,16 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=str, help="Output huggingface dataset path.")
     parser.add_argument("--split", type=str, default="train", help="Split to download.")
+    parser.add_argument(
+        "--prompt",
+        type=str,
+        default="What is the weather in this video? Choose from ['Rain', 'Cloudy', 'Snow', 'Clear'].",
+        help="User prompt.",
+    )
     args = parser.parse_args()
 
     output_dir = Path(args.output).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    # Load prompt
-    system_prompt = PromptConfig.model_validate(
-        yaml.safe_load(open(f"{ROOT}/prompts/question.yaml", "rb"))
-    ).system_prompt
-    user_prompt = "What is the weather in this video? Choose from ['Rain', 'Cloudy', 'Snow', 'Clear']."
 
     # Load raw dataset
     dataset = datasets.load_dataset(
@@ -62,8 +61,7 @@ def main():
             raise FileNotFoundError(f"Video file not found: {video_path}")
 
         conversation = create_conversation(
-            system_prompt=system_prompt,
-            user_prompt=user_prompt,
+            user_prompt=args.prompt,
             videos=[video_path],
             response=str(sample["weather"]),
         )

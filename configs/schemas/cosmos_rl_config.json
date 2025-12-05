@@ -596,6 +596,13 @@
           "default": null,
           "description": "A short display name for this run. If not set, will use the `output_dir` as the experiment name.",
           "title": "Experiment Name"
+        },
+        "report_mfu": {
+          "default": false,
+          "description": "Whether to report the MFU (Model FLOPs Utilization) to wandb.",
+          "hide_in_doc": true,
+          "title": "Report Mfu",
+          "type": "boolean"
         }
       },
       "title": "LoggingConfig",
@@ -1840,6 +1847,20 @@
     },
     "validation": {
       "$ref": "#/$defs/ValidationConfig"
+    },
+    "redis": {
+      "default": "",
+      "description": "Redis server address port, format: port",
+      "hide_in_doc": true,
+      "title": "Redis",
+      "type": "string"
+    },
+    "eth_ips": {
+      "default": "",
+      "description": "List of eth ip addresses, format: ip1;ip2;ip3",
+      "hide_in_doc": true,
+      "title": "Eth Ips",
+      "type": "string"
     }
   },
   "title": "Config",

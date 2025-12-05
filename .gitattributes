@@ -1,2 +1,2 @@
 *.lock linguist-generated=true
-configs/schemas/* linguist-generated=true
+configs/ linguist-generated=true

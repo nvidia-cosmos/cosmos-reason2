@@ -14,12 +14,12 @@
 # limitations under the License.
 
 [project]
-name = "cosmos-reason2-post-training-hf"
+name = "cosmos-reason2-cosmos-rl"
 version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "cosmos-reason2-utils[inference,post-training,cu128_torch28]",
+    "cosmos-reason2-utils[inference,cosmos-rl,cu128_torch28]",
 ]
 
 [tool.uv.sources]

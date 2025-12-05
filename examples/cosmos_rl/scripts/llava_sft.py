@@ -13,27 +13,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""SFT adapter for huggingface datasets."""
+"""SFT adapter for llava-format datasets."""
 
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 
 import cosmos_rl.launcher.worker_entry
 import cosmos_rl.policy.config
-import datasets
 import pydantic
 import toml
 import torch.utils.data
-from cosmos_reason2_utils.text import set_vision_kwargs
-from cosmos_reason2_utils.vision import VisionConfig
+from cosmos_reason2_utils.text import create_conversation
+from cosmos_reason2_utils.vision import PIXELS_PER_TOKEN, VisionConfig
+from cosmos_rl.dispatcher.data.packer import Qwen2_5_VLM_DataPacker
 from cosmos_rl.utils.logging import logger
 
 
 class CustomDatasetConfig(pydantic.BaseModel):
-    path: str = pydantic.Field()
-    """Dataset path."""
+    annotation_path: str = pydantic.Field()
+    """Dataset annotation path."""
+    media_path: str = pydantic.Field(default="")
+    """Dataset media path."""
+    system_prompt: str = pydantic.Field(default="")
+    """System prompt for post-training."""
 
 
 class CustomConfig(pydantic.BaseModel):
@@ -51,24 +56,49 @@ class CustomConfig(pydantic.BaseModel):
 class CustomDataset(torch.utils.data.Dataset):
     def __init__(
         self,
-        dataset: datasets.Dataset,
         config: cosmos_rl.policy.config.Config,
         custom_config: CustomConfig,
     ):
-        self.dataset = dataset
+        self.annotation = json.load(open(custom_config.dataset.annotation_path))
+        self.media_path = custom_config.dataset.media_path
+        self.system_prompt = custom_config.dataset.system_prompt
         self.config = config
         self.custom_config = custom_config
         self.vision_kwargs = custom_config.vision.model_dump(exclude_none=True)
 
     def __len__(self):
-        return len(self.dataset)
+        return len(self.annotation)
 
     def __getitem__(self, idx: int) -> list[dict]:
-        sample = self.dataset[idx]
-        conversations = json.loads(
-            sample[self.config.train.train_policy.conversation_column_name]
+        sample = self.annotation[idx]
+
+        user_prompt = sample["conversations"][0]["value"]
+        response = sample["conversations"][1]["value"]
+        images = sample.get("image", None) or sample.get("images", None)
+        if images and isinstance(images, str):
+            images = [images]
+        videos = sample.get("video", None)
+        if videos and isinstance(videos, str):
+            videos = [videos]
+
+        # If self.media_path is not empty, join it with each image/video path
+        if self.media_path != "":
+            if images:
+                images = [os.path.join(self.media_path, img) for img in images]
+            if videos:
+                videos = [os.path.join(self.media_path, vid) for vid in videos]
+
+        # Remove image and video tags from user prompt
+        user_prompt = re.sub(r"(\n)?</?(image|video)>(\n)?", "", user_prompt)
+
+        conversations = create_conversation(
+            system_prompt=self.system_prompt,
+            user_prompt=user_prompt,
+            response=response,
+            images=images,
+            videos=videos,
+            vision_kwargs=self.vision_kwargs,
         )
-        set_vision_kwargs(conversations, self.vision_kwargs)
         return conversations
 
 
@@ -85,7 +115,7 @@ if __name__ == "__main__":
     config = cosmos_rl.policy.config.Config.from_dict(config_kwargs)
     custom_config = CustomConfig.model_validate(config_kwargs["custom"])
     custom_config.vision.total_pixels = int(
-        config.policy.model_max_length * 32**2 * 0.9
+        config.policy.model_max_length * PIXELS_PER_TOKEN * 0.9
     )
 
     # Log
@@ -104,14 +134,16 @@ if __name__ == "__main__":
 
     # Load dataset
     dataset = CustomDataset(
-        datasets.load_from_disk(custom_config.dataset.path),
         config=config,
         custom_config=custom_config,
     )
     # Check dataset
-    dataset[0]
+    print(dataset[0])
 
     # Launch worker
     cosmos_rl.launcher.worker_entry.main(
         dataset=dataset,
+        # HACK(joallen)
+        data_packer=Qwen2_5_VLM_DataPacker(),
+        val_data_packer=Qwen2_5_VLM_DataPacker(),
     )

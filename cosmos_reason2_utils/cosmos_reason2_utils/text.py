@@ -16,9 +16,6 @@
 import os
 from typing import Any
 
-import pydantic
-from pydantic import Field
-
 """Text processing utilities."""
 
 SYSTEM_PROMPT = "You are a helpful assistant."
@@ -34,29 +31,20 @@ Write your final answer immediately after the </think> tag."""
 """Reasoning addon prompt."""
 
 
-class PromptConfig(pydantic.BaseModel):
-    """Prompt config."""
-
-    model_config = pydantic.ConfigDict(extra="forbid")
-
-    user_prompt: str = Field(default="", description="User prompt")
-    system_prompt: str = Field(default=SYSTEM_PROMPT, description="System prompt")
-
-
 def create_conversation(
     *,
-    user_prompt: str = "",
-    response: str = "",
+    user_prompt: str,
     system_prompt: str = SYSTEM_PROMPT,
+    response: str = "",
     images: list[Any] | None = None,
     videos: list[Any] | None = None,
     vision_kwargs: dict | None = None,
 ) -> list[dict]:
-    """Create chat conversation.
+    """Create chat conversation for transformers.
 
     Args:
-        system_prompt: System prompt.
         user_prompt: User prompt.
+        system_prompt: System prompt.
         response: Assistant response.
         images: List of images.
         videos: List of videos.

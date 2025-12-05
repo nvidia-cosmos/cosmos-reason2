@@ -1,0 +1,207 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#:schema schemas/cosmos_rl_config.json
+
+redis = ""
+eth_ips = ""
+
+[custom]
+
+[train]
+optm_name = "AdamW"
+optm_lr = 1e-6
+optm_impl = "fused"
+optm_weight_decay = 0.01
+optm_betas = [ 0.9, 0.999,]
+optm_warmup_steps = 20
+optm_min_lr_factor = 0.0
+optm_grad_norm_clip = 1.0
+master_dtype = "float32"
+param_dtype = "bfloat16"
+transfer_dtype = "bfloat16"
+fsdp_reduce_dtype = "float32"
+fsdp_offload = false
+fsdp_reshard_after_forward = "default"
+train_batch_per_replica = 8
+resume = false
+epoch = 1
+output_dir = "./outputs"
+timestamp = ""
+epsilon = 1e-6
+async_tp_enabled = false
+compile = true
+sync_weight_interval = 1
+deterministic = false
+activation_offload = false
+local_dataset = true
+sequence_packing = false
+
+[rollout]
+enforce_eager = true
+include_stop_str_in_output = false
+gpu_memory_utilization = 0.8
+enable_chunked_prefill = false
+max_response_length = 2048
+n_generation = 16
+n_generation_to_batch = false
+batch_size = 1
+quantization = "none"
+vllm_use_flashinfer = false
+backend = "vllm"
+
+[policy]
+model_name_or_path = "Qwen/Qwen2.5-VL-7B-Instruct"
+model_max_length = 4096
+model_gradient_checkpointing = true
+enable_liger_kernel = false
+
+[logging]
+logger = []
+project_name = "cosmos_rl"
+report_mfu = false
+
+[profiler]
+enable_profiler = false
+enable_nsys = false
+
+[validation]
+enable = false
+freq = 20
+temperature = 0.0
+top_k = 1
+repetition_penalty = 1.0
+n_generation = 1
+
+[train.train_policy]
+type = "grpo"
+variant = "grpo"
+dataloader_shuffle = true
+enable_dataset_cache = false
+dataloader_num_workers = 0
+dataloader_batch_size = 1
+prompt_column_name = ""
+response_column_name = ""
+filter_reward_metric = []
+temperature = 1.0
+epsilon_low = 0.2
+epsilon_high = 0.2
+lower_bound_ratio = 3.0
+loss_type = "token-mean"
+unbiased_advantage = false
+kl_beta = 0.0
+mu_iterations = 1
+mini_batch = 2
+entropy_coeff = 0.0
+allowed_outdated_steps = 4
+on_policy = false
+outdated_rollout_fetch_batch_size = 1
+max_retry_for_on_policy = 10
+reset_optimizer_with_reference = true
+balance_dp_token = false
+use_decoupled_loss = false
+rollout_as_token_ids = false
+
+[train.fp8]
+enable_fp8 = false
+fp8_recipe = "dynamic_scaling"
+quant_recipe = "rowwise"
+
+[train.fp4]
+enable_fp4 = false
+fp4_recipe = "dynamic_scaling"
+quant_recipe = "rowwise"
+
+[train.ckpt]
+enable_checkpoint = false
+save_freq = 20
+save_freq_in_epoch = 0
+save_mode = "async"
+max_keep = 5
+export_safetensors = true
+upload_hf = false
+hf_repo_name = "Comos-Reason1"
+upload_s3 = false
+s3_prefix = "outputs"
+
+[rollout.parallelism]
+n_init_replicas = 1
+tp_size = 2
+cp_size = 1
+ep_size = 1
+dp_shard_size = -1
+pp_size = 1
+pp_dynamic_shape = false
+pp_micro_batch_size = 1
+dp_replicate_size = 1
+
+[rollout.sampling_config]
+temperature = 1.0
+top_p = 1.0
+top_k = -1
+repetition_penalty = 1.0
+use_flashinfer = false
+
+[rollout.multi_turn_config]
+enable = false
+enable_tools = false
+enable_thinking = false
+max_assistant_turns = 5
+add_generation_prompt = true
+continue_final_message = false
+
+[policy.parallelism]
+n_init_replicas = 1
+tp_size = 2
+cp_size = 1
+ep_size = 1
+dp_shard_size = 1
+pp_size = 1
+pp_dynamic_shape = false
+pp_micro_batch_size = 1
+dp_replicate_size = 1
+
+[profiler.sub_profiler_config]
+do_profile = false
+active_steps = 1
+warmup_steps = 1
+wait_steps = 1
+rank_filter = []
+record_shape = false
+profile_memory = false
+with_stack = false
+with_modules = false
+
+[validation.dataset]
+name = ""
+subset = ""
+revision = ""
+split = [ "",]
+
+[validation.reward_function]
+
+[train.train_policy.dataset]
+name = ""
+subset = ""
+revision = ""
+split = [ "",]
+
+[train.train_policy.reward_function]
+single_choice = 1.0
+
+[train.train_policy.overlong_reward]
+enable_overlong_penalty = false
+buffer_length = 4096
+penalty_factor = 1.0

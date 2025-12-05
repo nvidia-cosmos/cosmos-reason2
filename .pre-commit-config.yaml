@@ -20,10 +20,10 @@ repos:
       - id: addlicense
         args: ["-f", "bin/license.txt"]
   - repo: https://github.com/jsh9/markdown-toc-creator
-    rev: 0.0.11
+    rev: 0.1.3
     hooks:
       - id: markdown-toc-creator
-        args: ["-q"]
+        args: ["-q", "--proactive=False"]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
@@ -46,7 +46,7 @@ repos:
         language: script
         types: [python]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.6
+    rev: v0.14.8
     hooks:
       - id: ruff-check
         args: [--fix]

@@ -1,5 +1,19 @@
 # How to Contribute
 
+<!--TOC-->
+
+______________________________________________________________________
+
+**Table of Contents**
+
+- [Test](#test)
+- [Code Reviews](#code-reviews)
+- [Signing Your Work](#signing-your-work)
+
+______________________________________________________________________
+
+<!--TOC-->
+
 We'd love to receive your patches and contributions. Please keep your PRs as draft until such time that you would like us to review them.
 
 ## Test

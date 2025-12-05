@@ -15,15 +15,11 @@
 
 #:schema ../../../configs/schemas/cosmos_rl_config.json
 
-redis = "12800"
-
 [custom.dataset]
-annotation_path = "data/sft/annotations.json"
-media_path = "data/sft/train2017"
-system_prompt = ""
+path = "/tmp/cosmos_reason2/cosmos_rl/data/hf_sft"
 
 [train]
-output_dir = "outputs/sft"
+output_dir = "/tmp/cosmos_reason2/cosmos_rl/outputs/hf_sft"
 compile = false
 train_batch_per_replica = 32
 
@@ -34,10 +30,11 @@ model_max_length = 4096
 [logging]
 logger = ['console', 'wandb']
 project_name = "cosmos_reason2"
-experiment_name = "post_training_llava/sft"
+experiment_name = "cosmos_rl/hf_sft"
 
 [train.train_policy]
 type = "sft"
+conversation_column_name = "conversations"
 mini_batch = 4
 
 [train.ckpt]

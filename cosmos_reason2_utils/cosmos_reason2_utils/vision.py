@@ -27,8 +27,9 @@ from qwen_vl_utils.vision_process import SPATIAL_MERGE_SIZE as SPATIAL_MERGE_SIZ
 
 # https://huggingface.co/nvidia/Cosmos-Reason2-2B/blob/main/video_preprocessor_config.json#L6
 IMAGE_PATCH_SIZE = 16
-IMAGE_FACTOR = IMAGE_PATCH_SIZE * SPATIAL_MERGE_SIZE
-VIDEO_FACTOR = IMAGE_FACTOR**2
+PATCH_FACTOR = IMAGE_PATCH_SIZE * SPATIAL_MERGE_SIZE
+PIXELS_PER_TOKEN = PATCH_FACTOR**2
+"""Number of pixels per visual token."""
 
 
 class VisionConfig(pydantic.BaseModel):
