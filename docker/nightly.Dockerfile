@@ -49,7 +49,7 @@ ENV UV_LINK_MODE=copy
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=docker/nightly-requirements.txt,target=requirements.txt \
-    --mount=type=bind,source=cosmos_reason_utils,target=cosmos_reason_utils \
+    --mount=type=bind,source=cosmos_reason2_utils,target=cosmos_reason2_utils \
     uv pip install --system --break-system-packages -r requirements.txt
 
 ENTRYPOINT ["/bin/bash"]

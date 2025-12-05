@@ -41,7 +41,6 @@ def main():
         model_name, dtype=torch.float16, device_map="auto", attn_implementation="sdpa"
     )
     processor: transformers.Qwen3VLProcessor = (
-        # pyrefly: ignore [bad-assignment]
         transformers.AutoProcessor.from_pretrained(model_name)
     )
 
@@ -75,7 +74,6 @@ def main():
 
     images, videos, video_kwargs = process_vision_info(
         conversation,
-        # pyrefly: ignore [missing-attribute]
         image_patch_size=processor.image_processor.patch_size,
         return_video_kwargs=True,
         return_video_metadata=True,
@@ -87,14 +85,11 @@ def main():
         video_metadatas = None
     inputs = processor(
         text=text,
-        # pyrefly: ignore [bad-argument-type]
         images=images,
-        # pyrefly: ignore [bad-argument-type]
         videos=videos,
         video_metadata=video_metadatas,
         return_tensors="pt",
         do_resize=False,
-        # pyrefly: ignore [bad-unpacking]
         **video_kwargs,
     )
     inputs = inputs.to(model.device)

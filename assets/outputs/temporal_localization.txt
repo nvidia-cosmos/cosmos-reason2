@@ -1,0 +1,53 @@
+VisionConfig(
+│   fps=4.0,
+│   total_pixels=3774873
+)
+SamplingParams(
+│   max_tokens=4096,
+│   seed=0,
+│   top_p=0.95,
+│   top_k=20,
+│   repetition_penalty=1.0,
+│   presence_penalty=0.0,
+│   temperature=0.6
+)
+--------------------
+System:
+  You are a helpful assistant.
+User:
+  Describe the notable events in the provided video. Provide the result in json format with 'mm:ss.ff' format for time depiction for each event. Use keywords 'start', 'end' 
+and 'caption' in the json output.
+--------------------
+[
+│   {
+│   │   'role': 'system',
+│   │   'content': 'You are a helpful assistant.'
+│   },
+│   {
+│   │   'role': 'user',
+│   │   'content': [
+│   │   │   {
+│   │   │   │   'type': 'video',
+│   │   │   │   'video': 'assets/sample.mp4',
+│   │   │   │   'fps': 4.0,
+│   │   │   │   'total_pixels': 3774873
+│   │   │   },
+│   │   │   {
+│   │   │   │   'type': 'text',
+│   │   │   │   'text': "Describe the notable events in the provided video. Provide the result in json format with 'mm:ss.ff' format for time depiction for each event. Use keywords 'start', 'end' and 'caption' in the json output."
+│   │   │   }
+│   │   ]
+│   }
+]
+--------------------
+Assistant:
+  ```json
+  [
+    {
+      "start": "00:00.10",
+      "end": "00:02.10",
+      "caption": "There is a STOP sign on the right side of the street. Cars are parked on both sides of the road."
+    }
+  ]
+  ```
+--------------------

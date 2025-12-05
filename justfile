@@ -1,6 +1,9 @@
 default:
   just --list
 
+install *args:
+  uv sync {{args}}
+
 # Setup the repository
 _pre-commit-install:
   uv tool install -U pre-commit
@@ -24,6 +27,14 @@ _pyrefly-ignore *args: (_pyrefly '--suppress-errors' args)
 # Run tests
 test:
   uv run pytest
+
+# Run pip-licenses
+_pip-licenses *args: install
+  uvx pip-licenses --python .venv/bin/python --format=plain-vertical --with-license-file --no-license-path --no-version --with-urls --output-file ATTRIBUTIONS.md {{args}}
+  pre-commit run --files ATTRIBUTIONS.md || true
+
+# Update the license
+license: _pip-licenses
 
 docker_build_args := ''
 docker_run_args := '--ipc=host -v /root/.cache:/root/.cache'

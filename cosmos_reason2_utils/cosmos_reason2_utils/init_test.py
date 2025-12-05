@@ -13,28 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-[project]
-name = "cosmos-reason2"
-version = "0.1.0"
-requires-python = ">=3.10"
-dependencies = [
-  "cosmos-reason2-utils[inference,cu128_torch29]",
-]
+import pytest
 
-[project.optional-dependencies]
-post-training = ["cosmos-reason2-utils[post-training]"]
+from cosmos_reason2_utils.init import init_script
 
-[dependency-groups]
-dev = [
-    "pyrefly==0.42.3",
-    "pytest>=9.0.1",
-    "ruff==0.14.6",
-]
 
-[tool.uv.sources]
-cosmos-reason2-utils = { workspace = true }
-
-[tool.uv.workspace]
-members = [
-  "cosmos_reason2_utils",
-]
+@pytest.mark.parametrize("verbose", [True, False])
+def test_init_script(verbose: bool):
+    init_script(verbose=verbose)

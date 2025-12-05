@@ -12,8 +12,8 @@ resolution-markers = [
 
 [manifest]
 members = [
-    "cosmos-reason-utils",
     "cosmos-reason2",
+    "cosmos-reason2-utils",
 ]
 
 [[package]]
@@ -937,9 +937,43 @@ wheels = [
 ]
 
 [[package]]
-name = "cosmos-reason-utils"
+name = "cosmos-reason2"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "cosmos-reason2-utils", extra = ["cu128-torch29", "inference"] },
+]
+
+[package.optional-dependencies]
+post-training = [
+    { name = "cosmos-reason2-utils", extra = ["post-training"] },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pyrefly" },
+    { name = "pytest" },
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "cosmos-reason2-utils", extras = ["inference", "cu128-torch29"], editable = "cosmos_reason2_utils" },
+    { name = "cosmos-reason2-utils", extras = ["post-training"], marker = "extra == 'post-training'", editable = "cosmos_reason2_utils" },
+]
+provides-extras = ["post-training"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "pyrefly", specifier = "==0.42.3" },
+    { name = "pytest", specifier = ">=9.0.1" },
+    { name = "ruff", specifier = "==0.14.6" },
+]
+
+[[package]]
+name = "cosmos-reason2-utils"
 version = "0.2.0"
-source = { editable = "cosmos_reason_utils" }
+source = { editable = "cosmos_reason2_utils" }
 dependencies = [
     { name = "matplotlib" },
     { name = "numpy" },
@@ -977,7 +1011,6 @@ post-training = [
 requires-dist = [
     { name = "accelerate", marker = "extra == 'inference'", specifier = ">=1.12.0" },
     { name = "av", marker = "extra == 'inference'", specifier = ">=16.0.1" },
-    { name = "cosmos-reason-utils", marker = "extra == 'inference'", editable = "cosmos_reason_utils" },
     { name = "cosmos-rl", marker = "extra == 'post-training'", specifier = ">=0.3.6" },
     { name = "datasets", marker = "extra == 'post-training'", specifier = ">=4.4.1" },
     { name = "imageio-ffmpeg", marker = "extra == 'inference'", specifier = ">=0.6.0" },
@@ -1000,40 +1033,6 @@ requires-dist = [
     { name = "wandb", marker = "extra == 'post-training'", specifier = ">=0.23.0" },
 ]
 provides-extras = ["inference", "post-training", "cu128-torch29"]
-
-[[package]]
-name = "cosmos-reason2"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "cosmos-reason-utils", extra = ["cu128-torch29", "inference"] },
-]
-
-[package.optional-dependencies]
-post-training = [
-    { name = "cosmos-reason-utils", extra = ["post-training"] },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pyrefly" },
-    { name = "pytest" },
-    { name = "ruff" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "cosmos-reason-utils", extras = ["inference", "cu128-torch29"], editable = "cosmos_reason_utils" },
-    { name = "cosmos-reason-utils", extras = ["post-training"], marker = "extra == 'post-training'", editable = "cosmos_reason_utils" },
-]
-provides-extras = ["post-training"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pyrefly", specifier = "==0.42.3" },
-    { name = "pytest", specifier = ">=9.0.1" },
-    { name = "ruff", specifier = "==0.14.6" },
-]
 
 [[package]]
 name = "cosmos-rl"

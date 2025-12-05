@@ -19,13 +19,13 @@ version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "cosmos-reason-utils[inference,post-training,cu128_torch28]",
+    "cosmos-reason2-utils[inference,post-training,cu128_torch28]",
 ]
 
 [tool.uv.sources]
-cosmos-reason-utils = { workspace = true }
+cosmos-reason2-utils = { workspace = true }
 
 [tool.uv.workspace]
 members = [
-  "../../cosmos_reason_utils",
+  "../../cosmos_reason2_utils",
 ]

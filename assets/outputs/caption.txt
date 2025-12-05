@@ -1,0 +1,32 @@
+VisionConfig(
+│   fps=4.0,
+│   total_pixels=3774873
+)
+SamplingParams(
+│   max_tokens=4096,
+│   seed=0,
+│   top_p=0.95,
+│   top_k=20,
+│   repetition_penalty=1.0,
+│   presence_penalty=0.0,
+│   temperature=0.6
+)
+--------------------
+System:
+  You are a helpful assistant.
+User:
+  Caption the video in detail.
+--------------------
+Model: nvidia/Cosmos-Reason2-2B
+--------------------
+Assistant:
+  The video captures a suburban street scene from the perspective of a dashboard camera mounted inside a vehicle. The view is from the front of the car, looking out through 
+the windshield towards the road ahead. The street is lined with parked cars on both sides, including a silver sedan on the left and various SUVs on the right. 
+
+  Ahead, there is a house with a beige exterior and a triangular roof. The house has a small porch with a white railing and a mailbox attached to the side. There are trees 
+and bushes in front of the house, adding greenery to the scene. The sky is clear and blue, indicating a sunny day.
+
+  The road appears to be relatively quiet with no visible pedestrians or moving vehicles at the moment. The car's hood is visible in the foreground, reflecting some of the 
+surrounding environment. Electrical wires run overhead, suggesting an urban or suburban setting. The overall atmosphere is calm and peaceful, typical of a residential 
+neighborhood.
+--------------------

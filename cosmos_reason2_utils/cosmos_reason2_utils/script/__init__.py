@@ -13,21 +13,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pathlib import Path
-
-import torch
-
-from cosmos_reason_utils.vision import save_tensor
-
-_FRAMES = 2
-_CHANNELS = 3
-_WIDTH = 4
-_HEIGHT = 5
-
-
-def test_save_tensor(tmp_path: Path):
-    save_tensor(torch.ones((_CHANNELS, _WIDTH, _HEIGHT)), f"{tmp_path}/image")
-    assert (tmp_path / "image/0.png").exists()
-    save_tensor(torch.ones((_FRAMES, _CHANNELS, _WIDTH, _HEIGHT)), f"{tmp_path}/video")
-    for i in range(_FRAMES):
-        assert (tmp_path / f"video/{i}.png").exists()

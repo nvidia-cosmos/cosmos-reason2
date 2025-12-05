@@ -26,8 +26,8 @@ import datasets
 import pydantic
 import toml
 import torch.utils.data
-from cosmos_reason_utils.text import set_vision_kwargs
-from cosmos_reason_utils.vision import VisionConfig
+from cosmos_reason2_utils.text import set_vision_kwargs
+from cosmos_reason2_utils.vision import VisionConfig
 from cosmos_rl.utils.logging import logger
 
 

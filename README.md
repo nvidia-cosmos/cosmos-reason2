@@ -72,36 +72,38 @@ uv run vllm serve nvidia/Cosmos-Reason2-2B \
   --media-io-kwargs '{"video": {"num_frames": -1}}'
 ```
 
-Caption the video:
+Wait a few minutes for the server to startup. Once complete, it will print `Application startup complete.`. Open a new terminal to run inference commands.
+
+Caption the video ([sample output](assets/outputs/caption.txt)):
 
 ```shell
-uv run cosmos-reason2 online --prompt prompts/caption.yaml --videos assets/sample.mp4 --fps 2 -v
+uv run cosmos-reason2-inference online -v  --prompt prompts/caption.yaml --videos assets/sample.mp4 --fps 4
 ```
 
-Embodied reasoning:
+Embodied reasoning ([sample output](assets/outputs/embodied_reasoning.txt)):
 
 ```shell
-uv run cosmos-reason2 online --prompt prompts/embodied_reasoning.yaml --reasoning --images assets/sample.png
+uv run cosmos-reason2-inference online -v  --prompt prompts/embodied_reasoning.yaml --reasoning --images assets/sample.png
 ```
 
 To list available parameters:
 
 ```shell
-uv run cosmos-reason2 online --help
+uv run cosmos-reason2-inference online --help
 ```
 
 #### Offline Inference
 
-Temporally caption the video and save the input frames to `outputs/temporal_caption_text` for debugging:
+Temporally caption the video and save the input frames to `outputs/temporal_localization` for debugging ([sample output](assets/outputs/temporal_localization.txt)):
 
 ```shell
-uv run cosmos-reason2 offline --prompt prompts/temporal_localization.yaml --videos assets/sample.mp4 --fps 2 -v -o outputs/temporal_localization
+uv run cosmos-reason2-inference offline -v -o outputs/temporal_localization --prompt prompts/temporal_localization.yaml --videos assets/sample.mp4 --fps 4
 ```
 
 To list available parameters:
 
 ```shell
-uv run cosmos-reason2 offline --help
+uv run cosmos-reason2-inference offline --help
 ```
 
 ## Quantization

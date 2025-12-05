@@ -24,7 +24,7 @@ from pathlib import Path
 
 import datasets
 import yaml
-from cosmos_reason_utils.text import PromptConfig, create_conversation
+from cosmos_reason2_utils.text import PromptConfig, create_conversation
 from rich import print
 from tqdm import tqdm
 

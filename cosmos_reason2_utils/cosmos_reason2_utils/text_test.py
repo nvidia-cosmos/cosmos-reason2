@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from cosmos_reason_utils.text import (
+from cosmos_reason2_utils.text import (
     create_conversation,
     set_vision_kwargs,
 )

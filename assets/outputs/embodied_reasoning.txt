@@ -1,0 +1,50 @@
+VisionConfig(
+│   total_pixels=3774873
+)
+SamplingParams(
+│   max_tokens=4096,
+│   seed=0,
+│   top_p=0.8,
+│   top_k=20,
+│   repetition_penalty=1.0,
+│   presence_penalty=1.5,
+│   temperature=0.7
+)
+--------------------
+System:
+  You are a helpful assistant.
+User:
+  What can be the next immediate action?
+
+  Answer the question using the following format:
+
+  <think>
+  Your reasoning.
+  </think>
+
+  Write your final answer immediately after the </think> tag.
+--------------------
+Model: nvidia/Cosmos-Reason2-2B
+--------------------
+Assistant:
+  <think>
+  Okay, let's see. The user is asking for the next immediate action in this setup. The video has two robotic arms on either side of a table with a basket and a blue tape 
+roll. Both arms are stationary but poised to interact.
+
+  First, I need to consider what objects are present. There's a basket in the center-top and a blue tape roll near the bottom-center. Since the arms are ready to manipulate 
+objects, the logical next step would be to pick up one of these items. The basket is empty, so maybe placing something inside it? But the tape roll is nearby. Alternatively,
+they might move the tape roll or the basket itself. But since the basket is empty, perhaps arranging the tape into it. However, the tape is a roll, so unwinding it? Or 
+moving the tape from its current position to another location. 
+
+  The arms are positioned symmetrically, so their actions could mirror each other. If one arm grabs the tape, the other might assist by holding the basket steady. But the 
+question is about the immediate next action. Since both arms are poised, the first action would likely be one of them gripping an object. The tape roll is closer to the 
+bottom-center, which is nearer to the right arm (since the left arm is on the left). Wait, the tape is at the bottom-center, and the basket is top-center. The right arm is 
+on the right side, so maybe the right arm would reach for the tape roll. Alternatively, the left arm might grab the basket to move it. But the basket is empty, so maybe 
+placing the tape into the basket. But how? The tape is a roll, so perhaps unwinding it and placing it into the basket. But the immediate action would be initiating the 
+grasp. So the right arm might extend towards the tape roll, grip it, and then unwind it. Alternatively, the left arm could pick up the basket to relocate it. But since the 
+basket is empty, maybe the tape is the target. The most straightforward next action is the robotic arm on the right (assuming) reaching for the blue tape roll to begin 
+manipulating it.
+  </think>
+
+  One of the robotic arms will extend toward the blue tape roll, grip it, and begin unwinding or relocating it toward the basket.
+--------------------
