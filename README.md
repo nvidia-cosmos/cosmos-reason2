@@ -17,7 +17,7 @@ ______________________________________________________________________
 **Table of Contents**
 
 - [News!](#news)
-- [Model Family](#model-family) 
+- [Model Family](#model-family)
 - [Setup](#setup)
 - [Inference](#inference)
   - [Transformers](#transformers)
@@ -47,7 +47,7 @@ ______________________________________________________________________
 Install system dependencies:
 
 ```shell
-sudo apt install curl
+sudo apt-get install curl ffmpeg
 ```
 
 * [uv](https://docs.astral.sh/uv/getting-started/installation/)

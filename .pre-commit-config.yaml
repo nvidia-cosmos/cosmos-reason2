@@ -13,6 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+exclude: (?x)(
+    ^assets/
+  )
 repos:
   - repo: https://github.com/google/addlicense
     rev: v1.2.0
