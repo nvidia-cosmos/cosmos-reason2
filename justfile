@@ -36,6 +36,10 @@ _pip-licenses *args: install
 # Update the license
 license: _pip-licenses
 
+# Export config defaults and schemas
+export-configs *args:
+  uv run --all-extras python scripts/export_configs.py {{args}}
+
 docker_build_args := ''
 docker_run_args := '--ipc=host -v /root/.cache:/root/.cache'
 

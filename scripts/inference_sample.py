@@ -28,10 +28,12 @@ from pathlib import Path
 
 import torch
 import transformers
-from qwen_vl_utils import process_vision_info
 
 ROOT = Path(__file__).parents[1]
 SEPARATOR = "-" * 20
+
+PIXELS_PER_TOKEN = 32**2
+"""Num ber of pixels per visual token."""
 
 
 def main():
@@ -43,6 +45,18 @@ def main():
     processor: transformers.Qwen3VLProcessor = (
         transformers.AutoProcessor.from_pretrained(model_name)
     )
+
+    # Limit vision tokens
+    min_vision_tokens = 256
+    max_vision_tokens = 8192
+    processor.image_processor.size = {
+        "shortest_edge": min_vision_tokens * PIXELS_PER_TOKEN,
+        "longest_edge": max_vision_tokens * PIXELS_PER_TOKEN,
+    }
+    processor.video_processor.size = {
+        "shortest_edge": min_vision_tokens * PIXELS_PER_TOKEN,
+        "longest_edge": max_vision_tokens * PIXELS_PER_TOKEN,
+    }
 
     # Create inputs
     conversation = [
@@ -56,9 +70,6 @@ def main():
                 {
                     "type": "video",
                     "video": f"{ROOT}/assets/sample.mp4",
-                    "fps": 4,
-                    # 8388608 = 8192 * (16*2)**2 = vision_tokens * (image_patch_size*spatial_merge_size)^2
-                    "total_pixels": 6422528,
                 },
                 {"type": "text", "text": "Caption the video in detail."},
             ],
@@ -66,31 +77,13 @@ def main():
     ]
 
     # Process inputs
-    text = processor.apply_chat_template(
+    inputs = processor.apply_chat_template(
         conversation,
-        tokenize=False,
+        tokenize=True,
         add_generation_prompt=True,
-    )
-
-    images, videos, video_kwargs = process_vision_info(
-        conversation,
-        image_patch_size=processor.image_processor.patch_size,
-        return_video_kwargs=True,
-        return_video_metadata=True,
-    )
-    if videos is not None:
-        videos, video_metadatas = zip(*videos, strict=False)
-        videos, video_metadatas = list(videos), list(video_metadatas)
-    else:
-        video_metadatas = None
-    inputs = processor(
-        text=text,
-        images=images,
-        videos=videos,
-        video_metadata=video_metadatas,
+        return_dict=True,
         return_tensors="pt",
-        do_resize=False,
-        **video_kwargs,
+        fps=4,
     )
     inputs = inputs.to(model.device)
 

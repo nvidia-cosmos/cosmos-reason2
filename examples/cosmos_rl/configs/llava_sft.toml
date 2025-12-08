@@ -18,10 +18,12 @@
 redis = "12800"
 
 [custom.dataset]
-path = "data/sft"
+annotation_path = "/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/annotations.json"
+media_path = "/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/train2017"
+system_prompt = ""
 
 [train]
-output_dir = "outputs/sft"
+output_dir = "/tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft"
 compile = false
 train_batch_per_replica = 32
 
@@ -31,12 +33,11 @@ model_max_length = 4096
 
 [logging]
 logger = ['console', 'wandb']
-project_name = "cosmos_reason2"
-experiment_name = "post_training_hf/sft"
+project_name = "cosmos-reason2"
+experiment_name = "cosmos_rl/llava_sft"
 
 [train.train_policy]
 type = "sft"
-conversation_column_name = "conversations"
 mini_batch = 4
 
 [train.ckpt]

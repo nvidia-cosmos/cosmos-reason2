@@ -15,7 +15,7 @@ SamplingParams(
 System:
   You are a helpful assistant.
 User:
-  Describe the notable events in the provided video. Provide the result in json format with 'mm:ss.ff' format for time depiction for each event. Use keywords 'start', 'end' 
+  Describe the notable events in the provided video. Provide the result in json format with 'mm:ss.ff' format for time depiction for each event. Use keywords 'start', 'end'
 and 'caption' in the json output.
 --------------------
 [

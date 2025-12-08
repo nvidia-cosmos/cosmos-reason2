@@ -40,12 +40,12 @@ from typing_extensions import assert_never
 
 from cosmos_reason2_utils.text import (
     REASONING_PROMPT,
-    PromptConfig,
+    SYSTEM_PROMPT,
     create_conversation,
     create_conversation_openai,
 )
 from cosmos_reason2_utils.vision import (
-    VIDEO_FACTOR,
+    PIXELS_PER_TOKEN,
     VisionConfig,
     save_tensor,
 )
@@ -61,11 +61,22 @@ def pprint_dict(d: dict, name: str):
     pprint(collections.namedtuple(name, d.keys())(**d), expand_all=True)
 
 
+class InputConfig(pydantic.BaseModel):
+    """Prompt config."""
+
+    model_config = pydantic.ConfigDict(extra="forbid")
+
+    user_prompt: str = pydantic.Field(default="", description="User prompt")
+    system_prompt: str = pydantic.Field(
+        default=SYSTEM_PROMPT, description="System prompt"
+    )
+
+
 # https://docs.vllm.ai/en/stable/serving/openai_compatible_server/#extra-parameters_1
 class SamplingOverrides(pydantic.BaseModel):
     """Sampling parameters for text generation.
 
-    Copied from vllm.SamplingParams.
+    Copied from [vllm.SamplingParams](https://docs.vllm.ai/en/latest/dev/sampling_params.html).
     """
 
     model_config = pydantic.ConfigDict(extra="allow", frozen=True)
@@ -99,8 +110,8 @@ class SamplingOverrides(pydantic.BaseModel):
     def get_defaults(cls, *, reasoning: bool = False) -> dict:
         kwargs = dict(
             max_tokens=4096,
-            seed=0,
         )
+        # Source: https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#evaluation-reproduction
         if reasoning:
             return kwargs | dict(
                 top_p=0.8,
@@ -108,6 +119,7 @@ class SamplingOverrides(pydantic.BaseModel):
                 repetition_penalty=1.0,
                 presence_penalty=1.5,
                 temperature=0.7,
+                seed=3407,
             )
         else:
             return kwargs | dict(
@@ -116,6 +128,7 @@ class SamplingOverrides(pydantic.BaseModel):
                 repetition_penalty=1.0,
                 presence_penalty=0.0,
                 temperature=0.6,
+                seed=1234,
             )
 
 
@@ -124,10 +137,12 @@ class Args(pydantic.BaseModel):
 
     model_config = pydantic.ConfigDict(extra="forbid", frozen=True)
 
-    prompt: pydantic.FilePath | None = None
-    """Path to prompt yaml file."""
-    question: str | None = None
-    """Override user prompt."""
+    input_file: Annotated[pydantic.FilePath | None, tyro.conf.arg(aliases=("-i",))] = (
+        None
+    )
+    """Path to input yaml file."""
+    prompt: str | None = None
+    """User prompt."""
     images: list[str] = pydantic.Field(default_factory=list)
     """Image paths or URLs."""
     videos: list[str] = pydantic.Field(default_factory=list)
@@ -149,26 +164,26 @@ class Args(pydantic.BaseModel):
     """Verbose output"""
 
     @cached_property
-    def prompt_config(self) -> PromptConfig:
-        if self.prompt is not None:
-            prompt_kwargs = yaml.safe_load(open(self.prompt, "rb"))
-            return PromptConfig.model_validate(prompt_kwargs)
+    def input_config(self) -> InputConfig:
+        if self.input_file is not None:
+            input_kwargs = yaml.safe_load(open(self.input_file, "rb"))
+            return InputConfig.model_validate(input_kwargs)
         else:
-            return PromptConfig()
+            return InputConfig()
 
     @cached_property
     def system_prompt(self) -> str:
-        return self.prompt_config.system_prompt
+        return self.input_config.system_prompt
 
     @cached_property
     def user_prompt(self) -> str:
-        if self.question:
-            user_prompt = self.question
+        if self.prompt:
+            user_prompt = self.prompt
         else:
-            user_prompt = self.prompt_config.user_prompt
+            user_prompt = self.input_config.user_prompt
         if not user_prompt:
             raise ValueError("No user prompt provided.")
-        user_prompt = user_prompt.rstrip()
+        user_prompt = user_prompt.strip()
         if self.reasoning:
             user_prompt += f"\n\n{REASONING_PROMPT}"
         return user_prompt
@@ -181,9 +196,11 @@ class Args(pydantic.BaseModel):
         if self.max_model_len:
             if self.sampling_params.max_tokens is None:
                 raise ValueError("Max tokens must be set in sampling params.")
+            if self.max_model_len < self.sampling_params.max_tokens:
+                raise ValueError("Max model length must be greater than max tokens.")
             total_pixels = int(
                 (self.max_model_len - self.sampling_params.max_tokens)
-                * VIDEO_FACTOR
+                * PIXELS_PER_TOKEN
                 * 0.9
             )
             if "total_pixels" in vision_kwargs:
@@ -297,12 +314,13 @@ def offline_inference(args: Offline):
         "mm_processor_kwargs": video_kwargs,
     }
     outputs = llm.generate([llm_inputs], sampling_params=args.sampling_params)
-    print(SEPARATOR)
     for output in outputs[0].outputs:
-        output_text = output.text
+        if args.verbose:
+            pprint(output, expand_all=True)
+        print(SEPARATOR)
         print("Assistant:")
-        print(textwrap.indent(output_text.rstrip(), "  "))
-    print(SEPARATOR)
+        print(textwrap.indent(output.text.strip(), "  "))
+        print(SEPARATOR)
 
 
 def online_inference(args: Online):
@@ -313,10 +331,11 @@ def online_inference(args: Online):
     )
     models = client.models.list()
     if args.model is not None:
-        model = client.models.retrieve(args.model).id
+        model = client.models.retrieve(args.model)
     else:
-        model = models.data[0].id
-        print(f"Model: {model}")
+        model = models.data[0]
+    if args.verbose:
+        pprint(model, expand_all=True)
 
     # Create conversation
     conversation = create_conversation_openai(
@@ -336,16 +355,21 @@ def online_inference(args: Online):
     }
     chat_completion = client.chat.completions.create(
         messages=conversation,
-        model=model,
+        model=model.id,
         extra_body=extra_body,
     )
 
-    print(SEPARATOR)
     for output in chat_completion.choices:
-        output_text = output.message.content
+        if args.verbose:
+            pprint(output, expand_all=True)
+        if output.message.reasoning_content:
+            print(SEPARATOR)
+            print("Reasoning:")
+            print(textwrap.indent(output.message.reasoning_content.strip(), "  "))
+        print(SEPARATOR)
         print("Assistant:")
-        print(textwrap.indent(output_text.rstrip(), "  "))
-    print(SEPARATOR)
+        print(textwrap.indent(output.message.content.strip(), "  "))
+        print(SEPARATOR)
 
 
 def inference(args: Offline | Online):
@@ -354,9 +378,10 @@ def inference(args: Offline | Online):
         pprint_dict(args.sampling_kwargs, "SamplingParams")
     print(SEPARATOR)
     print("System:")
-    print(textwrap.indent(args.system_prompt, "  "))
+    print(textwrap.indent(args.system_prompt.strip(), "  "))
+    print(SEPARATOR)
     print("User:")
-    print(textwrap.indent(args.user_prompt, "  "))
+    print(textwrap.indent(args.user_prompt.strip(), "  "))
     print(SEPARATOR)
 
     if isinstance(args, Offline):
