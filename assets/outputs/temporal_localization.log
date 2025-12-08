@@ -1,7 +1,10 @@
-VisionConfig(
-│   fps=4.0,
-│   total_pixels=3774873
-)
+--------------------
+System:
+  You are a helpful assistant.
+--------------------
+User:
+  Describe the notable events in the provided video. Provide the result in json format with 'mm:ss.ff' format for time depiction for each event. Use keywords 'start', 'end' and 'caption' in the json output.
+--------------------
 SamplingParams(
 │   max_tokens=4096,
 │   top_p=0.95,
@@ -11,14 +14,10 @@ SamplingParams(
 │   temperature=0.6,
 │   seed=1234
 )
---------------------
-System:
-  You are a helpful assistant.
---------------------
-User:
-  Describe the notable events in the provided video. Provide the result in json format with 'mm:ss.ff' format for time depiction
-for each event. Use keywords 'start', 'end' and 'caption' in the json output.
---------------------
+VisionConfig(
+│   fps=4.0,
+│   total_pixels=3774873
+)
 [
 │   {
 │   │   'role': 'system',
@@ -40,16 +39,16 @@ for each event. Use keywords 'start', 'end' and 'caption' in the json output.
 │   │   ]
 │   }
 ]
-[0;36m(EngineCore_DP0 pid=3704239)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
-[0;36m(EngineCore_DP0 pid=3704239)[0;0m Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.46it/s]
-[0;36m(EngineCore_DP0 pid=3704239)[0;0m Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  1.46it/s]
-[0;36m(EngineCore_DP0 pid=3704239)[0;0m 
+[0;36m(EngineCore_DP0 pid=1979351)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+[0;36m(EngineCore_DP0 pid=1979351)[0;0m Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.67it/s]
+[0;36m(EngineCore_DP0 pid=1979351)[0;0m Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.67it/s]
+[0;36m(EngineCore_DP0 pid=1979351)[0;0m 
 qwen-vl-utils using torchcodec to read video.
-[2025-12-08 18:46:37] INFO vision_process.py:354: set TORCHCODEC_NUM_THREADS: 8
-[2025-12-08 18:46:37] INFO vision_process.py:369: torchcodec:  video_path='assets/sample.mp4', total_frames=10, video_fps=4.0, time=0.040s
-Adding requests:   0%|          | 0/1 [00:00<?, ?it/s]Adding requests: 100%|██████████| 1/1 [00:09<00:00,  9.95s/it]Adding requests: 100%|██████████| 1/1 [00:09<00:00,  9.95s/it]
-Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:01<00:00,  1.18s/it, est. speed input: 2526.14 toks/s, output: 50.78 toks/s]Processed prompts: 100%|██████████| 1/1 [00:01<00:00,  1.18s/it, est. speed input: 2526.14 toks/s, output: 50.78 toks/s]Processed prompts: 100%|██████████| 1/1 [00:01<00:00,  1.18s/it, est. speed input: 2526.14 toks/s, output: 50.78 toks/s]
-CompletionOutput(index=0, text='```json\n[\n  {\n    "start": "00:00.10",\n    "end": "00:02.10",\n    "caption": "A black SUV is backing out of its driveway and moving forward on the road."\n  }\n]\n```', token_ids=[73594, 2236, 198, 9640, 220, 341, 262, 330, 2468, 788, 330, 15, 15, 25, 15, 15, 13, 16, 15, 756, 262, 330, 408, 788, 330, 15, 15, 25, 15, 17, 13, 16, 15, 756, 262, 330, 23347, 788, 330, 32, 3691, 38673, 374, 24668, 700, 315, 1181, 52142, 323, 7218, 4637, 389, 279, 5636, 10040, 220, 456, 921, 73594, 151645], cumulative_logprob=None, logprobs=None, finish_reason=stop, stop_reason=None)
+[2025-12-08 15:36:28] INFO vision_process.py:354: set TORCHCODEC_NUM_THREADS: 8
+[2025-12-08 15:36:28] INFO vision_process.py:369: torchcodec:  video_path='assets/sample.mp4', total_frames=10, video_fps=4.0, time=0.027s
+Adding requests:   0%|          | 0/1 [00:00<?, ?it/s]Adding requests: 100%|██████████| 1/1 [00:07<00:00,  7.44s/it]Adding requests: 100%|██████████| 1/1 [00:07<00:00,  7.44s/it]
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.20it/s, est. speed input: 3577.24 toks/s, output: 70.70 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.20it/s, est. speed input: 3577.24 toks/s, output: 70.70 toks/s]Processed prompts: 100%|██████████| 1/1 [00:00<00:00,  1.20it/s, est. speed input: 3577.24 toks/s, output: 70.70 toks/s]
+CompletionOutput(index=0, text='```json\n[\n  {\n    "start": "00:00.10",\n    "end": "00:02.10",\n    "caption": "A black SUV is backing out of its driveway and moving on the road."\n  }\n]\n```', token_ids=[73594, 2236, 198, 9640, 220, 341, 262, 330, 2468, 788, 330, 15, 15, 25, 15, 15, 13, 16, 15, 756, 262, 330, 408, 788, 330, 15, 15, 25, 15, 17, 13, 16, 15, 756, 262, 330, 23347, 788, 330, 32, 3691, 38673, 374, 24668, 700, 315, 1181, 52142, 323, 7218, 389, 279, 5636, 10040, 220, 456, 921, 73594, 151645], cumulative_logprob=None, logprobs=None, finish_reason=stop, stop_reason=None)
 --------------------
 Assistant:
   ```json
@@ -57,9 +56,9 @@ Assistant:
     {
       "start": "00:00.10",
       "end": "00:02.10",
-      "caption": "A black SUV is backing out of its driveway and moving forward on the road."
+      "caption": "A black SUV is backing out of its driveway and moving on the road."
     }
   ]
   ```
 --------------------
-[rank0]:[W1208 18:46:51.938075169 ProcessGroupNCCL.cpp:1524] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank0]:[W1208 15:36:38.327402543 ProcessGroupNCCL.cpp:1524] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())

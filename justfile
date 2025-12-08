@@ -29,8 +29,8 @@ test:
   uv run pytest -vv
 
 # Run pip-licenses
-_pip-licenses *args: install
-  uvx pip-licenses --python .venv/bin/python --format=plain-vertical --with-license-file --no-license-path --no-version --with-urls --output-file ATTRIBUTIONS.md {{args}}
+_pip-licenses *args:
+  uv run --extra quantize pip-licenses --format=plain-vertical --with-license-file --no-license-path --no-version --with-urls --output-file ATTRIBUTIONS.md {{args}}
   pre-commit run --files ATTRIBUTIONS.md || true
 
 # Update the license

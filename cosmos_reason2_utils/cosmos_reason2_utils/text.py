@@ -80,7 +80,6 @@ def create_conversation_openai(
     system_prompt: str = SYSTEM_PROMPT,
     images: list[Any] | None = None,
     videos: list[Any] | None = None,
-    vision_kwargs: dict | None = None,
 ) -> list[dict]:
     """Create chat conversation for OpenAI API.
 
@@ -92,7 +91,6 @@ def create_conversation_openai(
         response: Assistant response.
         images: List of images.
         videos: List of videos.
-        vision_kwargs: Keyword arguments for vision processor (see `cosmos_reason1_utils.vision.VisionConfig`).
 
     Returns:
         conversation: Chat conversation.
@@ -119,8 +117,6 @@ def create_conversation_openai(
     conversation.append({"role": "user", "content": user_content})
     if response:
         conversation.append({"role": "assistant", "content": response})
-    if vision_kwargs:
-        set_vision_kwargs(conversation, vision_kwargs)
     return conversation
 
 
