@@ -16,7 +16,7 @@ _pre-commit *args:
   pre-commit run -a {{args}} || pre-commit run -a {{args}}
 
 # Run linting and formatting
-lint: _pre-commit-install _pre-commit-base _pre-commit
+lint: _pre-commit-install _pre-commit-base _pre-commit license
 
 # Run pyrefly
 _pyrefly *args:
