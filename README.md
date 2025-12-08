@@ -47,7 +47,7 @@ ______________________________________________________________________
 Install system dependencies:
 
 ```shell
-sudo apt-get install curl ffmpeg
+sudo apt-get install curl ffmpeg git git-lfs
 ```
 
 * [uv](https://docs.astral.sh/uv/getting-started/installation/)
@@ -69,6 +69,12 @@ Clone the repository:
 ```shell
 git clone https://github.com/nvidia-cosmos/cosmos-reason2.git
 cd cosmos-reason2
+```
+
+Install the repository:
+
+```shell
+uv sync
 ```
 
 ## Inference
