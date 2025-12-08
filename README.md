@@ -46,6 +46,10 @@ ______________________________________________________________________
 
 Install system dependencies:
 
+```shell
+sudo apt install curl
+```
+
 * [uv](https://docs.astral.sh/uv/getting-started/installation/)
 
 ```shell
