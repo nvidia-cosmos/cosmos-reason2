@@ -79,9 +79,12 @@ uv sync
 
 ## Inference
 
-Minimum Requirements:
+Minimum requirements:
 
-* 1 GPU with 24GB memory
+| Model | GPU Memory |
+| --- | --- |
+| Cosmos-Reason2-2B | 24GB |
+| Cosmos-Reason2-8B | 32GB |
 
 ### Transformers
 
@@ -135,6 +138,11 @@ To list available parameters:
 uv run cosmos-reason2-inference online --help
 ```
 
+Arguments:
+
+* `--model nvidia/Cosmos-Reason2-2B`: Model name or path.
+
+
 #### Offline Inference
 
 Temporally caption a video and save the input frames to `outputs/temporal_localization` for debugging ([sample output](assets/outputs/temporal_localization.log)):
@@ -164,6 +172,11 @@ To list available parameters:
 ```shell
 ./scripts/quantize.py --help
 ```
+
+Arguments:
+
+* `--model nvidia/Cosmos-Reason2-2B`: Model name or path.
+* `--precision fp4`: Precision to use for quantization.
 
 ## Post-Training
 
