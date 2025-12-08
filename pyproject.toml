@@ -27,6 +27,7 @@ cosmos-rl = ["cosmos-reason2-utils[cosmos-rl]"]
 
 [dependency-groups]
 dev = [
+    "pip-licenses>=5.5.0",
     "pyrefly==0.42.3",
     "pytest>=9.0.1",
     "ruff==0.14.8",

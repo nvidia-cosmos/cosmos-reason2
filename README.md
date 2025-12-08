@@ -19,6 +19,8 @@ ______________________________________________________________________
 - [News!](#news)
 - [Model Family](#model-family)
 - [Setup](#setup)
+  - [Virtual Environment](#virtual-environment)
+  - [Docker container](#docker-container)
 - [Inference](#inference)
   - [Transformers](#transformers)
   - [Deployment](#deployment)
@@ -44,6 +46,15 @@ ______________________________________________________________________
 
 > **This repository only contains documentation/examples/utilities. You do not need it to run inference. See [Inference example](scripts/inference_sample.py) for a minimal inference example. The following setup instructions are only needed to run the examples in this repository.**
 
+Clone the repository:
+
+```shell
+git clone https://github.com/nvidia-cosmos/cosmos-reason2.git
+cd cosmos-reason2
+```
+
+### Virtual Environment
+
 Install system dependencies:
 
 ```shell
@@ -64,18 +75,32 @@ uv tool install -U huggingface_hub
 hf auth login
 ```
 
-Clone the repository:
-
-```shell
-git clone https://github.com/nvidia-cosmos/cosmos-reason2.git
-cd cosmos-reason2
-```
-
 Install the repository:
 
 ```shell
 uv sync
 ```
+
+### Docker container
+
+Please make sure you have access to Docker on your machine and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) is installed.
+
+Build the container:
+
+```bash
+image_tag=$(docker build -f Dockerfile -q .)
+```
+
+Run the container:
+
+```bash
+docker run -it --gpus all --ipc=host --rm -v .:/workspace -v /workspace/.venv -v /root/.cache:/root/.cache $image_tag
+```
+
+Optional arguments:
+
+* `--ipc=host`: Use host system's shared memory, since parallel torchrun consumes a large amount of shared memory. If not allowed by security policy, increase `--shm-size` ([documentation](https://docs.docker.com/engine/containers/run/#runtime-constraints-on-resources)).
+* `-v /root/.cache:/root/.cache`: Mount host cache to avoid re-downloading cache entries.
 
 ## Inference
 
@@ -109,7 +134,8 @@ uv run vllm serve nvidia/Cosmos-Reason2-2B \
   --allowed-local-media-path "$(pwd)" \
   --max-model-len 8192 \
   --media-io-kwargs '{"video": {"num_frames": -1}}' \
-  --reasoning-parser qwen3
+  --reasoning-parser qwen3 \
+  --port 8000
 ```
 
 Arguments:
@@ -117,19 +143,20 @@ Arguments:
 * `--max-model-len 8192`: Maximum model length to avoid OOM.
 * `--media-io-kwargs '{"video": {"num_frames": -1}}'`: Allow overriding FPS per sample.
 * `--reasoning-parser qwen3`: Parse reasoning trace.
+* `--port 8000`: Server port. Change if you encounter `Address already in use` errors.
 
 Wait a few minutes for the server to startup. Once complete, it will print `Application startup complete.`. Open a new terminal to run inference commands.
 
 Caption a video ([sample output](assets/outputs/caption.log)):
 
 ```shell
-uv run cosmos-reason2-inference online -i prompts/caption.yaml --videos assets/sample.mp4 --fps 4
+uv run cosmos-reason2-inference online --port 8000 -i prompts/caption.yaml --videos assets/sample.mp4 --fps 4
 ```
 
 Embodied reasoning with verbose output ([sample output](assets/outputs/embodied_reasoning.log)):
 
 ```shell
-uv run cosmos-reason2-inference online -v -i prompts/embodied_reasoning.yaml --reasoning --images assets/sample.png
+uv run cosmos-reason2-inference online -v --port 8000 -i prompts/embodied_reasoning.yaml --reasoning --images assets/sample.png
 ```
 
 To list available parameters:
@@ -142,13 +169,12 @@ Arguments:
 
 * `--model nvidia/Cosmos-Reason2-2B`: Model name or path.
 
-
 #### Offline Inference
 
 Temporally caption a video and save the input frames to `outputs/temporal_localization` for debugging ([sample output](assets/outputs/temporal_localization.log)):
 
 ```shell
-uv run cosmos-reason2-inference offline -v -i prompts/temporal_localization.yaml --videos assets/sample.mp4 --fps 4 -o outputs/temporal_localization
+uv run cosmos-reason2-inference offline -v --max-model-len 8192 -i prompts/temporal_localization.yaml --videos assets/sample.mp4 --fps 4 -o outputs/temporal_localization
 ```
 
 To list available parameters:
@@ -184,6 +210,7 @@ Arguments:
 
 ## Additional Resources
 
+* [Example prompts](prompts/README.md)
 * Cosmos Reason2 is based on the Qwen3-VL architecture.
   * [Qwen3-VL Repository](https://github.com/QwenLM/Qwen3-VL)
   * [Qwen3-VL vLLM](https://docs.vllm.ai/projects/recipes/en/latest/Qwen/Qwen3-VL.html)

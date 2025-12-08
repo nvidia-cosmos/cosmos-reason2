@@ -151,14 +151,6 @@ class Args(pydantic.BaseModel):
     """Video paths or URLs."""
     reasoning: bool = False
     """Enable reasoning trace."""
-
-    max_model_len: int | None = 8192
-    """Maximum model length.
-    
-    If specified, input media will be resized to fit in the model length.
-    """
-    vision: VisionConfig = VisionConfig()
-    """Vision processor config."""
     sampling: SamplingOverrides = SamplingOverrides()
     """Sampling parameters."""
 
@@ -191,39 +183,11 @@ class Args(pydantic.BaseModel):
         return user_prompt
 
     @cached_property
-    def vision_kwargs(self) -> dict:
-        vision_kwargs = self.vision.model_dump(exclude_none=True)
-
-        # Limit total pixels to fit in model length
-        if self.max_model_len:
-            if self.sampling_params.max_tokens is None:
-                raise ValueError("Max tokens must be set in sampling params.")
-            if self.max_model_len < self.sampling_params.max_tokens:
-                raise ValueError("Max model length must be greater than max tokens.")
-            total_pixels = int(
-                (self.max_model_len - self.sampling_params.max_tokens)
-                * PIXELS_PER_TOKEN
-                * 0.9
-            )
-            if "total_pixels" in vision_kwargs:
-                if vision_kwargs["total_pixels"] > total_pixels:
-                    raise ValueError(
-                        f"Total pixels {vision_kwargs['total_pixels']} exceeds limit {total_pixels}."
-                    )
-            else:
-                vision_kwargs["total_pixels"] = total_pixels
-
-        return vision_kwargs
-
-    @cached_property
-    def vision_config(self) -> VisionConfig:
-        return VisionConfig.model_validate(self.vision_kwargs)
-
-    @cached_property
     def sampling_kwargs(self) -> dict:
         sampling_kwargs = SamplingOverrides.get_defaults(reasoning=self.reasoning)
         sampling_kwargs.update(self.input_config.sampling_params)
         sampling_kwargs.update(self.sampling.model_dump(exclude_none=True))
+        vllm.SamplingParams(**sampling_kwargs)
         return sampling_kwargs
 
     @cached_property
@@ -238,6 +202,14 @@ class Offline(Args):
     """Model name or path (https://huggingface.co/collections/nvidia/cosmos-reason2)."""
     revision: str | None = None
     """Model revision (branch name, tag name, or commit id)."""
+    max_model_len: int = qwen_vl_utils.vision_process.MODEL_SEQ_LEN
+    """Maximum model length.
+    
+    If specified, input media will be resized to fit in the model length.
+    """
+
+    vision: VisionConfig = VisionConfig()
+    """Vision processor config."""
 
     output: Annotated[str | None, tyro.conf.arg(aliases=("-o",))] = None
     """Output directory for debugging."""
@@ -256,17 +228,39 @@ class Online(Args):
     If not provided, the first model in the server will be used.
     """
 
+    fps: float | None = None
+    """FPS of the video."""
+    min_pixels: int | None = None
+    """Min total pixels of the image/video."""
+    total_pixels: int | None = None
+    """Max total pixels of the image/video."""
+
 
 def offline_inference(args: Offline):
-    images = args.images
-    videos = args.videos
+    # Limit total pixels to fit in model length
+    vision_kwargs = args.vision.model_dump(exclude_none=True)
+    assert args.sampling_params.max_tokens
+    if args.max_model_len < args.sampling_params.max_tokens:
+        raise ValueError("Max model length must be greater than max tokens.")
+    max_seq_len = args.max_model_len - args.sampling_params.max_tokens
+    total_pixels = int(max_seq_len * PIXELS_PER_TOKEN * 0.9)
+    if "total_pixels" in vision_kwargs:
+        if vision_kwargs["total_pixels"] > total_pixels:
+            raise ValueError(
+                f"Total pixels {vision_kwargs['total_pixels']} exceeds limit {total_pixels}."
+            )
+    else:
+        vision_kwargs["total_pixels"] = total_pixels
+    VisionConfig.model_validate(vision_kwargs)
+    if args.verbose:
+        pprint_dict(vision_kwargs, "VisionConfig")
 
     conversation = create_conversation(
         system_prompt=args.system_prompt,
         user_prompt=args.user_prompt,
-        images=images,
-        videos=videos,
-        vision_kwargs=args.vision_kwargs,
+        images=args.images,
+        videos=args.videos,
+        vision_kwargs=vision_kwargs,
     )
     if args.verbose:
         pprint(conversation, expand_all=True)
@@ -276,7 +270,7 @@ def offline_inference(args: Offline):
         model=args.model,
         revision=args.revision,
         max_model_len=args.max_model_len,
-        limit_mm_per_prompt={"image": len(images), "video": len(videos)},
+        limit_mm_per_prompt={"image": len(args.images), "video": len(args.videos)},
         enforce_eager=True,
     )
 
@@ -284,7 +278,7 @@ def offline_inference(args: Offline):
     processor: transformers.Qwen3VLProcessor = (
         transformers.AutoProcessor.from_pretrained(args.model)
     )
-    add_vision_ids = (len(images) + len(videos)) > 1
+    add_vision_ids = (len(args.images) + len(args.videos)) > 1
     prompt = processor.apply_chat_template(
         conversation,
         tokenize=False,
@@ -346,20 +340,40 @@ def online_inference(args: Online):
         user_prompt=args.user_prompt,
         images=args.images,
         videos=args.videos,
-        vision_kwargs=args.vision_kwargs,
     )
+    if args.verbose:
+        pprint(conversation, expand_all=True)
+
+    # Process inputs
+    max_model_len = model.max_model_len or qwen_vl_utils.vision_process.MODEL_SEQ_LEN
+    assert args.sampling_params.max_tokens
+    if max_model_len < args.sampling_params.max_tokens:
+        raise ValueError("Max model length must be greater than max tokens.")
+    max_seq_len = max_model_len - args.sampling_params.max_tokens
+    total_pixels = int(max_seq_len * PIXELS_PER_TOKEN * 0.9)
+    if args.total_pixels:
+        if args.total_pixels > total_pixels:
+            raise ValueError(
+                f"Total pixels {args.total_pixels} exceeds limit {total_pixels}."
+            )
+        total_pixels = args.total_pixels
+    mm_processor_kwargs = {
+        "fps": args.fps or qwen_vl_utils.vision_process.FPS,
+        "do_sample_frames": True,
+        "size": {
+            "shortest_edge": args.min_pixels
+            or qwen_vl_utils.vision_process.VIDEO_MIN_TOKEN_NUM * PIXELS_PER_TOKEN,
+            "longest_edge": total_pixels,
+        },
+    }
+    if args.verbose:
+        pprint_dict(mm_processor_kwargs, "mm_processor_kwargs")
 
     # Run inference
-    extra_body = {}
-    extra_body.update(args.sampling_kwargs)
-    extra_body["mm_processor_kwargs"] = {
-        "fps": args.vision_config.fps,
-        "do_sample_frames": True,
-    }
     chat_completion = client.chat.completions.create(
         messages=conversation,
         model=model.id,
-        extra_body=extra_body,
+        extra_body=args.sampling_kwargs | {"mm_processor_kwargs": mm_processor_kwargs},
     )
 
     for output in chat_completion.choices:
@@ -376,9 +390,6 @@ def online_inference(args: Online):
 
 
 def inference(args: Offline | Online):
-    if args.verbose:
-        pprint_dict(args.vision_kwargs, "VisionConfig")
-        pprint_dict(args.sampling_kwargs, "SamplingParams")
     print(SEPARATOR)
     print("System:")
     print(textwrap.indent(args.system_prompt.strip(), "  "))
@@ -386,6 +397,8 @@ def inference(args: Offline | Online):
     print("User:")
     print(textwrap.indent(args.user_prompt.strip(), "  "))
     print(SEPARATOR)
+    if args.verbose:
+        pprint_dict(args.sampling_kwargs, "SamplingParams")
 
     if isinstance(args, Offline):
         offline_inference(args)
