@@ -13,12 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM vllm/vllm-openai:v0.11.0
-
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install \
-    git+https://github.com/vllm-project/llm-compressor.git@6e459ed \
-    git+https://github.com/huggingface/transformers.git@def9a7ef057b13d04aeeaa150e3ce63afa151d4e \
-    qwen_vl_utils==0.0.14
-
-ENTRYPOINT ["/bin/bash"]
+$schema: ./schemas/inference_config.json
+sampling_params: {}
+system_prompt: You are a helpful assistant.
+user_prompt: ''

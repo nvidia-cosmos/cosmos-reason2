@@ -19,7 +19,7 @@ version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "cosmos-reason2-utils[inference,cosmos-rl,cu128_torch28]",
+    "cosmos-reason2-utils[inference,cosmos-rl,cu128_torch29]",
 ]
 
 [tool.uv.sources]

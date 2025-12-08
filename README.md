@@ -7,6 +7,7 @@
 </p>
 
 NVIDIA Cosmos Reason – an open, customizable, reasoning vision language model (VLM) for physical AI and robotics - enables robots and vision AI agents to reason like humans, using prior knowledge, physics understanding and common sense to understand and act in the real world. This model understands space, time, and fundamental physics, and can serve as a planning model to reason what steps an embodied agent might take next.
+
 Cosmos Reason excels at navigating the long tail of diverse scenarios of the physical world with spatial-temporal understanding. Cosmos Reason is post-trained with physical common sense and embodied reasoning data with supervised fine-tuning and reinforcement learning. It uses chain-of-thought reasoning capabilities to understand world dynamics without human annotations.
 
 <!--TOC-->
@@ -76,10 +77,10 @@ Minimum Requirements:
 
 Cosmos-Reason2 is included in [`transformers>=4.57.0`](https://huggingface.co/docs/transformers/en/index).
 
-[Minimal example](scripts/inference_sample.py):
+[Minimal example](scripts/inference_sample.py) ([sample output](assets/outputs/sample.log)):
 
 ```shell
-uv run scripts/inference_sample.py
+./scripts/inference_sample.py
 ```
 
 ### Deployment
@@ -98,21 +99,21 @@ uv run vllm serve nvidia/Cosmos-Reason2-2B \
   --reasoning-parser qwen3
 ```
 
-Explanation of arguments:
+Arguments:
 
-* `--max-model-len 8192`: Maximum model length to avoid OOM (~24 GB for 2B model).
+* `--max-model-len 8192`: Maximum model length to avoid OOM.
 * `--media-io-kwargs '{"video": {"num_frames": -1}}'`: Allow overriding FPS per sample.
 * `--reasoning-parser qwen3`: Parse reasoning trace.
 
 Wait a few minutes for the server to startup. Once complete, it will print `Application startup complete.`. Open a new terminal to run inference commands.
 
-Caption the video ([sample output](assets/outputs/caption.txt)):
+Caption a video ([sample output](assets/outputs/caption.log)):
 
 ```shell
 uv run cosmos-reason2-inference online -i prompts/caption.yaml --videos assets/sample.mp4 --fps 4
 ```
 
-Embodied reasoning ([sample output](assets/outputs/embodied_reasoning.txt)) with verbose output:
+Embodied reasoning with verbose output ([sample output](assets/outputs/embodied_reasoning.log)):
 
 ```shell
 uv run cosmos-reason2-inference online -v -i prompts/embodied_reasoning.yaml --reasoning --images assets/sample.png
@@ -126,7 +127,7 @@ uv run cosmos-reason2-inference online --help
 
 #### Offline Inference
 
-Temporally caption the video and save the input frames to `outputs/temporal_localization` for debugging ([sample output](assets/outputs/temporal_localization.txt)):
+Temporally caption a video and save the input frames to `outputs/temporal_localization` for debugging ([sample output](assets/outputs/temporal_localization.log)):
 
 ```shell
 uv run cosmos-reason2-inference offline -v -i prompts/temporal_localization.yaml --videos assets/sample.mp4 --fps 4 -o outputs/temporal_localization
@@ -142,10 +143,16 @@ uv run cosmos-reason2-inference offline --help
 
 For model quantization, we recommend using [llmcompressor](https://github.com/vllm-project/llm-compressor)
 
-[Example](scripts/quantize.py):
+[Example](scripts/quantize.py) ([sample output](assets/outputs/quantize.log)):
 
 ```shell
-./scripts/quantize.py
+./scripts/quantize.py -o /tmp/cosmos-reason2/checkpoints
+```
+
+To list available parameters:
+
+```shell
+./scripts/quantize.py --help
 ```
 
 ## Post-Training
@@ -154,7 +161,7 @@ For model quantization, we recommend using [llmcompressor](https://github.com/vl
 
 ## Additional Resources
 
-* Qwen3
+* Cosmos Reason2 is based on the Qwen3-VL architecture.
   * [Qwen3-VL Repository](https://github.com/QwenLM/Qwen3-VL)
   * [Qwen3-VL vLLM](https://docs.vllm.ai/projects/recipes/en/latest/Qwen/Qwen3-VL.html)
   * [Qwen3 Documentation](https://qwen.readthedocs.io/en/latest/)

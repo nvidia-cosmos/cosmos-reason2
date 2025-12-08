@@ -26,7 +26,7 @@ _pyrefly-ignore *args: (_pyrefly '--suppress-errors' args)
 
 # Run tests
 test:
-  uv run pytest
+  uv run pytest -vv
 
 # Run pip-licenses
 _pip-licenses *args: install

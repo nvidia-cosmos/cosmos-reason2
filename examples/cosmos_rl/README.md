@@ -1,4 +1,4 @@
-# Cosmos-Reason2 Post-Training using Cosmos-RL
+# Post-Training using Cosmos-RL
 
 [cosmos-rl](https://github.com/nvidia-cosmos/cosmos-rl) is an async post-training framework specialized for Supervised Fine-Tuning (SFT) and Reinforcement Learning with Human Feedback (RLHF). It prioritizes performance, scalability, and fault tolerance.
 

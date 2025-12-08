@@ -20,7 +20,6 @@ import numpy as np
 import pydantic
 import torch
 from PIL import Image
-from pydantic import Field
 from qwen_vl_utils.vision_process import SPATIAL_MERGE_SIZE as SPATIAL_MERGE_SIZE
 
 """Vision processing utilities."""
@@ -42,35 +41,34 @@ class VisionConfig(pydantic.BaseModel):
     priority attributes.
     """
 
-    resized_height: int | None = Field(
-        default=None, description="Max height of the image/video"
-    )
-    resized_width: int | None = Field(
-        default=None, description="Max width of the image/video"
-    )
+    model_config = pydantic.ConfigDict(extra="allow", use_attribute_docstrings=True)
 
-    min_pixels: int | None = Field(
-        default=None, description="Min frame pixels of the image/video"
-    )
-    max_pixels: int | None = Field(
-        default=None, description="Max frame pixels of the image/video"
-    )
-    total_pixels: int | None = Field(
-        default=None, description="Max total pixels of the image/video"
-    )
+    resized_height: int | None = None
+    """Max height of the image/video"""
+    resized_width: int | None = None
+    """Max width of the image/video"""
 
-    video_start: float | None = Field(
-        None, description="Start time of the video (seconds)"
-    )
-    video_end: float | None = Field(None, description="End time of the video (seconds)")
+    min_pixels: int | None = None
+    """Min frame pixels of the image/video"""
+    max_pixels: int | None = None
+    """Max frame pixels of the image/video"""
+    total_pixels: int | None = None
+    """Max total pixels of the image/video"""
 
-    nframes: int | None = Field(
-        default=None, description="Number of frames of the video"
-    )
+    video_start: float | None = None
+    """Start time of the video (seconds)"""
+    video_end: float | None = None
+    """End time of the video (seconds)"""
 
-    fps: float | None = Field(default=None, description="FPS of the video")
-    min_frames: int | None = Field(default=None, description="Min frames of the video")
-    max_frames: int | None = Field(default=None, description="Max frames of the video")
+    nframes: int | None = None
+    """Number of frames of the video"""
+
+    fps: float | None = None
+    """FPS of the video"""
+    min_frames: int | None = None
+    """Min frames of the video"""
+    max_frames: int | None = None
+    """Max frames of the video"""
 
 
 def _tensor_to_pil_images(tensor: torch.Tensor) -> list[Image.Image]:
