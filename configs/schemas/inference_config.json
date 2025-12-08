@@ -1,0 +1,26 @@
+{
+  "additionalProperties": false,
+  "description": "Prompt config.",
+  "properties": {
+    "user_prompt": {
+      "default": "",
+      "description": "User prompt.",
+      "title": "User Prompt",
+      "type": "string"
+    },
+    "system_prompt": {
+      "default": "You are a helpful assistant.",
+      "description": "System prompt.",
+      "title": "System Prompt",
+      "type": "string"
+    },
+    "sampling_params": {
+      "additionalProperties": true,
+      "description": "Override sampling parameters.",
+      "title": "Sampling Params",
+      "type": "object"
+    }
+  },
+  "title": "InputConfig",
+  "type": "object"
+}

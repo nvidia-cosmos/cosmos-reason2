@@ -20,10 +20,12 @@
 # dependencies = [
 #   "llmcompressor @ git+https://github.com/vllm-project/llm-compressor.git@6e459ed",
 #   "pillow>=2.2.1",
+#   "pydantic>=2.12.4",
 #   "qwen-vl-utils==0.0.14",
 #   "torch==2.8.0",
 #   "torchcodec>=0.8.1",
 #   "torchvision",
+#   "tyro>=0.9.35",
 #   "transformers @ git+https://github.com/huggingface/transformers.git@def9a7ef057b13d04aeeaa150e3ce63afa151d4e",
 # ]
 #
@@ -47,17 +49,19 @@ Example:
 """
 
 import os
+from typing import Annotated, Literal
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-import argparse
 import base64
 import json
 from io import BytesIO
 from pathlib import Path
 
+import pydantic
 import requests
 import torch
+import tyro
 from datasets import load_dataset
 from llmcompressor import oneshot
 from llmcompressor.modeling import replace_modules_for_calibration
@@ -68,69 +72,31 @@ from PIL import Image
 from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor, Qwen3VLForConditionalGeneration
 
-
-def parse_arguments():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--model",
-        type=str,
-        default="nvidia/Cosmos-Reason2-2B",
-        help="Local path to a model or model name from https://huggingface.co/collections/nvidia/cosmos-reason2.",
-    )
-    parser.add_argument(
-        "--save_dir",
-        type=str,
-        default="checkpoints",
-        help="Directory to save the quantized model. Model will be saved in {save_dir}/model_{precision}.",
-    )
-    parser.add_argument(
-        "--num_samples",
-        type=int,
-        default=512,
-        help="Number of samples to use for calibration.",
-    )
-    parser.add_argument(
-        "--precision",
-        type=str,
-        default="fp4",
-        help="Precision to use for quantization.",
-        choices=["fp4", "fp8"],
-    )
-    parser.add_argument(
-        "--smoothing_strength",
-        type=float,
-        default=0.8,
-        help="Smoothing strength to use for SmoothQuant.",
-    )
-    parser.add_argument(
-        "--max_sequence_length",
-        type=int,
-        default=32768,
-        help="Maximum sequence length to use for quantization.",
-    )
-    parser.add_argument(
-        "--seed",
-        type=int,
-        default=42,
-        help="Seed to use for random number generator.",
-    )
-    args = parser.parse_args()
-
-    model_path = Path(args.model)
-    if not model_path.exists() and args.model not in [
-        "nvidia/Cosmos-Reason2-2B",
-        "nvidia/Cosmos-Reason2-8B",
-    ]:
-        error_message = f"Model path {args.model} is not a valid model. Valid models are: nvidia/Cosmos-Reason2-2B, nvidia/Cosmos-Reason2-8B or local path to a model."
-        raise ValueError(error_message)
-    save_dir_path = Path(args.save_dir)
-    if not save_dir_path.exists():
-        print("Saving directory does not exist. Creating...")
-        save_dir_path.mkdir(parents=True, exist_ok=True)
-    return args
+Precision = Literal["fp4", "fp8"]
 
 
-def preprocess_and_tokenize(example, processor, max_sequence_length):
+class Args(pydantic.BaseModel):
+    model_config = pydantic.ConfigDict(extra="forbid", frozen=True)
+
+    output_dir: Annotated[Path, tyro.conf.arg(aliases=("-o",))]
+    """Directory to save the quantized model. Model will be saved in {output_dir}/model_{precision}."""
+    model: str = "nvidia/Cosmos-Reason2-2B"
+    """Local path to a model or model name from https://huggingface.co/collections/nvidia/cosmos-reason2."""
+    num_samples: int = 512
+    """Number of samples to use for calibration."""
+    precision: Precision = "fp4"
+    """Precision to use for quantization."""
+    smoothing_strength: float = 0.8
+    """Smoothing strength to use for SmoothQuant."""
+    max_sequence_length: int = 32768
+    """Maximum sequence length to use for quantization."""
+    seed: int = 42
+    """Seed to use for random number generator."""
+
+
+def preprocess_and_tokenize(
+    example: dict, processor: AutoProcessor, max_sequence_length: int
+) -> dict:
     buffered = BytesIO()
     example["image"].save(buffered, format="PNG")
     encoded_image = base64.b64encode(buffered.getvalue())
@@ -160,12 +126,14 @@ def preprocess_and_tokenize(example, processor, max_sequence_length):
     )
 
 
-def data_collator(batch):
+def data_collator(batch: list[dict]) -> dict:
     assert len(batch) == 1
     return {key: torch.tensor(value) for key, value in batch[0].items()}
 
 
-def get_quantization_recipe(precision, smoothing_strength):
+def get_quantization_recipe(
+    precision: Precision, smoothing_strength: float
+) -> list[SmoothQuantModifier | QuantizationModifier]:
     recipe = [
         SmoothQuantModifier(
             smoothing_strength=smoothing_strength,
@@ -188,7 +156,11 @@ def get_quantization_recipe(precision, smoothing_strength):
     return recipe
 
 
-def run_sample_generation(model, processor, max_sequence_length):
+def run_sample_generation(
+    model: Qwen3VLForConditionalGeneration,
+    processor: AutoProcessor,
+    max_sequence_length: int,
+):
     print("========== SAMPLE GENERATION ==============")
     dispatch_for_generation(model)
     test_url = "http://images.cocodataset.org/train2017/000000231895.jpg"
@@ -221,12 +193,14 @@ def run_sample_generation(model, processor, max_sequence_length):
     print("==========================================")
 
 
-def save_model(model, processor, save_dir):
-    model.save_pretrained(save_dir, save_compressed=True)
-    processor.save_pretrained(save_dir)
+def save_model(
+    model: Qwen3VLForConditionalGeneration, processor: AutoProcessor, output_dir: Path
+):
+    model.save_pretrained(output_dir, save_compressed=True)
+    processor.save_pretrained(output_dir)
 
 
-def postprocess_config(config_path):
+def postprocess_config(config_path: Path):
     def remove_keys(d, keys_to_remove):
         if isinstance(d, dict):
             return {
@@ -246,17 +220,18 @@ def postprocess_config(config_path):
         json.dump(clean_config, f, indent=2)
 
 
-def main(args):
-    model_path = Path(args.model)
+def quantize(args: Args):
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+
     model = Qwen3VLForConditionalGeneration.from_pretrained(
-        model_path, torch_dtype="auto"
+        args.model, torch_dtype="auto"
     )
-    processor = AutoProcessor.from_pretrained(model_path)
+    processor = AutoProcessor.from_pretrained(args.model)
     model = replace_modules_for_calibration(model)
     dataset_id = "lmms-lab/flickr30k"
     dataset_split = {"calibration": f"test[:{args.num_samples}]"}
     precision = "NVFP4" if args.precision == "fp4" else "FP8_DYNAMIC"
-    save_dir = Path(args.save_dir) / f"model_{args.precision}"
+    output_dir = Path(args.output_dir) / f"model_{args.precision}"
     sequential_targets = ["Qwen3VLTextDecoderLayer"]
 
     print(f"Loading calibration dataset: {dataset_id}")
@@ -283,14 +258,18 @@ def main(args):
     print("Quantization complete!")
     print("Running sample generation...")
     run_sample_generation(model, processor, args.max_sequence_length)
-    print(f"Saving quantized model to: {save_dir}...")
-    save_model(model, processor, save_dir)
-    config_path = save_dir / "config.json"
+    print(f"Saving quantized model to: {output_dir}...")
+    save_model(model, processor, output_dir)
+    config_path = output_dir / "config.json"
     print(f"Postprocessing config file {config_path}...")
     postprocess_config(config_path)
-    print(f"Quantization complete! Model saved to: {save_dir}")
+    print(f"Quantization complete! Model saved to: {output_dir}")
+
+
+def main():
+    args = tyro.cli(Args, description=__doc__)
+    quantize(args)
 
 
 if __name__ == "__main__":
-    args = parse_arguments()
-    main(args)
+    main()

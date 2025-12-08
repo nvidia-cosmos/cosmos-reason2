@@ -1,3 +1,4 @@
+#!/usr/bin/env -S uv run --script
 # SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -13,14 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Minimal example of inference with Cosmos-Reason2.
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#   "accelerate>=1.12.0",
+#   "pillow>=12.0.0",
+#   "transformers>=4.57.0",
+#   "torch==2.8.0",
+#   "torchvision",
+#   "torchcodec==0.7.0",
+# ]
+# ///
 
-Example:
-
-```shell
-uv run scripts/inference_sample.py
-```
-"""
+"""Minimal example of inference with Cosmos-Reason2."""
 
 # Source: https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#new-qwen-vl-utils-usage
 
@@ -33,7 +39,7 @@ ROOT = Path(__file__).parents[1]
 SEPARATOR = "-" * 20
 
 PIXELS_PER_TOKEN = 32**2
-"""Num ber of pixels per visual token."""
+"""Number of pixels per visual token."""
 
 
 def main():
@@ -46,7 +52,7 @@ def main():
         transformers.AutoProcessor.from_pretrained(model_name)
     )
 
-    # Limit vision tokens
+    # Optional: Limit vision tokens
     min_vision_tokens = 256
     max_vision_tokens = 8192
     processor.image_processor.size = {
@@ -59,6 +65,7 @@ def main():
     }
 
     # Create inputs
+    # IMPORTANT: Media is listed before text to match training inputs
     conversation = [
         {
             "role": "system",

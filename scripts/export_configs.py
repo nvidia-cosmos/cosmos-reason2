@@ -21,29 +21,33 @@ import pathlib
 
 import pydantic
 import toml
+import vllm
+import yaml
+from cosmos_reason2_utils.script.inference import InputConfig as InferenceConfig
 from cosmos_rl.policy.config import Config as CosmosRlConfig
 
 ROOT_DIR = pathlib.Path(__file__).parents[1].absolute()
 
 
-def pydantic_to_toml(default: pydantic.BaseModel, schema_path: str) -> str:
+class SamplingParams(vllm.SamplingParams, omit_defaults=False): ...
+
+
+def pydantic_to_yaml(default: pydantic.BaseModel, schema_path: str) -> str:
     return "\n".join(
         [
-            f"#:schema {schema_path}",
-            "",
-            toml.dumps(default.model_dump()),
+            f"$schema: ./{schema_path}",
+            yaml.dump(default.model_dump()),
         ]
     )
 
 
-def export_pydantic(
-    default: pydantic.BaseModel, name: str, output_dir: pathlib.Path
-) -> str:
-    default_path = f"{name}.toml"
-    schema_path = f"schemas/{name}.json"
-    (output_dir / default_path).write_text(pydantic_to_toml(default, schema_path))
-    (output_dir / schema_path).write_text(
-        json.dumps(default.model_json_schema(), indent=2)
+def pydantic_to_toml(default: pydantic.BaseModel, schema_path: str) -> str:
+    return "\n".join(
+        [
+            f"#:schema ./{schema_path}",
+            "",
+            toml.dumps(default.model_dump()),
+        ]
     )
 
 
@@ -62,7 +66,21 @@ def main():
     schemas_dir = output_dir / "schemas"
     schemas_dir.mkdir(parents=True, exist_ok=True)
 
-    export_pydantic(CosmosRlConfig(), "cosmos_rl_config", output_dir)
+    inference_config = InferenceConfig()
+    (output_dir / "inference_config.yaml").write_text(
+        pydantic_to_yaml(inference_config, "schemas/inference_config.json")
+    )
+    (output_dir / "schemas/inference_config.json").write_text(
+        json.dumps(inference_config.model_json_schema(), indent=2)
+    )
+
+    cosmos_rl_config = CosmosRlConfig()
+    (output_dir / "cosmos_rl_config.toml").write_text(
+        pydantic_to_toml(cosmos_rl_config, "schemas/cosmos_rl_config.toml")
+    )
+    (output_dir / "schemas/cosmos_rl_config.json").write_text(
+        json.dumps(cosmos_rl_config.model_json_schema(), indent=2)
+    )
 
 
 if __name__ == "__main__":

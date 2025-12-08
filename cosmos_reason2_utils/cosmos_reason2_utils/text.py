@@ -84,6 +84,8 @@ def create_conversation_openai(
 ) -> list[dict]:
     """Create chat conversation for OpenAI API.
 
+    Specification: https://platform.openai.com/docs/api-reference/messages
+
     Args:
         system_prompt: System prompt.
         user_prompt: User prompt.

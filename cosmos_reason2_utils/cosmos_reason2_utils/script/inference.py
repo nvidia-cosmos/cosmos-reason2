@@ -61,25 +61,12 @@ def pprint_dict(d: dict, name: str):
     pprint(collections.namedtuple(name, d.keys())(**d), expand_all=True)
 
 
-class InputConfig(pydantic.BaseModel):
-    """Prompt config."""
-
-    model_config = pydantic.ConfigDict(extra="forbid")
-
-    user_prompt: str = pydantic.Field(default="", description="User prompt")
-    system_prompt: str = pydantic.Field(
-        default=SYSTEM_PROMPT, description="System prompt"
-    )
-
-
-# https://docs.vllm.ai/en/stable/serving/openai_compatible_server/#extra-parameters_1
+# Copied from [vllm.SamplingParams](https://docs.vllm.ai/en/latest/dev/sampling_params.html).
+# Ideally, we could auto-generate this class.
 class SamplingOverrides(pydantic.BaseModel):
-    """Sampling parameters for text generation.
+    """Sampling parameters for text generation."""
 
-    Copied from [vllm.SamplingParams](https://docs.vllm.ai/en/latest/dev/sampling_params.html).
-    """
-
-    model_config = pydantic.ConfigDict(extra="allow", frozen=True)
+    model_config = pydantic.ConfigDict(extra="allow", use_attribute_docstrings=True)
 
     n: int | None = None
     """Number of outputs to return for the given prompt request."""
@@ -132,10 +119,25 @@ class SamplingOverrides(pydantic.BaseModel):
             )
 
 
+class InputConfig(pydantic.BaseModel):
+    """Prompt config."""
+
+    model_config = pydantic.ConfigDict(extra="forbid", use_attribute_docstrings=True)
+
+    user_prompt: str = ""
+    """User prompt."""
+    system_prompt: str = pydantic.Field(default=SYSTEM_PROMPT)
+    """System prompt."""
+    sampling_params: dict = pydantic.Field(default_factory=dict)
+    """Override sampling parameters."""
+
+
 class Args(pydantic.BaseModel):
     """Inference arguments."""
 
-    model_config = pydantic.ConfigDict(extra="forbid", frozen=True)
+    model_config = pydantic.ConfigDict(
+        extra="forbid", use_attribute_docstrings=True, frozen=True
+    )
 
     input_file: Annotated[pydantic.FilePath | None, tyro.conf.arg(aliases=("-i",))] = (
         None
@@ -220,6 +222,7 @@ class Args(pydantic.BaseModel):
     @cached_property
     def sampling_kwargs(self) -> dict:
         sampling_kwargs = SamplingOverrides.get_defaults(reasoning=self.reasoning)
+        sampling_kwargs.update(self.input_config.sampling_params)
         sampling_kwargs.update(self.sampling.model_dump(exclude_none=True))
         return sampling_kwargs
 
