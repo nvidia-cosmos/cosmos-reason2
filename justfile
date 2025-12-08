@@ -40,22 +40,25 @@ license: _pip-licenses
 export-configs *args:
   uv run --all-extras python scripts/export_configs.py {{args}}
 
-docker_build_args := ''
-docker_run_args := '--ipc=host -v /root/.cache:/root/.cache'
-
 # Run the docker container
 _docker build_args='' run_args='':
   #!/usr/bin/env bash
   set -euxo pipefail
-  docker build {{docker_build_args}} {{build_args}} .
-  image_tag=$(docker build {{docker_build_args}} {{build_args}} -q .)
+  docker build {{build_args}} .
+  image_tag=$(docker build {{build_args}} -q .)
   docker run \
     -it \
     --gpus all \
+    --ipc=host \
     --rm \
     -v .:/workspace \
-    {{docker_run_args}} \
+    -v /workspace/.venv \
+    -v /root/.cache:/root/.cache \
     {{run_args}} \
     $image_tag
 
+# Run the CUDA 12.8 docker container.
+docker-cu128 *run_args: (_docker '' run_args)
+
+# Run the CUDA 13.0 docker container.
 docker-cu130 *run_args: (_docker '-f docker/nightly.Dockerfile' run_args)
