@@ -16,6 +16,7 @@ ______________________________________________________________________
 **Table of Contents**
 
 - [News!](#news)
+- [Model Family](#model-family) 
 - [Setup](#setup)
 - [Inference](#inference)
   - [Transformers](#transformers)
@@ -32,6 +33,11 @@ ______________________________________________________________________
 <!--TOC-->
 
 ## News!
+* [December 11, 2025] We have released the Cosmos-Reason2 models and code. The 2B and 8B models are now available. For more details, please check our blog!
+
+## Model Family
+* [Cosmos-Reason2-2B](https://huggingface.co/nvidia/Cosmos-Reason2-2B)
+* [Cosmos-Reason2-8B](https://huggingface.co/nvidia/Cosmos-Reason2-8B)
 
 ## Setup
 
