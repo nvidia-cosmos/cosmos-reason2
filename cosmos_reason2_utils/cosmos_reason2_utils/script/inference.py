@@ -18,6 +18,8 @@
 # Sources
 # * https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#deployment
 
+import time
+
 from cosmos_reason2_utils.init import init_script
 
 init_script()
@@ -400,12 +402,17 @@ def inference(args: Offline | Online):
     if args.verbose:
         pprint_dict(args.sampling_kwargs, "SamplingParams")
 
+    start_time = time.time()
     if isinstance(args, Offline):
         offline_inference(args)
     elif isinstance(args, Online):
         online_inference(args)
     else:
         assert_never(args)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    if args.verbose:
+        print(f"Inference time: {elapsed_time} seconds")
 
 
 def main():

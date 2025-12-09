@@ -98,26 +98,28 @@ Minimum requirements:
 
 - 4 GPUs with 80GB of memory
 
-[Config](configs/llava_sft.toml) variants:
-
-- 4 GPUs
-
-  ```toml
-  [policy.parallelism]
-  dp_shard_size = 4
-  ```
-
-- 8 GPUs
-
-  ```toml
-  [policy.parallelism]
-  dp_shard_size = 8
-  ```
-
 Run SFT ([sample outputs](../../assets/outputs/cosmos_rl_llava_sft)):
 
 ```shell
-uv run cosmos-rl --config configs/llava_sft.toml --log-dir outputs/llava_sft scripts/llava_sft.py
+uv run cosmos-reason2-train --config-file configs/sft.toml scripts/llava_sft.py \
+  --log-dir outputs/llava_sft \
+  --train.train_policy.dataset.name "/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/dataset.jsonl" \
+  --config.train.output-dir "/tmp/cosmos-reason2/cosmos_rl/outputs/llava_sft" \
+  --config.logging.experiment-name "cosmos_rl/llava_sft" \
+  --config.policy.parallelism.dp-shard-size 4
+```
+
+Parallelism variants:
+
+| # GPUs | Arguments |
+| --- | --- |
+| 4 | --config.policy.parallelism.dp-shard-size 4 |
+| 8 | --config.policy.parallelism.dp-shard-size 8 |
+
+To list available parameters:
+
+```shell
+uv run cosmos-reason2-train --config-file configs/sft.toml --help
 ```
 
 ### Reinforcement Learning (RL)

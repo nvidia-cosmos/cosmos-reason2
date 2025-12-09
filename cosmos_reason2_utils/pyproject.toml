@@ -70,12 +70,14 @@ conflicts = [
 ]
 
 [tool.uv.sources]
+cosmos-rl = { git = "https://github.com/nvidia-cosmos/cosmos-rl.git", rev = "9768965c" }
 flash-attn = [
   { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp313-cp313-linux_x86_64.whl" , extra = "cu128_torch28" },
 ]
 
 [project.scripts]
 cosmos-reason2-inference = "cosmos_reason2_utils.script.inference:main"
+cosmos-reason2-train = "cosmos_reason2_utils.script.train:main"
 
 [tool.hatch.build.targets.sdist]
 packages = [

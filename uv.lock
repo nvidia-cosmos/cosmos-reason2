@@ -1065,7 +1065,7 @@ inference = [
 requires-dist = [
     { name = "accelerate", marker = "extra == 'inference'", specifier = ">=1.12.0" },
     { name = "av", marker = "extra == 'inference'", specifier = ">=16.0.1" },
-    { name = "cosmos-rl", marker = "extra == 'cosmos-rl'", specifier = ">=0.3.6" },
+    { name = "cosmos-rl", marker = "extra == 'cosmos-rl'", git = "https://github.com/nvidia-cosmos/cosmos-rl.git?rev=9768965c" },
     { name = "datasets", marker = "extra == 'cosmos-rl'", specifier = ">=4.4.1" },
     { name = "flash-attn", marker = "extra == 'cu128-torch28'", url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp313-cp313-linux_x86_64.whl" },
     { name = "imageio-ffmpeg", marker = "extra == 'inference'", specifier = ">=0.6.0" },
@@ -1096,8 +1096,8 @@ provides-extras = ["inference", "cosmos-rl", "cu128-torch28", "cu128-torch29"]
 
 [[package]]
 name = "cosmos-rl"
-version = "0.3.6"
-source = { registry = "https://pypi.org/simple" }
+version = "0.3.7.post1.dev2+g9768965c2"
+source = { git = "https://github.com/nvidia-cosmos/cosmos-rl.git?rev=9768965c#9768965c2871fcc873092ac0f6cad3c5d9b466d6" }
 dependencies = [
     { name = "accelerate" },
     { name = "blobfile" },
@@ -1135,10 +1135,6 @@ dependencies = [
     { name = "uvicorn" },
     { name = "vllm", version = "0.11.0", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch28'" },
     { name = "vllm", version = "0.12.0", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' or extra != 'extra-20-cosmos-reason2-utils-cu128-torch28'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/c5/c9/3581de1bd22ee6adee5e2b1ecaaa533e513a130a5dc3ef5a5512c3c7bc0e/cosmos_rl-0.3.6.tar.gz", hash = "sha256:275e8e5f8e6179cbd1c61c8a51a68097dd708835b265a8bcb0e3637eef12f167", size = 4666192, upload-time = "2025-11-27T03:27:41.376Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/dd/96/76cddb1570ada602907a716fc313229712effdec9a0a2aaaa6a8d441ff32/cosmos_rl-0.3.6-py3-none-any.whl", hash = "sha256:ec755b3b82849b2e97a4446ef4e9878293ef32afcb450d49e18621be65dfe80c", size = 636370, upload-time = "2025-11-27T03:27:38.816Z" },
 ]
 
 [[package]]

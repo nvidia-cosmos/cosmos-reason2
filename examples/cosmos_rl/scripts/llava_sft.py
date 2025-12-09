@@ -24,33 +24,12 @@ from pathlib import Path
 
 import cosmos_rl.launcher.worker_entry
 import cosmos_rl.policy.config
-import pydantic
 import toml
 import torch.utils.data
 from cosmos_reason2_utils.text import create_conversation
-from cosmos_reason2_utils.vision import PIXELS_PER_TOKEN, VisionConfig
+from cosmos_reason2_utils.train import CustomConfig
+from cosmos_reason2_utils.vision import PIXELS_PER_TOKEN
 from cosmos_rl.utils.logging import logger
-
-
-class CustomDatasetConfig(pydantic.BaseModel):
-    annotation_path: str = pydantic.Field()
-    """Dataset annotation path."""
-    media_path: str = pydantic.Field(default="")
-    """Dataset media path."""
-    system_prompt: str = pydantic.Field(default="")
-    """System prompt for post-training."""
-
-
-class CustomConfig(pydantic.BaseModel):
-    dataset: CustomDatasetConfig = pydantic.Field()
-    """Dataset config."""
-
-    vision: VisionConfig = pydantic.Field(
-        default=VisionConfig(
-            fps=1,
-        )
-    )
-    """Vision processor config."""
 
 
 class CustomDataset(torch.utils.data.Dataset):
@@ -82,7 +61,7 @@ class CustomDataset(torch.utils.data.Dataset):
             videos = [videos]
 
         # If self.media_path is not empty, join it with each image/video path
-        if self.media_path != "":
+        if self.media_path:
             if images:
                 images = [os.path.join(self.media_path, img) for img in images]
             if videos:
