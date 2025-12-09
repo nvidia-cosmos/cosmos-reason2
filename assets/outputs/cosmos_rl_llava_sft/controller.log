@@ -1,0 +1,38 @@
+[Controller] Using script: /home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/scripts/llava_sft.py
+Controller CMD: python /home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/scripts/llava_sft.py --port 8000 --config /tmp/tmpiw30ki6e.toml
+/home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[cosmos] 2025-12-10 00:03:00,470 - cosmos - INFO - Saved config to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/config.toml
+INFO 12-10 00:03:01 [__init__.py:216] Automatically detected platform cuda.
+[cosmos] 2025-12-10 00:03:02,580 - cosmos - WARNING - transformer_engine.pytorch is not available. DeepSeek model will not work.
+[cosmos] 2025-12-10 00:03:02,641 - cosmos - INFO - Attempting to load configuration from /tmp/tmpiw30ki6e.toml
+[cosmos] 2025-12-10 00:03:02,641 - cosmos - INFO - Using Redis port 12800 from config file.
+[cosmos] 2025-12-10 00:03:02,645 - cosmos - INFO - Initialize wandb at 0, project: cosmos-reason2, experiment: cosmos_rl/llava_sft. Saved to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302
+wandb: Currently logged in as: joallen (nvidia-dir) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run 20251210000302
+wandb: Tracking run with wandb version 0.23.1
+wandb: Run data is saved locally in /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/wandb/run-20251210_000303-20251210000302
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run cosmos_rl/llava_sft/20251210000302
+wandb: ⭐️ View project at https://wandb.ai/nvidia-dir/cosmos-reason2
+wandb: 🚀 View run at https://wandb.ai/nvidia-dir/cosmos-reason2/runs/20251210000302
+[cosmos] 2025-12-10 00:03:05,256 - cosmos - INFO - [Controller] Redis server started on port 12800 with command redis-server /tmp/tmp5qtlk3x4.redis_config.conf --dbfilename cosmos_rl_3c2832c6-c741-4920-b229-8fe2c31a3981.rdb --save ""
+[cosmos] 2025-12-10 00:03:06,717 - cosmos - INFO - Successfully loaded configuration from /tmp/tmpiw30ki6e.toml
+grouped_gemm is not available. Please run:pip install git+https://github.com/fanshiqing/grouped_gemm@v1.1.4
+INFO:     Started server process [283581]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+[cosmos] 2025-12-10 00:03:19,994 - cosmos - INFO - [Controller] All atoms of POLICY Replica 89c6372f-41de-4c73-a20b-d6b98dbd24d5 has been set.
+[cosmos] 2025-12-10 00:03:19,995 - cosmos - INFO - [Controller] No valid rollout replicas found, skip PolicyToRolloutUnicastCommand
+[cosmos] 2025-12-10 00:21:20,499 - cosmos - INFO - [Controller] Unregistering replica 89c6372f-41de-4c73-a20b-d6b98dbd24d5
+[cosmos] 2025-12-10 00:21:20,499 - cosmos - INFO - [Controller] All replicas are finished, finalizing...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [283581]
+[cosmos] 2025-12-10 00:21:20,618 - cosmos - INFO - Stopping redis server
+[cosmos] 2025-12-10 00:21:20,627 - cosmos - INFO - Redis server stopped.
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mcosmos_rl/llava_sft/20251210000302[0m at: [34m[0m
+[1;34mwandb[0m: Find logs at: [1;35m../../../../../../../tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/wandb/run-20251210_000303-20251210000302/logs[0m

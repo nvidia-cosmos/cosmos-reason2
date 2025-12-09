@@ -53,6 +53,7 @@ _docker build_args='' run_args='':
     --rm \
     -v .:/workspace \
     -v /workspace/.venv \
+    -v /workspace/examples/cosmos_rl/.venv \
     -v /root/.cache:/root/.cache \
     {{run_args}} \
     $image_tag

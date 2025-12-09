@@ -32,8 +32,19 @@ RUN --mount=type=cache,target=/var/cache/apt \
         ffmpeg \
         git \
         git-lfs \
+        gpg \
+        lsb-release \
         tree \
         wget
+
+# Install redis-server: https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-redis/install-redis-on-linux/#install-on-ubuntudebian
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg && \
+    chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends redis
 
 # Install uv: https://docs.astral.sh/uv/getting-started/installation/
 # https://github.com/astral-sh/uv-docker-example/blob/main/Dockerfile
@@ -45,6 +56,9 @@ ENV UV_TOOL_BIN_DIR=/usr/local/bin
 
 # Install just: https://just.systems/man/en/pre-built-binaries.html
 RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin --tag 1.44.0
+
+# Install wandb
+RUN uv tool install wandb
 
 WORKDIR /workspace
 
