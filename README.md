@@ -27,7 +27,7 @@ ______________________________________________________________________
     - [Online Serving](#online-serving)
     - [Offline Inference](#offline-inference)
 - [Quantization](#quantization)
-- [Post-Training](#post-training)
+- [Tutorials](#tutorials)
 - [Additional Resources](#additional-resources)
 - [License and Contact](#license-and-contact)
 
@@ -204,14 +204,15 @@ Arguments:
 * `--model nvidia/Cosmos-Reason2-2B`: Model name or path.
 * `--precision fp4`: Precision to use for quantization.
 
-## Post-Training
+## Tutorials
 
-* **cosmos-rl** Coming soon!
+* Post-Training
+  * **Cosmos-RL** Coming soon!
 
 ## Additional Resources
 
 * [Example prompts](prompts/README.md)
-* Cosmos Reason2 is based on the Qwen3-VL architecture.
+* Cosmos-Reason2 is based on the Qwen3-VL architecture.
   * [Qwen3-VL Repository](https://github.com/QwenLM/Qwen3-VL)
   * [Qwen3-VL vLLM](https://docs.vllm.ai/projects/recipes/en/latest/Qwen/Qwen3-VL.html)
   * [Qwen3 Documentation](https://qwen.readthedocs.io/en/latest/)

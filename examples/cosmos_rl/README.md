@@ -18,6 +18,7 @@ ______________________________________________________________________
   - [LLaVA Dataset](#llava-dataset)
   - [Hugging Face Dataset](#hugging-face-dataset)
 - [Troubleshooting](#troubleshooting)
+  - [Where are worker logs stored?](#where-are-worker-logs-stored)
   - [Where are checkpoints stored?](#where-are-checkpoints-stored)
 
 ______________________________________________________________________
@@ -59,7 +60,7 @@ uv tool install -U wandb
 wandb login
 ```
 
-When you run training, you will see the `wandb` link in the logging:
+When you run training, you will see the `wandb` link in the controller log:
 
 ```bash
 wandb: 🚀 View run at https://wandb.ai/${WANDB_USER_NAME}/${config.logging.project_name}/runs/20250515101157
@@ -139,9 +140,22 @@ uv run cosmos-rl --config configs/hf_sft.toml scripts/hf_sft.py
 
 ## Troubleshooting
 
+### Where are worker logs stored?
+
+The worker log directory can be found in the console log:
+
+```log
+INFO:cosmos:Output files: ['outputs/llava_sft/logs_20251209-004947/policy_0.log']
+```
+
+The log directory contains the following:
+
+* `controller.log`: Controller log: wandb info
+* `policy_0.log`: Policy log: convergence progress
+
 ### Where are checkpoints stored?
 
-After training finishes, the final output checkpoint can be found in the log:
+After training finishes, the output checkpoint directory can be found in the policy log:
 
 ```log
 [rank1]:[cosmos] 2025-12-06 02:04:31,300 - cosmos - INFO - [Policy] Step: 1, checkpoint saved successfully at /tmp/cosmos-reason2/post_training_hf/sft/20251206020308/checkpoints/step_1/policy.

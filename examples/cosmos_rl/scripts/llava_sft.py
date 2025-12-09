@@ -16,6 +16,7 @@
 """SFT adapter for llava-format datasets."""
 
 import argparse
+import base64
 import json
 import os
 import re
@@ -28,7 +29,6 @@ import toml
 import torch.utils.data
 from cosmos_reason2_utils.text import create_conversation
 from cosmos_reason2_utils.vision import PIXELS_PER_TOKEN, VisionConfig
-from cosmos_rl.dispatcher.data.packer import Qwen2_5_VLM_DataPacker
 from cosmos_rl.utils.logging import logger
 
 
@@ -88,6 +88,10 @@ class CustomDataset(torch.utils.data.Dataset):
             if videos:
                 videos = [os.path.join(self.media_path, vid) for vid in videos]
 
+        # cosmos-rl expects base64 encoded images
+        for i, image in enumerate(images):
+            images[i] = base64.b64encode(open(image, "rb").read())
+
         # Remove image and video tags from user prompt
         user_prompt = re.sub(r"(\n)?</?(image|video)>(\n)?", "", user_prompt)
 
@@ -138,12 +142,9 @@ if __name__ == "__main__":
         custom_config=custom_config,
     )
     # Check dataset
-    print(dataset[0])
+    dataset[0]
 
     # Launch worker
     cosmos_rl.launcher.worker_entry.main(
         dataset=dataset,
-        # HACK(joallen)
-        data_packer=Qwen2_5_VLM_DataPacker(),
-        val_data_packer=Qwen2_5_VLM_DataPacker(),
     )

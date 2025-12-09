@@ -54,27 +54,21 @@ def test_create_conversation_openai():
     user_prompt = "What is the capital of France?"
     images = ["image1.png", "image2.png"]
     videos = ["video1.mp4", "video2.mp4"]
-    vision_kwargs = {"max_pixels": 10}
     conversation = create_conversation_openai(
         system_prompt=system_prompt,
         user_prompt=user_prompt,
         images=images,
         videos=videos,
     )
-    set_vision_kwargs(conversation, vision_kwargs)
     assert conversation == [
         {"role": "system", "content": system_prompt},
         {
             "role": "user",
             "content": [
-                {"type": "image_url", "image_url": {"url": _get_media_url(images[0])}}
-                | vision_kwargs,
-                {"type": "image_url", "image_url": {"url": _get_media_url(images[1])}}
-                | vision_kwargs,
-                {"type": "video_url", "video_url": {"url": _get_media_url(videos[0])}}
-                | vision_kwargs,
-                {"type": "video_url", "video_url": {"url": _get_media_url(videos[1])}}
-                | vision_kwargs,
+                {"type": "image_url", "image_url": {"url": _get_media_url(images[0])}},
+                {"type": "image_url", "image_url": {"url": _get_media_url(images[1])}},
+                {"type": "video_url", "video_url": {"url": _get_media_url(videos[0])}},
+                {"type": "video_url", "video_url": {"url": _get_media_url(videos[1])}},
                 {"type": "text", "text": user_prompt},
             ],
         },
