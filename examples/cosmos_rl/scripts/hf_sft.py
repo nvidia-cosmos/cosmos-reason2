@@ -109,7 +109,7 @@ if __name__ == "__main__":
         custom_config=custom_config,
     )
     # Check dataset
-    print(dataset[0])
+    dataset[0]
 
     # Launch worker
     cosmos_rl.launcher.worker_entry.main(

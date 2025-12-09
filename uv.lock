@@ -1035,6 +1035,7 @@ cosmos-rl = [
     { name = "wandb" },
 ]
 cu128-torch28 = [
+    { name = "flash-attn", version = "2.8.3", source = { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp313-cp313-linux_x86_64.whl" }, marker = "python_full_version >= '3.12'" },
     { name = "torch", version = "2.8.0", source = { registry = "https://pypi.org/simple" } },
     { name = "torchao", version = "0.13.0", source = { registry = "https://pypi.org/simple" } },
     { name = "torchcodec", version = "0.7.0", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine != 'aarch64'" },
@@ -1066,6 +1067,7 @@ requires-dist = [
     { name = "av", marker = "extra == 'inference'", specifier = ">=16.0.1" },
     { name = "cosmos-rl", marker = "extra == 'cosmos-rl'", specifier = ">=0.3.6" },
     { name = "datasets", marker = "extra == 'cosmos-rl'", specifier = ">=4.4.1" },
+    { name = "flash-attn", marker = "extra == 'cu128-torch28'", url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp313-cp313-linux_x86_64.whl" },
     { name = "imageio-ffmpeg", marker = "extra == 'inference'", specifier = ">=0.6.0" },
     { name = "matplotlib", specifier = ">=3.10.7" },
     { name = "numpy", specifier = ">=2.2.6" },
@@ -1104,7 +1106,8 @@ dependencies = [
     { name = "cloudpickle" },
     { name = "datasets" },
     { name = "fastapi" },
-    { name = "flash-attn" },
+    { name = "flash-attn", version = "2.8.3", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' or extra != 'extra-20-cosmos-reason2-utils-cu128-torch28'" },
+    { name = "flash-attn", version = "2.8.3", source = { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp313-cp313-linux_x86_64.whl" }, marker = "(python_full_version >= '3.12' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch28') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29')" },
     { name = "kernels" },
     { name = "liger-kernel" },
     { name = "math-verify" },
@@ -1599,12 +1602,41 @@ wheels = [
 name = "flash-attn"
 version = "2.8.3"
 source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.12' and sys_platform == 'linux'",
+    "python_full_version >= '3.12' and sys_platform != 'linux'",
+    "python_full_version == '3.11.*' and sys_platform == 'linux'",
+    "python_full_version < '3.11' and sys_platform == 'linux'",
+    "python_full_version == '3.11.*' and sys_platform != 'linux'",
+    "python_full_version < '3.11' and sys_platform != 'linux'",
+]
 dependencies = [
-    { name = "einops" },
-    { name = "torch", version = "2.8.0", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch28'" },
+    { name = "einops", marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' or extra != 'extra-20-cosmos-reason2-utils-cu128-torch28'" },
     { name = "torch", version = "2.9.0", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' or extra != 'extra-20-cosmos-reason2-utils-cu128-torch28'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/3b/b2/8d76c41ad7974ee264754709c22963447f7f8134613fd9ce80984ed0dab7/flash_attn-2.8.3.tar.gz", hash = "sha256:1e71dd64a9e0280e0447b8a0c2541bad4bf6ac65bdeaa2f90e51a9e57de0370d", size = 8447812, upload-time = "2025-08-15T08:28:12.911Z" }
+
+[[package]]
+name = "flash-attn"
+version = "2.8.3"
+source = { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp313-cp313-linux_x86_64.whl" }
+resolution-markers = [
+    "python_full_version >= '3.12' and sys_platform == 'linux'",
+    "python_full_version >= '3.12' and sys_platform != 'linux'",
+]
+dependencies = [
+    { name = "einops", marker = "(python_full_version >= '3.12' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch28') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29')" },
+    { name = "torch", version = "2.8.0", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch28') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29')" },
+]
+wheels = [
+    { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp313-cp313-linux_x86_64.whl", hash = "sha256:7dd8c64a414130c82d83a472f5498c1b899fba37a30e2a793a7a4dc5dd61a062" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "einops" },
+    { name = "torch" },
+]
 
 [[package]]
 name = "flashinfer-python"
