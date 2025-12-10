@@ -19,5 +19,4 @@ for file in "$@"; do
     echo "Updating lock file for '$project_dir'" >&2
     uv lock --project "$project_dir"
   fi
-  uv export --no-hashes --no-annotate --no-dev --no-editable --project "$project_dir" > "$project_dir/requirements.txt"
 done

@@ -16,7 +16,7 @@ _pre-commit *args:
   pre-commit run -a {{args}} || pre-commit run -a {{args}}
 
 # Run linting and formatting
-lint: _pre-commit-install _pre-commit-base _pre-commit license
+lint: _pre-commit-install _pre-commit-base _pre-commit
 
 # Run pyrefly
 _pyrefly *args:
@@ -30,7 +30,22 @@ test:
 
 # Run pip-licenses
 _pip-licenses *args:
-  uv run --extra quantize pip-licenses --format=plain-vertical --with-license-file --no-license-path --no-version --with-urls --output-file ATTRIBUTIONS.md {{args}}
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  temp_dir=$(mktemp -d)
+  uv venv --clear $temp_dir
+  python_path="$temp_dir/bin/python"
+  uv pip install -r requirements.txt --python $python_path
+  uv run pip-licenses \
+    --python $python_path \
+    --format=plain-vertical \
+    --with-license-file \
+    --no-license-path \
+    --no-version \
+    --with-urls \
+    --output-file ATTRIBUTIONS.md \
+    --packages $(cat requirements.txt | cut -d '=' -f 1 | xargs) \
+    {{args}}
   pre-commit run --files ATTRIBUTIONS.md || true
 
 # Update the license
