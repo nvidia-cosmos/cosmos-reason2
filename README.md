@@ -207,7 +207,7 @@ Arguments:
 ## Tutorials
 
 * Post-Training
-  * **Cosmos-RL** Coming soon!
+  * [Cosmos-RL](examples/cosmos_rl/README.md)
 
 ## Additional Resources
 
