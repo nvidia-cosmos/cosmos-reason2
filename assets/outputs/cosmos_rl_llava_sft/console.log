@@ -1,0 +1,19 @@
+INFO:cosmos:Using rollout backend: vllm
+/home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+INFO:cosmos:Number of policy replicas: 1 with 4 gpus each
+INFO:cosmos:Number of rollout replicas: 0 with 1 gpus each
+INFO:cosmos:Detected 8 GPUs: 0, 1, 2, 3, 4, 5, 6, 7
+INFO:cosmos:Controller will be launched locally on port 8000.
+INFO:cosmos:Temporary configuration file created at /tmp/tmpiw30ki6e.toml
+INFO:cosmos:Number of workers required: 1
+INFO:cosmos:Launching process with command: /home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/.venv/lib/python3.13/site-packages/cosmos_rl/launcher/launch_controller.sh --config /tmp/tmpiw30ki6e.toml --port 8000 --script /home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/scripts/llava_sft.py 
+INFO:cosmos:Waiting for controller to be ready at localhost:8000
+INFO:cosmos:Controller is ready at localhost:8000
+INFO:cosmos:Commands to be executed: ['/home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/.venv/lib/python3.13/site-packages/cosmos_rl/launcher/launch_replica.sh --type policy --ngpus 4 --backend vllm --config /tmp/tmpiw30ki6e.toml --script /home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/scripts/llava_sft.py ']
+INFO:cosmos:GPU devices to be used: ['0,1,2,3']
+INFO:cosmos:Control URLs to be used: ['localhost:8000']
+INFO:cosmos:Output files: ['outputs/llava_sft/logs_20251210-000254/policy_0.log']
+INFO:cosmos:Launching process with command: /home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/.venv/lib/python3.13/site-packages/cosmos_rl/launcher/launch_replica.sh --type policy --ngpus 4 --backend vllm --config /tmp/tmpiw30ki6e.toml --script /home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/scripts/llava_sft.py 
+INFO:cosmos:Process 0 completed successfully
+INFO:cosmos:Process 0 completed successfully

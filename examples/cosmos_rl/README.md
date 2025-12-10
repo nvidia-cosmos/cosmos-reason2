@@ -9,14 +9,13 @@ ______________________________________________________________________
 **Table of Contents**
 
 - [Setup](#setup)
+  - [Virtual Environment](#virtual-environment)
+  - [Docker Container](#docker-container)
   - [Install](#install)
   - [Monitor](#monitor)
 - [Training](#training)
   - [Supervised Fine-Tuning (SFT)](#supervised-fine-tuning-sft)
   - [Reinforcement Learning (RL)](#reinforcement-learning-rl)
-- [Datasets](#datasets)
-  - [LLaVA Dataset](#llava-dataset)
-  - [Hugging Face Dataset](#hugging-face-dataset)
 - [Troubleshooting](#troubleshooting)
   - [Where are worker logs stored?](#where-are-worker-logs-stored)
   - [Where are checkpoints stored?](#where-are-checkpoints-stored)
@@ -27,11 +26,11 @@ ______________________________________________________________________
 
 ## Setup
 
-### Install
+### Virtual Environment
 
 Prerequisites:
 
-- [Setup](../../README.md#setup)
+- [Setup](../../README.md#virtual-environment)
 
 Install system dependencies:
 
@@ -40,6 +39,14 @@ Install system dependencies:
 ```shell
 conda install -c conda-forge redis-server
 ```
+
+### Docker Container
+
+Prerequisites:
+
+- [Setup](../../README.md#docker-container)
+
+### Install
 
 Install the example:
 
@@ -68,17 +75,30 @@ wandb: 🚀 View run at https://wandb.ai/${WANDB_USER_NAME}/${config.logging.pro
 
 ## Training
 
-cosmos-rl is configured via a TOML file ([full config](../../configs/cosmos_rl_config.toml)). Install [Even Better TOML](https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml) to enable completion, hover text, links and validation.
+cosmos-rl is configured via a TOML file ([full config](../../configs/cosmos_rl_config.toml)).
+
+We provide a post-training example using the [LLaVA datasets](https://github.com/haotian-liu/LLaVA/blob/main/docs/Finetune_Custom_Data.md) format.
+
+Please update the fields `annotation_path` and `media_path` in the [config](configs/llava_sft.toml) to your custom dataset. `media_path` can be left as empty (`""`) if the paths in your annotation are absolute paths.
+
+Here is one example of downloading the [Llava-Instruct-150K](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K) dataset and [COCO](https://cocodataset.org/#home) images:
+
+```shell
+DATASET_DIR="/tmp/cosmos_reason2/cosmos_rl/data/llava_sft"
+mkdir -p $DATASET_DIR
+wget https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K/resolve/main/detail_23k.json -O $DATASET_DIR/annotations.json
+wget http://images.cocodataset.org/zips/train2017.zip -O $DATASET_DIR/media.zip && unzip -q $DATASET_DIR/media.zip -d $DATASET_DIR
+```
 
 ### Supervised Fine-Tuning (SFT)
 
-The SFT training can improve the model's capability on certain tasks with a similar distribution of the training dataset.
+Supervised Fine-Tuning (SFT) training can improve the model's capability on certain tasks with a similar distribution of the training dataset.
 
-Minimum Requirements:
+Minimum requirements:
 
 - 4 GPUs with 80GB of memory
 
-Recommended parallelism:
+[Config](configs/llava_sft.toml) variants:
 
 - 4 GPUs
 
@@ -94,49 +114,15 @@ Recommended parallelism:
   dp_shard_size = 8
   ```
 
-### Reinforcement Learning (RL)
-
-Coming soon!
-
-## Datasets
-
-### LLaVA Dataset
-
-This package provides a post-training example using the [LLaVA datasets](https://github.com/haotian-liu/LLaVA/blob/main/docs/Finetune_Custom_Data.md) format.
-
-Please update the fields `annotation_path` and `media_path` in [sft.toml](configs/llava_sft.toml) to your custom dataset. `media_path` can be left as empty (`""`) if the paths in your annotation are absolute paths.
-
-Here is one example of downloading the [Llava-Instruct-150K](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K) dataset and [COCO](https://cocodataset.org/#home) images:
-
-```shell
-DATASET_DIR="/tmp/cosmos_reason2/cosmos_rl/data/llava_sft"
-mkdir -p $DATASET_DIR
-wget https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K/resolve/main/detail_23k.json -O $DATASET_DIR/annotations.json
-wget http://images.cocodataset.org/zips/train2017.zip -O $DATASET_DIR/media.zip && unzip -q $DATASET_DIR/media.zip -d $DATASET_DIR
-```
-
-Run SFT:
+Run SFT ([sample outputs](../../assets/outputs/cosmos_rl_llava_sft)):
 
 ```shell
 uv run cosmos-rl --config configs/llava_sft.toml --log-dir outputs/llava_sft scripts/llava_sft.py
 ```
 
-### Hugging Face Dataset
+### Reinforcement Learning (RL)
 
-Example using the [Hugging Face datasets](https://huggingface.co/docs/datasets/en/index) format.
-
-Download the [Nexar collision prediction](https://huggingface.co/datasets/nexar-ai/nexar_collision_prediction) dataset:
-
-```shell
-hf download --repo-type dataset "nexar-ai/nexar_collision_prediction"
-uv run scripts/download_nexar_collision_prediction.py /tmp/cosmos_reason2/cosmos_rl/data/hf_sft --split "train[:100]"
-```
-
-Run SFT:
-
-```shell
-uv run cosmos-rl --config configs/hf_sft.toml scripts/hf_sft.py
-```
+Coming soon!
 
 ## Troubleshooting
 

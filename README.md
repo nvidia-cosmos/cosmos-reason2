@@ -20,7 +20,7 @@ ______________________________________________________________________
 - [Model Family](#model-family)
 - [Setup](#setup)
   - [Virtual Environment](#virtual-environment)
-  - [Docker container](#docker-container)
+  - [Docker Container](#docker-container)
 - [Inference](#inference)
   - [Transformers](#transformers)
   - [Deployment](#deployment)
@@ -81,7 +81,7 @@ Install the repository:
 uv sync
 ```
 
-### Docker container
+### Docker Container
 
 Please make sure you have access to Docker on your machine and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) is installed.
 
@@ -94,7 +94,7 @@ image_tag=$(docker build -f Dockerfile -q .)
 Run the container:
 
 ```bash
-docker run -it --gpus all --ipc=host --rm -v .:/workspace -v /workspace/.venv -v /root/.cache:/root/.cache $image_tag
+docker run -it --gpus all --ipc=host --rm -v .:/workspace -v /workspace/.venv -v /workspace/examples/cosmos_rl/.venv -v /root/.cache:/root/.cache $image_tag
 ```
 
 Optional arguments:

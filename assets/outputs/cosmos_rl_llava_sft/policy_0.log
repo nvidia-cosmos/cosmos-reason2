@@ -1,0 +1,507 @@
+[Cosmos-RL] POLICY Pre-setting environment variable NCCL_CUMEM_ENABLE=1
+[Cosmos-RL] POLICY Pre-setting environment variable TORCH_CPP_LOG_LEVEL=ERROR
+[Cosmos-RL] POLICY Pre-setting environment variable PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+Launching command: torchrun --nproc-per-node=4 --nnodes=1 --role rank --tee 3 --rdzv_backend c10d --rdzv_endpoint=localhost:0 /home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/scripts/llava_sft.py --config /tmp/tmpiw30ki6e.toml
+/home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W1210 00:03:08.897000 285638 /root/.envs/cec5f9802d7dc4a5564f8e295ce204115f74d1c642a3697cbc688fc8af06b8cd/cosmos_rl/lib/python3.13/site-packages/torch/distributed/run.py:774] 
+W1210 00:03:08.897000 285638 /root/.envs/cec5f9802d7dc4a5564f8e295ce204115f74d1c642a3697cbc688fc8af06b8cd/cosmos_rl/lib/python3.13/site-packages/torch/distributed/run.py:774] *****************************************
+W1210 00:03:08.897000 285638 /root/.envs/cec5f9802d7dc4a5564f8e295ce204115f74d1c642a3697cbc688fc8af06b8cd/cosmos_rl/lib/python3.13/site-packages/torch/distributed/run.py:774] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W1210 00:03:08.897000 285638 /root/.envs/cec5f9802d7dc4a5564f8e295ce204115f74d1c642a3697cbc688fc8af06b8cd/cosmos_rl/lib/python3.13/site-packages/torch/distributed/run.py:774] *****************************************
+[rank1]:/home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+[rank1]:  import pynvml  # type: ignore[import]
+[rank0]:/home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+[rank0]:  import pynvml  # type: ignore[import]
+[rank3]:/home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+[rank3]:  import pynvml  # type: ignore[import]
+[rank2]:/home/joallen/private/code/cosmos-reason2/examples/cosmos_rl/.venv/lib/python3.13/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+[rank2]:  import pynvml  # type: ignore[import]
+[rank1]:[cosmos] 2025-12-10 00:03:18,021 - cosmos - WARNING - transformer_engine.pytorch is not available. DeepSeek model will not work.
+[rank3]:[cosmos] 2025-12-10 00:03:17,939 - cosmos - WARNING - transformer_engine.pytorch is not available. DeepSeek model will not work.
+[rank0]:[cosmos] 2025-12-10 00:03:17,939 - cosmos - WARNING - transformer_engine.pytorch is not available. DeepSeek model will not work.
+[rank3]:[cosmos] 2025-12-10 00:03:18,211 - cosmos - INFO - [Policy] Loaded configuration: {'custom': {'dataset': {'annotation_path': '/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/annotations.json', 'media_path': '/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/train2017', 'system_prompt': ''}}, 'train': {'train_policy': {'type': 'sft', 'dataset': {'name': '', 'subset': '', 'revision': '', 'split': [''], 'test_size': None}, 'mini_batch': 4, 'dataloader_shuffle': True, 'enable_dataset_cache': False, 'dataloader_num_workers': 0, 'dataloader_prefetch_factor': None, 'conversation_column_name': 'conversations', 'system_prompt': '', 'balance_dp_token': True}, 'optm_name': 'AdamW', 'optm_lr': 1e-06, 'optm_impl': 'fused', 'optm_weight_decay': 0.01, 'optm_betas': (0.9, 0.999), 'optm_warmup_steps': 20, 'optm_decay_ratio': None, 'optm_decay_type': None, 'optm_min_lr_factor': 0.0, 'optm_grad_norm_clip': 1.0, 'master_dtype': 'float32', 'param_dtype': 'bfloat16', 'transfer_dtype': 'bfloat16', 'fsdp_reduce_dtype': 'float32', 'fsdp_offload': False, 'fsdp_reshard_after_forward': 'default', 'train_batch_per_replica': 32, 'fp8': {'enable_fp8': False, 'fp8_recipe': 'dynamic_scaling', 'quant_recipe': 'rowwise'}, 'fp4': {'enable_fp4': False, 'fp4_recipe': 'dynamic_scaling', 'quant_recipe': 'rowwise'}, 'ckpt': {'enable_checkpoint': True, 'save_freq': 20, 'save_freq_in_epoch': 0, 'save_mode': 'async', 'max_keep': 5, 'export_safetensors': True, 'upload_hf': False, 'hf_repo_name': 'Comos-Reason1', 'upload_s3': False, 's3_bucket': None, 's3_prefix': 'outputs'}, 'resume': False, 'epoch': 1, 'output_dir': '/tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302', 'timestamp': '20251210000302', 'epsilon': 1e-06, 'async_tp_enabled': False, 'compile': False, 'sync_weight_interval': 1, 'deterministic': False, 'activation_offload': False, 'fa_version': None, 'seed': None, 'local_dataset': True, 'max_num_steps': None, 'sequence_packing': False}, 'rollout': {'parallelism': {'n_init_replicas': 1, 'tp_size': 2, 'cp_size': 1, 'ep_size': 1, 'dp_shard_size': -1, 'pp_size': 1, 'pp_dynamic_shape': False, 'pp_micro_batch_size': 1, 'dp_replicate_size': 1}, 'enforce_eager': True, 'include_stop_str_in_output': False, 'gpu_memory_utilization': 0.8, 'enable_chunked_prefill': False, 'max_response_length': 2048, 'n_generation': 16, 'n_generation_to_batch': False, 'batch_size': 1, 'quantization': 'none', 'seed': None, 'sampling_config': {'temperature': 1.0, 'top_p': 1.0, 'top_k': -1, 'repetition_penalty': 1.0, 'use_flashinfer': False}, 'vllm_use_flashinfer': False, 'backend': 'vllm', 'multi_turn_config': {'enable': False, 'enable_tools': False, 'enable_thinking': False, 'custom_chat_template_path': None, 'max_assistant_turns': 5, 'add_generation_prompt': True, 'continue_final_message': False}}, 'policy': {'parallelism': {'n_init_replicas': 1, 'tp_size': 1, 'cp_size': 1, 'ep_size': 1, 'dp_shard_size': 4, 'pp_size': 1, 'pp_dynamic_shape': False, 'pp_micro_batch_size': 1, 'dp_replicate_size': 1}, 'model_name_or_path': 'nvidia/Cosmos-Reason2-2B', 'model_revision': None, 'model_max_length': 4096, 'model_gradient_checkpointing': True, 'lora': None, 'trainable_map': None, 'enable_liger_kernel': False}, 'logging': {'logger': ['console', 'wandb'], 'project_name': 'cosmos-reason2', 'experiment_name': 'cosmos_rl/llava_sft', 'report_mfu': False}, 'profiler': {'enable_profiler': False, 'enable_nsys': False, 'sub_profiler_config': {'do_profile': False, 'active_steps': 1, 'warmup_steps': 1, 'wait_steps': 1, 'rank_filter': [], 'record_shape': False, 'profile_memory': False, 'with_stack': False, 'with_modules': False}}, 'validation': {'enable': False, 'freq': 20, 'batch_size': None, 'dataset': {'name': '', 'subset': '', 'revision': '', 'split': [''], 'test_size': None}, 'temperature': 0.0, 'top_p': None, 'top_k': 1, 'repetition_penalty': 1.0, 'n_generation': 1, 'max_response_length': None, 'reward_function': {}}, 'redis': '12800', 'eth_ips': '10.68.17.171;10.68.17.233;10.68.17.237;10.68.17.106;10.68.16.234;10.68.16.42;10.68.17.55;10.68.16.49'}
+[rank0]:[cosmos] 2025-12-10 00:03:18,213 - cosmos - INFO - [Policy] Loaded configuration: {'custom': {'dataset': {'annotation_path': '/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/annotations.json', 'media_path': '/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/train2017', 'system_prompt': ''}}, 'train': {'train_policy': {'type': 'sft', 'dataset': {'name': '', 'subset': '', 'revision': '', 'split': [''], 'test_size': None}, 'mini_batch': 4, 'dataloader_shuffle': True, 'enable_dataset_cache': False, 'dataloader_num_workers': 0, 'dataloader_prefetch_factor': None, 'conversation_column_name': 'conversations', 'system_prompt': '', 'balance_dp_token': True}, 'optm_name': 'AdamW', 'optm_lr': 1e-06, 'optm_impl': 'fused', 'optm_weight_decay': 0.01, 'optm_betas': (0.9, 0.999), 'optm_warmup_steps': 20, 'optm_decay_ratio': None, 'optm_decay_type': None, 'optm_min_lr_factor': 0.0, 'optm_grad_norm_clip': 1.0, 'master_dtype': 'float32', 'param_dtype': 'bfloat16', 'transfer_dtype': 'bfloat16', 'fsdp_reduce_dtype': 'float32', 'fsdp_offload': False, 'fsdp_reshard_after_forward': 'default', 'train_batch_per_replica': 32, 'fp8': {'enable_fp8': False, 'fp8_recipe': 'dynamic_scaling', 'quant_recipe': 'rowwise'}, 'fp4': {'enable_fp4': False, 'fp4_recipe': 'dynamic_scaling', 'quant_recipe': 'rowwise'}, 'ckpt': {'enable_checkpoint': True, 'save_freq': 20, 'save_freq_in_epoch': 0, 'save_mode': 'async', 'max_keep': 5, 'export_safetensors': True, 'upload_hf': False, 'hf_repo_name': 'Comos-Reason1', 'upload_s3': False, 's3_bucket': None, 's3_prefix': 'outputs'}, 'resume': False, 'epoch': 1, 'output_dir': '/tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302', 'timestamp': '20251210000302', 'epsilon': 1e-06, 'async_tp_enabled': False, 'compile': False, 'sync_weight_interval': 1, 'deterministic': False, 'activation_offload': False, 'fa_version': None, 'seed': None, 'local_dataset': True, 'max_num_steps': None, 'sequence_packing': False}, 'rollout': {'parallelism': {'n_init_replicas': 1, 'tp_size': 2, 'cp_size': 1, 'ep_size': 1, 'dp_shard_size': -1, 'pp_size': 1, 'pp_dynamic_shape': False, 'pp_micro_batch_size': 1, 'dp_replicate_size': 1}, 'enforce_eager': True, 'include_stop_str_in_output': False, 'gpu_memory_utilization': 0.8, 'enable_chunked_prefill': False, 'max_response_length': 2048, 'n_generation': 16, 'n_generation_to_batch': False, 'batch_size': 1, 'quantization': 'none', 'seed': None, 'sampling_config': {'temperature': 1.0, 'top_p': 1.0, 'top_k': -1, 'repetition_penalty': 1.0, 'use_flashinfer': False}, 'vllm_use_flashinfer': False, 'backend': 'vllm', 'multi_turn_config': {'enable': False, 'enable_tools': False, 'enable_thinking': False, 'custom_chat_template_path': None, 'max_assistant_turns': 5, 'add_generation_prompt': True, 'continue_final_message': False}}, 'policy': {'parallelism': {'n_init_replicas': 1, 'tp_size': 1, 'cp_size': 1, 'ep_size': 1, 'dp_shard_size': 4, 'pp_size': 1, 'pp_dynamic_shape': False, 'pp_micro_batch_size': 1, 'dp_replicate_size': 1}, 'model_name_or_path': 'nvidia/Cosmos-Reason2-2B', 'model_revision': None, 'model_max_length': 4096, 'model_gradient_checkpointing': True, 'lora': None, 'trainable_map': None, 'enable_liger_kernel': False}, 'logging': {'logger': ['console', 'wandb'], 'project_name': 'cosmos-reason2', 'experiment_name': 'cosmos_rl/llava_sft', 'report_mfu': False}, 'profiler': {'enable_profiler': False, 'enable_nsys': False, 'sub_profiler_config': {'do_profile': False, 'active_steps': 1, 'warmup_steps': 1, 'wait_steps': 1, 'rank_filter': [], 'record_shape': False, 'profile_memory': False, 'with_stack': False, 'with_modules': False}}, 'validation': {'enable': False, 'freq': 20, 'batch_size': None, 'dataset': {'name': '', 'subset': '', 'revision': '', 'split': [''], 'test_size': None}, 'temperature': 0.0, 'top_p': None, 'top_k': 1, 'repetition_penalty': 1.0, 'n_generation': 1, 'max_response_length': None, 'reward_function': {}}, 'redis': '12800', 'eth_ips': '10.68.17.171;10.68.17.233;10.68.17.237;10.68.17.106;10.68.16.234;10.68.16.42;10.68.17.55;10.68.16.49'}
+[rank1]:[cosmos] 2025-12-10 00:03:18,259 - cosmos - INFO - [Policy] Loaded configuration: {'custom': {'dataset': {'annotation_path': '/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/annotations.json', 'media_path': '/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/train2017', 'system_prompt': ''}}, 'train': {'train_policy': {'type': 'sft', 'dataset': {'name': '', 'subset': '', 'revision': '', 'split': [''], 'test_size': None}, 'mini_batch': 4, 'dataloader_shuffle': True, 'enable_dataset_cache': False, 'dataloader_num_workers': 0, 'dataloader_prefetch_factor': None, 'conversation_column_name': 'conversations', 'system_prompt': '', 'balance_dp_token': True}, 'optm_name': 'AdamW', 'optm_lr': 1e-06, 'optm_impl': 'fused', 'optm_weight_decay': 0.01, 'optm_betas': (0.9, 0.999), 'optm_warmup_steps': 20, 'optm_decay_ratio': None, 'optm_decay_type': None, 'optm_min_lr_factor': 0.0, 'optm_grad_norm_clip': 1.0, 'master_dtype': 'float32', 'param_dtype': 'bfloat16', 'transfer_dtype': 'bfloat16', 'fsdp_reduce_dtype': 'float32', 'fsdp_offload': False, 'fsdp_reshard_after_forward': 'default', 'train_batch_per_replica': 32, 'fp8': {'enable_fp8': False, 'fp8_recipe': 'dynamic_scaling', 'quant_recipe': 'rowwise'}, 'fp4': {'enable_fp4': False, 'fp4_recipe': 'dynamic_scaling', 'quant_recipe': 'rowwise'}, 'ckpt': {'enable_checkpoint': True, 'save_freq': 20, 'save_freq_in_epoch': 0, 'save_mode': 'async', 'max_keep': 5, 'export_safetensors': True, 'upload_hf': False, 'hf_repo_name': 'Comos-Reason1', 'upload_s3': False, 's3_bucket': None, 's3_prefix': 'outputs'}, 'resume': False, 'epoch': 1, 'output_dir': '/tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302', 'timestamp': '20251210000302', 'epsilon': 1e-06, 'async_tp_enabled': False, 'compile': False, 'sync_weight_interval': 1, 'deterministic': False, 'activation_offload': False, 'fa_version': None, 'seed': None, 'local_dataset': True, 'max_num_steps': None, 'sequence_packing': False}, 'rollout': {'parallelism': {'n_init_replicas': 1, 'tp_size': 2, 'cp_size': 1, 'ep_size': 1, 'dp_shard_size': -1, 'pp_size': 1, 'pp_dynamic_shape': False, 'pp_micro_batch_size': 1, 'dp_replicate_size': 1}, 'enforce_eager': True, 'include_stop_str_in_output': False, 'gpu_memory_utilization': 0.8, 'enable_chunked_prefill': False, 'max_response_length': 2048, 'n_generation': 16, 'n_generation_to_batch': False, 'batch_size': 1, 'quantization': 'none', 'seed': None, 'sampling_config': {'temperature': 1.0, 'top_p': 1.0, 'top_k': -1, 'repetition_penalty': 1.0, 'use_flashinfer': False}, 'vllm_use_flashinfer': False, 'backend': 'vllm', 'multi_turn_config': {'enable': False, 'enable_tools': False, 'enable_thinking': False, 'custom_chat_template_path': None, 'max_assistant_turns': 5, 'add_generation_prompt': True, 'continue_final_message': False}}, 'policy': {'parallelism': {'n_init_replicas': 1, 'tp_size': 1, 'cp_size': 1, 'ep_size': 1, 'dp_shard_size': 4, 'pp_size': 1, 'pp_dynamic_shape': False, 'pp_micro_batch_size': 1, 'dp_replicate_size': 1}, 'model_name_or_path': 'nvidia/Cosmos-Reason2-2B', 'model_revision': None, 'model_max_length': 4096, 'model_gradient_checkpointing': True, 'lora': None, 'trainable_map': None, 'enable_liger_kernel': False}, 'logging': {'logger': ['console', 'wandb'], 'project_name': 'cosmos-reason2', 'experiment_name': 'cosmos_rl/llava_sft', 'report_mfu': False}, 'profiler': {'enable_profiler': False, 'enable_nsys': False, 'sub_profiler_config': {'do_profile': False, 'active_steps': 1, 'warmup_steps': 1, 'wait_steps': 1, 'rank_filter': [], 'record_shape': False, 'profile_memory': False, 'with_stack': False, 'with_modules': False}}, 'validation': {'enable': False, 'freq': 20, 'batch_size': None, 'dataset': {'name': '', 'subset': '', 'revision': '', 'split': [''], 'test_size': None}, 'temperature': 0.0, 'top_p': None, 'top_k': 1, 'repetition_penalty': 1.0, 'n_generation': 1, 'max_response_length': None, 'reward_function': {}}, 'redis': '12800', 'eth_ips': '10.68.17.171;10.68.17.233;10.68.17.237;10.68.17.106;10.68.16.234;10.68.16.42;10.68.17.55;10.68.16.49'}
+[rank2]:[cosmos] 2025-12-10 00:03:18,351 - cosmos - WARNING - transformer_engine.pytorch is not available. DeepSeek model will not work.
+[rank1]:[cosmos] 2025-12-10 00:03:18,616 - cosmos - INFO - Building 1-D device mesh with ['dp_shard'], [4]
+[rank1]:[cosmos] 2025-12-10 00:03:18,617 - cosmos - INFO - Starting SFT training...
+[rank1]:[cosmos] 2025-12-10 00:03:18,618 - cosmos - WARNING - FlashAttention3 is not installed. Using FlashAttention2 instead.
+[rank1]:[cosmos] 2025-12-10 00:03:18,618 - cosmos - INFO - [Cosmos-RL] Using FlashAttention-2.
+[rank3]:[cosmos] 2025-12-10 00:03:18,616 - cosmos - INFO - Building 1-D device mesh with ['dp_shard'], [4]
+[rank3]:[cosmos] 2025-12-10 00:03:18,618 - cosmos - INFO - Starting SFT training...
+[rank3]:[cosmos] 2025-12-10 00:03:18,618 - cosmos - WARNING - FlashAttention3 is not installed. Using FlashAttention2 instead.
+[rank3]:[cosmos] 2025-12-10 00:03:18,618 - cosmos - INFO - [Cosmos-RL] Using FlashAttention-2.
+[rank0]:[cosmos] 2025-12-10 00:03:18,616 - cosmos - INFO - Building 1-D device mesh with ['dp_shard'], [4]
+[rank0]:[cosmos] 2025-12-10 00:03:18,617 - cosmos - INFO - Starting SFT training...
+[rank0]:[cosmos] 2025-12-10 00:03:18,618 - cosmos - WARNING - FlashAttention3 is not installed. Using FlashAttention2 instead.
+[rank0]:[cosmos] 2025-12-10 00:03:18,618 - cosmos - INFO - [Cosmos-RL] Using FlashAttention-2.
+[rank2]:[cosmos] 2025-12-10 00:03:18,588 - cosmos - INFO - [Policy] Loaded configuration: {'custom': {'dataset': {'annotation_path': '/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/annotations.json', 'media_path': '/tmp/cosmos_reason2/cosmos_rl/data/llava_sft/train2017', 'system_prompt': ''}}, 'train': {'train_policy': {'type': 'sft', 'dataset': {'name': '', 'subset': '', 'revision': '', 'split': [''], 'test_size': None}, 'mini_batch': 4, 'dataloader_shuffle': True, 'enable_dataset_cache': False, 'dataloader_num_workers': 0, 'dataloader_prefetch_factor': None, 'conversation_column_name': 'conversations', 'system_prompt': '', 'balance_dp_token': True}, 'optm_name': 'AdamW', 'optm_lr': 1e-06, 'optm_impl': 'fused', 'optm_weight_decay': 0.01, 'optm_betas': (0.9, 0.999), 'optm_warmup_steps': 20, 'optm_decay_ratio': None, 'optm_decay_type': None, 'optm_min_lr_factor': 0.0, 'optm_grad_norm_clip': 1.0, 'master_dtype': 'float32', 'param_dtype': 'bfloat16', 'transfer_dtype': 'bfloat16', 'fsdp_reduce_dtype': 'float32', 'fsdp_offload': False, 'fsdp_reshard_after_forward': 'default', 'train_batch_per_replica': 32, 'fp8': {'enable_fp8': False, 'fp8_recipe': 'dynamic_scaling', 'quant_recipe': 'rowwise'}, 'fp4': {'enable_fp4': False, 'fp4_recipe': 'dynamic_scaling', 'quant_recipe': 'rowwise'}, 'ckpt': {'enable_checkpoint': True, 'save_freq': 20, 'save_freq_in_epoch': 0, 'save_mode': 'async', 'max_keep': 5, 'export_safetensors': True, 'upload_hf': False, 'hf_repo_name': 'Comos-Reason1', 'upload_s3': False, 's3_bucket': None, 's3_prefix': 'outputs'}, 'resume': False, 'epoch': 1, 'output_dir': '/tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302', 'timestamp': '20251210000302', 'epsilon': 1e-06, 'async_tp_enabled': False, 'compile': False, 'sync_weight_interval': 1, 'deterministic': False, 'activation_offload': False, 'fa_version': None, 'seed': None, 'local_dataset': True, 'max_num_steps': None, 'sequence_packing': False}, 'rollout': {'parallelism': {'n_init_replicas': 1, 'tp_size': 2, 'cp_size': 1, 'ep_size': 1, 'dp_shard_size': -1, 'pp_size': 1, 'pp_dynamic_shape': False, 'pp_micro_batch_size': 1, 'dp_replicate_size': 1}, 'enforce_eager': True, 'include_stop_str_in_output': False, 'gpu_memory_utilization': 0.8, 'enable_chunked_prefill': False, 'max_response_length': 2048, 'n_generation': 16, 'n_generation_to_batch': False, 'batch_size': 1, 'quantization': 'none', 'seed': None, 'sampling_config': {'temperature': 1.0, 'top_p': 1.0, 'top_k': -1, 'repetition_penalty': 1.0, 'use_flashinfer': False}, 'vllm_use_flashinfer': False, 'backend': 'vllm', 'multi_turn_config': {'enable': False, 'enable_tools': False, 'enable_thinking': False, 'custom_chat_template_path': None, 'max_assistant_turns': 5, 'add_generation_prompt': True, 'continue_final_message': False}}, 'policy': {'parallelism': {'n_init_replicas': 1, 'tp_size': 1, 'cp_size': 1, 'ep_size': 1, 'dp_shard_size': 4, 'pp_size': 1, 'pp_dynamic_shape': False, 'pp_micro_batch_size': 1, 'dp_replicate_size': 1}, 'model_name_or_path': 'nvidia/Cosmos-Reason2-2B', 'model_revision': None, 'model_max_length': 4096, 'model_gradient_checkpointing': True, 'lora': None, 'trainable_map': None, 'enable_liger_kernel': False}, 'logging': {'logger': ['console', 'wandb'], 'project_name': 'cosmos-reason2', 'experiment_name': 'cosmos_rl/llava_sft', 'report_mfu': False}, 'profiler': {'enable_profiler': False, 'enable_nsys': False, 'sub_profiler_config': {'do_profile': False, 'active_steps': 1, 'warmup_steps': 1, 'wait_steps': 1, 'rank_filter': [], 'record_shape': False, 'profile_memory': False, 'with_stack': False, 'with_modules': False}}, 'validation': {'enable': False, 'freq': 20, 'batch_size': None, 'dataset': {'name': '', 'subset': '', 'revision': '', 'split': [''], 'test_size': None}, 'temperature': 0.0, 'top_p': None, 'top_k': 1, 'repetition_penalty': 1.0, 'n_generation': 1, 'max_response_length': None, 'reward_function': {}}, 'redis': '12800', 'eth_ips': '10.68.17.171;10.68.17.233;10.68.17.237;10.68.17.106;10.68.16.234;10.68.16.42;10.68.17.55;10.68.16.49'}
+[rank2]:[cosmos] 2025-12-10 00:03:18,616 - cosmos - INFO - Building 1-D device mesh with ['dp_shard'], [4]
+[rank2]:[cosmos] 2025-12-10 00:03:18,617 - cosmos - INFO - Starting SFT training...
+[rank2]:[cosmos] 2025-12-10 00:03:18,618 - cosmos - WARNING - FlashAttention3 is not installed. Using FlashAttention2 instead.
+[rank2]:[cosmos] 2025-12-10 00:03:18,618 - cosmos - INFO - [Cosmos-RL] Using FlashAttention-2.
+[rank1]:[cosmos] 2025-12-10 00:03:19,288 - cosmos - INFO - Config checked successfully
+[rank3]:[cosmos] 2025-12-10 00:03:19,290 - cosmos - INFO - Config checked successfully
+[rank2]:[cosmos] 2025-12-10 00:03:19,290 - cosmos - INFO - Config checked successfully
+[rank0]:[cosmos] 2025-12-10 00:03:19,307 - cosmos - INFO - Config checked successfully
+[rank1]:[cosmos] 2025-12-10 00:03:19,986 - cosmos - INFO - POLICY Replica started at global rank 1, with replica name: 89c6372f-41de-4c73-a20b-d6b98dbd24d5
+[rank3]:[cosmos] 2025-12-10 00:03:19,986 - cosmos - INFO - POLICY Replica started at global rank 3, with replica name: 89c6372f-41de-4c73-a20b-d6b98dbd24d5
+[rank2]:[cosmos] 2025-12-10 00:03:19,986 - cosmos - INFO - POLICY Replica started at global rank 2, with replica name: 89c6372f-41de-4c73-a20b-d6b98dbd24d5
+[rank0]:[cosmos] 2025-12-10 00:03:19,985 - cosmos - INFO - POLICY Replica started at global rank 0, with replica name: 89c6372f-41de-4c73-a20b-d6b98dbd24d5
+[rank0]:[cosmos] 2025-12-10 00:03:20,000 - cosmos - INFO - POLICY Replica 89c6372f-41de-4c73-a20b-d6b98dbd24d5 registered to controller
+[rank1]:[cosmos] 2025-12-10 00:03:20,155 - cosmos - INFO - Model type qwen3_vl not registered, using hfmodel instead.
+[rank1]:`torch_dtype` is deprecated! Use `dtype` instead!
+[rank3]:[cosmos] 2025-12-10 00:03:20,189 - cosmos - INFO - Model type qwen3_vl not registered, using hfmodel instead.
+[rank3]:`torch_dtype` is deprecated! Use `dtype` instead!
+[rank2]:[cosmos] 2025-12-10 00:03:20,156 - cosmos - INFO - Model type qwen3_vl not registered, using hfmodel instead.
+[rank2]:`torch_dtype` is deprecated! Use `dtype` instead!
+[rank0]:[cosmos] 2025-12-10 00:03:20,195 - cosmos - INFO - Model type qwen3_vl not registered, using hfmodel instead.
+[rank0]:`torch_dtype` is deprecated! Use `dtype` instead!
+[rank2]:[cosmos] 2025-12-10 00:03:20,329 - cosmos - INFO - WeightMapper: HFModelWeightMapper is being initialized.
+[rank1]:[cosmos] 2025-12-10 00:03:20,338 - cosmos - INFO - WeightMapper: HFModelWeightMapper is being initialized.
+[rank1]:[cosmos] 2025-12-10 00:03:20,387 - cosmos - INFO - Applying FSDP to the visual model
+[rank3]:[cosmos] 2025-12-10 00:03:20,369 - cosmos - INFO - WeightMapper: HFModelWeightMapper is being initialized.
+[rank3]:[cosmos] 2025-12-10 00:03:20,418 - cosmos - INFO - Applying FSDP to the visual model
+[rank2]:[cosmos] 2025-12-10 00:03:20,379 - cosmos - INFO - Applying FSDP to the visual model
+[rank0]:[cosmos] 2025-12-10 00:03:20,377 - cosmos - INFO - WeightMapper: HFModelWeightMapper is being initialized.
+[rank0]:[cosmos] 2025-12-10 00:03:20,427 - cosmos - INFO - Applying FSDP to the visual model
+[rank1]:[cosmos] 2025-12-10 00:03:20,576 - cosmos - INFO - Applying FSDP to the language model embed_tokens
+[rank1]:[cosmos] 2025-12-10 00:03:20,587 - cosmos - INFO - Applied FSDP to the model
+[rank3]:[cosmos] 2025-12-10 00:03:20,617 - cosmos - INFO - Applying FSDP to the language model embed_tokens
+[rank3]:[cosmos] 2025-12-10 00:03:20,629 - cosmos - INFO - Applied FSDP to the model
+[rank2]:[cosmos] 2025-12-10 00:03:20,573 - cosmos - INFO - Applying FSDP to the language model embed_tokens
+[rank2]:[cosmos] 2025-12-10 00:03:20,584 - cosmos - INFO - Applied FSDP to the model
+[rank0]:[cosmos] 2025-12-10 00:03:20,622 - cosmos - INFO - Applying FSDP to the language model embed_tokens
+[rank0]:[cosmos] 2025-12-10 00:03:20,633 - cosmos - INFO - Applied FSDP to the model
+[rank1]:[cosmos] 2025-12-10 00:03:20,797 - cosmos - INFO - Enabled gradient checkpointing for HFModel
+[rank1]:[cosmos] 2025-12-10 00:03:20,797 - cosmos - INFO - Adding lm_head to model parts
+[rank1]:[cosmos] 2025-12-10 00:03:20,800 - cosmos - INFO - Total number of trainable parameters: 2438696960
+[rank1]:[cosmos] 2025-12-10 00:03:20,800 - cosmos - INFO - Trainer initialized at local rank 1, with seq_len_multiple: 1
+[rank3]:[cosmos] 2025-12-10 00:03:20,831 - cosmos - INFO - Enabled gradient checkpointing for HFModel
+[rank3]:[cosmos] 2025-12-10 00:03:20,832 - cosmos - INFO - Adding lm_head to model parts
+[rank3]:[cosmos] 2025-12-10 00:03:20,834 - cosmos - INFO - Total number of trainable parameters: 2438696960
+[rank3]:[cosmos] 2025-12-10 00:03:20,835 - cosmos - INFO - Trainer initialized at local rank 3, with seq_len_multiple: 1
+[rank2]:[cosmos] 2025-12-10 00:03:20,782 - cosmos - INFO - Enabled gradient checkpointing for HFModel
+[rank2]:[cosmos] 2025-12-10 00:03:20,782 - cosmos - INFO - Adding lm_head to model parts
+[rank2]:[cosmos] 2025-12-10 00:03:20,784 - cosmos - INFO - Total number of trainable parameters: 2438696960
+[rank2]:[cosmos] 2025-12-10 00:03:20,785 - cosmos - INFO - Trainer initialized at local rank 2, with seq_len_multiple: 1
+[rank0]:[cosmos] 2025-12-10 00:03:20,831 - cosmos - INFO - Enabled gradient checkpointing for HFModel
+[rank0]:[cosmos] 2025-12-10 00:03:20,831 - cosmos - INFO - Adding lm_head to model parts
+[rank0]:[cosmos] 2025-12-10 00:03:20,833 - cosmos - INFO - Total number of trainable parameters: 2438696960
+[rank0]:[cosmos] 2025-12-10 00:03:20,834 - cosmos - INFO - Trainer initialized at local rank 0, with seq_len_multiple: 1
+[rank0]:[cosmos] 2025-12-10 00:03:20,838 - cosmos - INFO - Initialize wandb at 0, project: cosmos-reason2, experiment: cosmos_rl/llava_sft. Saved to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302
+[rank0]:wandb: Currently logged in as: joallen (nvidia-dir) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+[rank0]:wandb: setting up run 20251210000302
+[rank0]:wandb: Tracking run with wandb version 0.23.1
+[rank0]:wandb: Run data is saved locally in /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/wandb/run-20251210_000321-20251210000302
+[rank0]:wandb: Run `wandb offline` to turn off syncing.
+[rank0]:wandb: Resuming run cosmos_rl/llava_sft/20251210000302
+[rank0]:wandb: ⭐️ View project at https://wandb.ai/nvidia-dir/cosmos-reason2
+[rank0]:wandb: 🚀 View run at https://wandb.ai/nvidia-dir/cosmos-reason2/runs/20251210000302
+[rank2]:[cosmos] 2025-12-10 00:03:43,010 - cosmos - INFO - model path nvidia/Cosmos-Reason2-2B is not a directory. Trying to load from HuggingFace Hub...
+[rank3]:[cosmos] 2025-12-10 00:03:43,168 - cosmos - INFO - model path nvidia/Cosmos-Reason2-2B is not a directory. Trying to load from HuggingFace Hub...
+[rank1]:[cosmos] 2025-12-10 00:03:43,330 - cosmos - INFO - model path nvidia/Cosmos-Reason2-2B is not a directory. Trying to load from HuggingFace Hub...
+[rank2]:[cosmos] 2025-12-10 00:03:43,373 - cosmos - INFO - Found safetensors in nvidia/Cosmos-Reason2-2B. Ignoring *pytorch_model* and *consolidated* files.
+[rank3]:[cosmos] 2025-12-10 00:03:43,508 - cosmos - INFO - Found safetensors in nvidia/Cosmos-Reason2-2B. Ignoring *pytorch_model* and *consolidated* files.
+[rank2]:
+[rank2]:Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+[rank2]:Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 120632.64it/s]
+[rank2]:[cosmos] 2025-12-10 00:03:43,575 - cosmos - INFO - Downloaded model from HuggingFace to /root/.cache/huggingface/transformers/models--nvidia--Cosmos-Reason2-2B/snapshots/ff2ae8ce45ecbe421a50d5c2089210df40f786ec
+[rank1]:[cosmos] 2025-12-10 00:03:43,685 - cosmos - INFO - Found safetensors in nvidia/Cosmos-Reason2-2B. Ignoring *pytorch_model* and *consolidated* files.
+[rank3]:
+[rank3]:Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+[rank3]:Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 124204.90it/s]
+[rank3]:[cosmos] 2025-12-10 00:03:43,695 - cosmos - INFO - Downloaded model from HuggingFace to /root/.cache/huggingface/transformers/models--nvidia--Cosmos-Reason2-2B/snapshots/ff2ae8ce45ecbe421a50d5c2089210df40f786ec
+[rank1]:
+[rank1]:Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+[rank1]:Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 121982.00it/s]
+[rank1]:[cosmos] 2025-12-10 00:03:43,863 - cosmos - INFO - Downloaded model from HuggingFace to /root/.cache/huggingface/transformers/models--nvidia--Cosmos-Reason2-2B/snapshots/ff2ae8ce45ecbe421a50d5c2089210df40f786ec
+[rank0]:[cosmos] 2025-12-10 00:03:44,434 - cosmos - INFO - model path nvidia/Cosmos-Reason2-2B is not a directory. Trying to load from HuggingFace Hub...
+[rank3]:[cosmos] 2025-12-10 00:03:44,804 - cosmos - WARNING - No default data packer found for qwen3_vl, using HFVLMDataPacker as default
+[rank2]:[cosmos] 2025-12-10 00:03:44,778 - cosmos - WARNING - No default data packer found for qwen3_vl, using HFVLMDataPacker as default
+[rank0]:[cosmos] 2025-12-10 00:03:44,779 - cosmos - INFO - Found safetensors in nvidia/Cosmos-Reason2-2B. Ignoring *pytorch_model* and *consolidated* files.
+[rank0]:
+[rank0]:Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+[rank0]:Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 89386.81it/s]
+[rank0]:[cosmos] 2025-12-10 00:03:44,995 - cosmos - INFO - Downloaded model from HuggingFace to /root/.cache/huggingface/transformers/models--nvidia--Cosmos-Reason2-2B/snapshots/ff2ae8ce45ecbe421a50d5c2089210df40f786ec
+[rank1]:[cosmos] 2025-12-10 00:03:45,062 - cosmos - WARNING - No default data packer found for qwen3_vl, using HFVLMDataPacker as default
+[rank0]:[cosmos] 2025-12-10 00:03:46,326 - cosmos - WARNING - No default data packer found for qwen3_vl, using HFVLMDataPacker as default
+[rank3]:[cosmos] 2025-12-10 00:03:49,260 - cosmos - WARNING - No default validation data packer found for qwen3_vl, using HFVLMDataPacker as default
+[rank2]:[cosmos] 2025-12-10 00:03:49,363 - cosmos - WARNING - No default validation data packer found for qwen3_vl, using HFVLMDataPacker as default
+[rank1]:[cosmos] 2025-12-10 00:03:49,567 - cosmos - WARNING - No default validation data packer found for qwen3_vl, using HFVLMDataPacker as default
+[rank0]:[cosmos] 2025-12-10 00:03:50,801 - cosmos - WARNING - No default validation data packer found for qwen3_vl, using HFVLMDataPacker as default
+[rank3]:[cosmos] 2025-12-10 00:03:52,762 - cosmos - INFO - Using user-provided dataset, which will skip split processing.
+[rank3]:[cosmos] 2025-12-10 00:03:52,762 - cosmos - INFO - Final dataset size = 23240
+[rank3]:[cosmos] 2025-12-10 00:03:52,763 - cosmos - INFO - Training epoch 1/1
+[rank1]:[cosmos] 2025-12-10 00:03:53,120 - cosmos - INFO - Using user-provided dataset, which will skip split processing.
+[rank1]:[cosmos] 2025-12-10 00:03:53,120 - cosmos - INFO - Final dataset size = 23240
+[rank1]:[cosmos] 2025-12-10 00:03:53,121 - cosmos - INFO - Training epoch 1/1
+[rank2]:[cosmos] 2025-12-10 00:03:53,086 - cosmos - INFO - Using user-provided dataset, which will skip split processing.
+[rank2]:[cosmos] 2025-12-10 00:03:53,086 - cosmos - INFO - Final dataset size = 23240
+[rank2]:[cosmos] 2025-12-10 00:03:53,087 - cosmos - INFO - Training epoch 1/1
+[rank0]:[cosmos] 2025-12-10 00:03:54,526 - cosmos - INFO - Using user-provided dataset, which will skip split processing.
+[rank0]:[cosmos] 2025-12-10 00:03:54,526 - cosmos - INFO - Final dataset size = 23240
+[rank0]:[cosmos] 2025-12-10 00:03:54,527 - cosmos - INFO - Training epoch 1/1
+[rank0]:[cosmos] 2025-12-10 00:04:02,738 - cosmos - INFO - Step: 1/182, Loss: 2.05765, Grad norm: 21.15058, Learning rate: 1.00000e-07, Iteration time: 7.87s.
+[rank0]:[cosmos] 2025-12-10 00:04:07,983 - cosmos - INFO - Step: 2/182, Loss: 2.06808, Grad norm: 19.76981, Learning rate: 1.50000e-07, Iteration time: 4.86s.
+[rank0]:[cosmos] 2025-12-10 00:04:12,685 - cosmos - INFO - Step: 3/182, Loss: 2.02409, Grad norm: 19.40036, Learning rate: 2.00000e-07, Iteration time: 4.34s.
+[rank0]:[cosmos] 2025-12-10 00:04:17,287 - cosmos - INFO - Step: 4/182, Loss: 2.07480, Grad norm: 20.77224, Learning rate: 2.50000e-07, Iteration time: 4.21s.
+[rank0]:[cosmos] 2025-12-10 00:04:22,490 - cosmos - INFO - Step: 5/182, Loss: 2.06501, Grad norm: 20.10618, Learning rate: 3.00000e-07, Iteration time: 4.81s.
+[rank0]:[cosmos] 2025-12-10 00:04:27,010 - cosmos - INFO - Step: 6/182, Loss: 2.07091, Grad norm: 20.56455, Learning rate: 3.50000e-07, Iteration time: 4.21s.
+[rank0]:[cosmos] 2025-12-10 00:04:31,453 - cosmos - INFO - Step: 7/182, Loss: 2.07783, Grad norm: 20.86018, Learning rate: 4.00000e-07, Iteration time: 4.08s.
+[rank0]:[cosmos] 2025-12-10 00:04:35,872 - cosmos - INFO - Step: 8/182, Loss: 2.10985, Grad norm: 20.35134, Learning rate: 4.50000e-07, Iteration time: 4.09s.
+[rank0]:[cosmos] 2025-12-10 00:04:40,227 - cosmos - INFO - Step: 9/182, Loss: 2.07946, Grad norm: 19.98977, Learning rate: 5.00000e-07, Iteration time: 4.04s.
+[rank0]:[cosmos] 2025-12-10 00:04:44,603 - cosmos - INFO - Step: 10/182, Loss: 2.05991, Grad norm: 19.91829, Learning rate: 5.50000e-07, Iteration time: 4.07s.
+[rank0]:[cosmos] 2025-12-10 00:04:48,886 - cosmos - INFO - Step: 11/182, Loss: 2.04956, Grad norm: 18.99297, Learning rate: 6.00000e-07, Iteration time: 3.96s.
+[rank0]:[cosmos] 2025-12-10 00:04:53,195 - cosmos - INFO - Step: 12/182, Loss: 2.05487, Grad norm: 19.30282, Learning rate: 6.50000e-07, Iteration time: 4.01s.
+[rank0]:[cosmos] 2025-12-10 00:04:57,531 - cosmos - INFO - Step: 13/182, Loss: 2.03817, Grad norm: 17.89145, Learning rate: 7.00000e-07, Iteration time: 4.01s.
+[rank0]:[cosmos] 2025-12-10 00:05:01,792 - cosmos - INFO - Step: 14/182, Loss: 2.05095, Grad norm: 18.03662, Learning rate: 7.50000e-07, Iteration time: 3.94s.
+[rank0]:[cosmos] 2025-12-10 00:05:06,160 - cosmos - INFO - Step: 15/182, Loss: 2.03669, Grad norm: 17.36601, Learning rate: 8.00000e-07, Iteration time: 4.06s.
+[rank0]:[cosmos] 2025-12-10 00:05:10,453 - cosmos - INFO - Step: 16/182, Loss: 2.05358, Grad norm: 18.02634, Learning rate: 8.50000e-07, Iteration time: 3.93s.
+[rank0]:[cosmos] 2025-12-10 00:05:14,779 - cosmos - INFO - Step: 17/182, Loss: 2.02667, Grad norm: 16.78896, Learning rate: 9.00000e-07, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:05:19,097 - cosmos - INFO - Step: 18/182, Loss: 2.00201, Grad norm: 15.24450, Learning rate: 9.50000e-07, Iteration time: 4.01s.
+[rank0]:[cosmos] 2025-12-10 00:05:23,475 - cosmos - INFO - Step: 19/182, Loss: 1.97327, Grad norm: 11.41766, Learning rate: 1.00000e-06, Iteration time: 4.06s.
+[rank1]:[cosmos] 2025-12-10 00:05:27,749 - cosmos - INFO - Saving huggingface checkpoint at step 20 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank3]:[cosmos] 2025-12-10 00:05:27,749 - cosmos - INFO - Saving huggingface checkpoint at step 20 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:05:27,750 - cosmos - INFO - Step: 20/182, Loss: 1.95336, Grad norm: 10.64512, Learning rate: 1.00000e-06, Iteration time: 3.96s.
+[rank0]:[cosmos] 2025-12-10 00:05:27,750 - cosmos - INFO - Saving huggingface checkpoint at step 20 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:05:27,750 - cosmos - INFO - Prepare to exporting safetensors to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_20 at rank 0
+[rank2]:[cosmos] 2025-12-10 00:05:27,749 - cosmos - INFO - Saving huggingface checkpoint at step 20 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:05:35,094 - cosmos - INFO - Saved chunk 0 to 00000.safetensors
+[rank1]:[cosmos] 2025-12-10 00:05:36,163 - cosmos - INFO - Saving cosmos checkpoint at step 20...
+[rank3]:[cosmos] 2025-12-10 00:05:36,163 - cosmos - INFO - Saving cosmos checkpoint at step 20...
+[rank0]:[cosmos] 2025-12-10 00:05:36,162 - cosmos - INFO - Saved chunk 1 to 00001.safetensors
+[rank2]:[cosmos] 2025-12-10 00:05:36,163 - cosmos - INFO - Saving cosmos checkpoint at step 20...
+[rank0]:[cosmos] 2025-12-10 00:05:36,903 - cosmos - INFO - Saving cosmos checkpoint at step 20...
+[rank3]:[cosmos] 2025-12-10 00:05:40,172 - cosmos - INFO - [Policy] Step: 20, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_20/policy.
+[rank2]:[cosmos] 2025-12-10 00:05:40,276 - cosmos - INFO - [Policy] Step: 20, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_20/policy.
+[rank1]:[cosmos] 2025-12-10 00:05:41,402 - cosmos - INFO - [Policy] Step: 20, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_20/policy.
+[rank0]:[cosmos] 2025-12-10 00:05:42,881 - cosmos - INFO - [Policy] Step: 20, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_20/policy.
+[rank0]:[cosmos] 2025-12-10 00:05:54,945 - cosmos - INFO - Step: 21/182, Loss: 1.94253, Grad norm: 10.07670, Learning rate: 1.00000e-06, Iteration time: 10.98s.
+[rank0]:[cosmos] 2025-12-10 00:05:59,362 - cosmos - INFO - Step: 22/182, Loss: 1.93711, Grad norm: 9.78220, Learning rate: 1.00000e-06, Iteration time: 4.11s.
+[rank0]:[cosmos] 2025-12-10 00:06:03,857 - cosmos - INFO - Step: 23/182, Loss: 1.92821, Grad norm: 9.43663, Learning rate: 1.00000e-06, Iteration time: 4.18s.
+[rank0]:[cosmos] 2025-12-10 00:06:08,272 - cosmos - INFO - Step: 24/182, Loss: 1.90502, Grad norm: 8.69327, Learning rate: 1.00000e-06, Iteration time: 4.10s.
+[rank0]:[cosmos] 2025-12-10 00:06:12,680 - cosmos - INFO - Step: 25/182, Loss: 1.96371, Grad norm: 9.13169, Learning rate: 1.00000e-06, Iteration time: 4.10s.
+[rank0]:[cosmos] 2025-12-10 00:06:17,051 - cosmos - INFO - Step: 26/182, Loss: 1.86197, Grad norm: 6.05800, Learning rate: 1.00000e-06, Iteration time: 4.06s.
+[rank0]:[cosmos] 2025-12-10 00:06:21,431 - cosmos - INFO - Step: 27/182, Loss: 1.90524, Grad norm: 6.47889, Learning rate: 1.00000e-06, Iteration time: 4.07s.
+[rank0]:[cosmos] 2025-12-10 00:06:25,762 - cosmos - INFO - Step: 28/182, Loss: 1.89756, Grad norm: 7.26920, Learning rate: 1.00000e-06, Iteration time: 4.01s.
+[rank0]:[cosmos] 2025-12-10 00:06:30,212 - cosmos - INFO - Step: 29/182, Loss: 1.86594, Grad norm: 6.89630, Learning rate: 1.00000e-06, Iteration time: 4.14s.
+[rank0]:[cosmos] 2025-12-10 00:06:34,677 - cosmos - INFO - Step: 30/182, Loss: 1.87060, Grad norm: 6.47061, Learning rate: 1.00000e-06, Iteration time: 4.16s.
+[rank0]:[cosmos] 2025-12-10 00:06:39,031 - cosmos - INFO - Step: 31/182, Loss: 1.86464, Grad norm: 6.40403, Learning rate: 1.00000e-06, Iteration time: 4.06s.
+[rank0]:[cosmos] 2025-12-10 00:06:43,402 - cosmos - INFO - Step: 32/182, Loss: 1.85944, Grad norm: 5.98934, Learning rate: 1.00000e-06, Iteration time: 4.07s.
+[rank0]:[cosmos] 2025-12-10 00:06:47,691 - cosmos - INFO - Step: 33/182, Loss: 1.83275, Grad norm: 5.41177, Learning rate: 1.00000e-06, Iteration time: 4.00s.
+[rank0]:[cosmos] 2025-12-10 00:06:51,999 - cosmos - INFO - Step: 34/182, Loss: 1.84778, Grad norm: 5.09870, Learning rate: 1.00000e-06, Iteration time: 4.00s.
+[rank0]:[cosmos] 2025-12-10 00:06:56,283 - cosmos - INFO - Step: 35/182, Loss: 1.84069, Grad norm: 4.89505, Learning rate: 1.00000e-06, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:07:00,569 - cosmos - INFO - Step: 36/182, Loss: 1.80204, Grad norm: 4.87370, Learning rate: 1.00000e-06, Iteration time: 3.99s.
+[rank0]:[cosmos] 2025-12-10 00:07:04,856 - cosmos - INFO - Step: 37/182, Loss: 1.81652, Grad norm: 4.61501, Learning rate: 1.00000e-06, Iteration time: 3.99s.
+[rank0]:[cosmos] 2025-12-10 00:07:09,142 - cosmos - INFO - Step: 38/182, Loss: 1.80175, Grad norm: 4.25268, Learning rate: 1.00000e-06, Iteration time: 3.97s.
+[rank0]:[cosmos] 2025-12-10 00:07:13,403 - cosmos - INFO - Step: 39/182, Loss: 1.79169, Grad norm: 4.00062, Learning rate: 1.00000e-06, Iteration time: 3.97s.
+[rank1]:[cosmos] 2025-12-10 00:07:17,647 - cosmos - INFO - Saving huggingface checkpoint at step 40 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank3]:[cosmos] 2025-12-10 00:07:17,647 - cosmos - INFO - Saving huggingface checkpoint at step 40 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:07:17,647 - cosmos - INFO - Step: 40/182, Loss: 1.76867, Grad norm: 3.89966, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:07:17,648 - cosmos - INFO - Saving huggingface checkpoint at step 40 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:07:17,648 - cosmos - INFO - Prepare to exporting safetensors to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_40 at rank 0
+[rank2]:[cosmos] 2025-12-10 00:07:17,647 - cosmos - INFO - Saving huggingface checkpoint at step 40 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:07:24,666 - cosmos - INFO - Saved chunk 0 to 00000.safetensors
+[rank3]:[cosmos] 2025-12-10 00:07:25,776 - cosmos - INFO - Saving cosmos checkpoint at step 40...
+[rank0]:[cosmos] 2025-12-10 00:07:25,775 - cosmos - INFO - Saved chunk 1 to 00001.safetensors
+[rank2]:[cosmos] 2025-12-10 00:07:25,776 - cosmos - INFO - Saving cosmos checkpoint at step 40...
+[rank1]:[cosmos] 2025-12-10 00:07:25,776 - cosmos - INFO - Saving cosmos checkpoint at step 40...
+[rank0]:[cosmos] 2025-12-10 00:07:26,484 - cosmos - INFO - Saving cosmos checkpoint at step 40...
+[rank2]:[cosmos] 2025-12-10 00:07:29,674 - cosmos - INFO - [Policy] Step: 40, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_40/policy.
+[rank3]:[cosmos] 2025-12-10 00:07:29,752 - cosmos - INFO - [Policy] Step: 40, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_40/policy.
+[rank1]:[cosmos] 2025-12-10 00:07:30,987 - cosmos - INFO - [Policy] Step: 40, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_40/policy.
+[rank0]:[cosmos] 2025-12-10 00:07:32,400 - cosmos - INFO - [Policy] Step: 40, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_40/policy.
+[rank0]:[cosmos] 2025-12-10 00:07:45,059 - cosmos - INFO - Step: 41/182, Loss: 1.78915, Grad norm: 3.65194, Learning rate: 1.00000e-06, Iteration time: 11.54s.
+[rank0]:[cosmos] 2025-12-10 00:07:49,841 - cosmos - INFO - Step: 42/182, Loss: 1.77371, Grad norm: 3.63607, Learning rate: 1.00000e-06, Iteration time: 4.47s.
+[rank0]:[cosmos] 2025-12-10 00:07:54,175 - cosmos - INFO - Step: 43/182, Loss: 1.77097, Grad norm: 3.40458, Learning rate: 1.00000e-06, Iteration time: 4.03s.
+[rank0]:[cosmos] 2025-12-10 00:07:58,421 - cosmos - INFO - Step: 44/182, Loss: 1.74339, Grad norm: 3.42794, Learning rate: 1.00000e-06, Iteration time: 3.91s.
+[rank0]:[cosmos] 2025-12-10 00:08:03,033 - cosmos - INFO - Step: 45/182, Loss: 1.74448, Grad norm: 3.15455, Learning rate: 1.00000e-06, Iteration time: 4.31s.
+[rank0]:[cosmos] 2025-12-10 00:08:07,753 - cosmos - INFO - Step: 46/182, Loss: 1.75207, Grad norm: 3.21433, Learning rate: 1.00000e-06, Iteration time: 4.42s.
+[rank0]:[cosmos] 2025-12-10 00:08:12,496 - cosmos - INFO - Step: 47/182, Loss: 1.79246, Grad norm: 3.34668, Learning rate: 1.00000e-06, Iteration time: 4.45s.
+[rank0]:[cosmos] 2025-12-10 00:08:16,697 - cosmos - INFO - Step: 48/182, Loss: 1.72029, Grad norm: 3.01682, Learning rate: 1.00000e-06, Iteration time: 3.89s.
+[rank0]:[cosmos] 2025-12-10 00:08:20,939 - cosmos - INFO - Step: 49/182, Loss: 1.71851, Grad norm: 2.85764, Learning rate: 1.00000e-06, Iteration time: 3.93s.
+[rank0]:[cosmos] 2025-12-10 00:08:25,240 - cosmos - INFO - Step: 50/182, Loss: 1.74528, Grad norm: 2.86296, Learning rate: 1.00000e-06, Iteration time: 3.99s.
+[rank0]:[cosmos] 2025-12-10 00:08:29,557 - cosmos - INFO - Step: 51/182, Loss: 1.73809, Grad norm: 2.68552, Learning rate: 1.00000e-06, Iteration time: 4.00s.
+[rank0]:[cosmos] 2025-12-10 00:08:33,923 - cosmos - INFO - Step: 52/182, Loss: 1.72940, Grad norm: 2.53229, Learning rate: 1.00000e-06, Iteration time: 4.04s.
+[rank0]:[cosmos] 2025-12-10 00:08:38,244 - cosmos - INFO - Step: 53/182, Loss: 1.72527, Grad norm: 2.37960, Learning rate: 1.00000e-06, Iteration time: 4.03s.
+[rank0]:[cosmos] 2025-12-10 00:08:42,529 - cosmos - INFO - Step: 54/182, Loss: 1.71662, Grad norm: 2.31013, Learning rate: 1.00000e-06, Iteration time: 3.97s.
+[rank0]:[cosmos] 2025-12-10 00:08:46,849 - cosmos - INFO - Step: 55/182, Loss: 1.69187, Grad norm: 2.32509, Learning rate: 1.00000e-06, Iteration time: 4.01s.
+[rank0]:[cosmos] 2025-12-10 00:08:51,208 - cosmos - INFO - Step: 56/182, Loss: 1.73586, Grad norm: 2.20316, Learning rate: 1.00000e-06, Iteration time: 4.04s.
+[rank0]:[cosmos] 2025-12-10 00:08:55,615 - cosmos - INFO - Step: 57/182, Loss: 1.67592, Grad norm: 2.33431, Learning rate: 1.00000e-06, Iteration time: 4.10s.
+[rank0]:[cosmos] 2025-12-10 00:08:59,986 - cosmos - INFO - Step: 58/182, Loss: 1.70589, Grad norm: 2.23093, Learning rate: 1.00000e-06, Iteration time: 4.06s.
+[rank0]:[cosmos] 2025-12-10 00:09:04,252 - cosmos - INFO - Step: 59/182, Loss: 1.74283, Grad norm: 2.23123, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank1]:[cosmos] 2025-12-10 00:09:08,535 - cosmos - INFO - Saving huggingface checkpoint at step 60 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank3]:[cosmos] 2025-12-10 00:09:08,535 - cosmos - INFO - Saving huggingface checkpoint at step 60 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:09:08,535 - cosmos - INFO - Step: 60/182, Loss: 1.67832, Grad norm: 2.25115, Learning rate: 1.00000e-06, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:09:08,536 - cosmos - INFO - Saving huggingface checkpoint at step 60 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:09:08,536 - cosmos - INFO - Prepare to exporting safetensors to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_60 at rank 0
+[rank2]:[cosmos] 2025-12-10 00:09:08,535 - cosmos - INFO - Saving huggingface checkpoint at step 60 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:09:15,538 - cosmos - INFO - Saved chunk 0 to 00000.safetensors
+[rank1]:[cosmos] 2025-12-10 00:09:16,652 - cosmos - INFO - Saving cosmos checkpoint at step 60...
+[rank3]:[cosmos] 2025-12-10 00:09:16,652 - cosmos - INFO - Saving cosmos checkpoint at step 60...
+[rank0]:[cosmos] 2025-12-10 00:09:16,651 - cosmos - INFO - Saved chunk 1 to 00001.safetensors
+[rank2]:[cosmos] 2025-12-10 00:09:16,652 - cosmos - INFO - Saving cosmos checkpoint at step 60...
+[rank0]:[cosmos] 2025-12-10 00:09:17,362 - cosmos - INFO - Saving cosmos checkpoint at step 60...
+[rank3]:[cosmos] 2025-12-10 00:09:20,654 - cosmos - INFO - [Policy] Step: 60, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_60/policy.
+[rank2]:[cosmos] 2025-12-10 00:09:20,661 - cosmos - INFO - [Policy] Step: 60, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_60/policy.
+[rank1]:[cosmos] 2025-12-10 00:09:21,770 - cosmos - INFO - [Policy] Step: 60, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_60/policy.
+[rank0]:[cosmos] 2025-12-10 00:09:23,297 - cosmos - INFO - [Policy] Step: 60, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_60/policy.
+[rank0]:[cosmos] 2025-12-10 00:09:35,479 - cosmos - INFO - Step: 61/182, Loss: 1.71054, Grad norm: 2.09742, Learning rate: 1.00000e-06, Iteration time: 11.13s.
+[rank0]:[cosmos] 2025-12-10 00:09:39,860 - cosmos - INFO - Step: 62/182, Loss: 1.68266, Grad norm: 2.02443, Learning rate: 1.00000e-06, Iteration time: 4.06s.
+[rank0]:[cosmos] 2025-12-10 00:09:44,200 - cosmos - INFO - Step: 63/182, Loss: 1.69016, Grad norm: 2.19728, Learning rate: 1.00000e-06, Iteration time: 4.03s.
+[rank0]:[cosmos] 2025-12-10 00:09:48,577 - cosmos - INFO - Step: 64/182, Loss: 1.68654, Grad norm: 2.03435, Learning rate: 1.00000e-06, Iteration time: 4.07s.
+[rank0]:[cosmos] 2025-12-10 00:09:53,004 - cosmos - INFO - Step: 65/182, Loss: 1.70298, Grad norm: 1.98440, Learning rate: 1.00000e-06, Iteration time: 4.10s.
+[rank0]:[cosmos] 2025-12-10 00:09:57,339 - cosmos - INFO - Step: 66/182, Loss: 1.66598, Grad norm: 2.02247, Learning rate: 1.00000e-06, Iteration time: 4.02s.
+[rank0]:[cosmos] 2025-12-10 00:10:01,667 - cosmos - INFO - Step: 67/182, Loss: 1.72881, Grad norm: 2.09258, Learning rate: 1.00000e-06, Iteration time: 4.00s.
+[rank0]:[cosmos] 2025-12-10 00:10:06,003 - cosmos - INFO - Step: 68/182, Loss: 1.67595, Grad norm: 1.95516, Learning rate: 1.00000e-06, Iteration time: 4.01s.
+[rank0]:[cosmos] 2025-12-10 00:10:10,333 - cosmos - INFO - Step: 69/182, Loss: 1.66818, Grad norm: 1.96411, Learning rate: 1.00000e-06, Iteration time: 4.01s.
+[rank0]:[cosmos] 2025-12-10 00:10:14,597 - cosmos - INFO - Step: 70/182, Loss: 1.68128, Grad norm: 2.07027, Learning rate: 1.00000e-06, Iteration time: 3.96s.
+[rank0]:[cosmos] 2025-12-10 00:10:18,806 - cosmos - INFO - Step: 71/182, Loss: 1.64163, Grad norm: 1.99944, Learning rate: 1.00000e-06, Iteration time: 3.90s.
+[rank0]:[cosmos] 2025-12-10 00:10:23,098 - cosmos - INFO - Step: 72/182, Loss: 1.67166, Grad norm: 1.91537, Learning rate: 1.00000e-06, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:10:27,370 - cosmos - INFO - Step: 73/182, Loss: 1.66801, Grad norm: 2.05794, Learning rate: 1.00000e-06, Iteration time: 3.94s.
+[rank0]:[cosmos] 2025-12-10 00:10:31,705 - cosmos - INFO - Step: 74/182, Loss: 1.66314, Grad norm: 2.08279, Learning rate: 1.00000e-06, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:10:35,979 - cosmos - INFO - Step: 75/182, Loss: 1.69845, Grad norm: 2.07880, Learning rate: 1.00000e-06, Iteration time: 3.94s.
+[rank0]:[cosmos] 2025-12-10 00:10:40,238 - cosmos - INFO - Step: 76/182, Loss: 1.67093, Grad norm: 1.95750, Learning rate: 1.00000e-06, Iteration time: 3.94s.
+[rank0]:[cosmos] 2025-12-10 00:10:44,500 - cosmos - INFO - Step: 77/182, Loss: 1.65719, Grad norm: 1.90641, Learning rate: 1.00000e-06, Iteration time: 3.94s.
+[rank0]:[cosmos] 2025-12-10 00:10:48,743 - cosmos - INFO - Step: 78/182, Loss: 1.65650, Grad norm: 1.86651, Learning rate: 1.00000e-06, Iteration time: 3.93s.
+[rank0]:[cosmos] 2025-12-10 00:10:53,110 - cosmos - INFO - Step: 79/182, Loss: 1.62243, Grad norm: 2.07977, Learning rate: 1.00000e-06, Iteration time: 4.05s.
+[rank1]:[cosmos] 2025-12-10 00:10:57,412 - cosmos - INFO - Saving huggingface checkpoint at step 80 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank3]:[cosmos] 2025-12-10 00:10:57,412 - cosmos - INFO - Saving huggingface checkpoint at step 80 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:10:57,413 - cosmos - INFO - Step: 80/182, Loss: 1.66190, Grad norm: 2.10978, Learning rate: 1.00000e-06, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:10:57,413 - cosmos - INFO - Saving huggingface checkpoint at step 80 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:10:57,413 - cosmos - INFO - Prepare to exporting safetensors to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_80 at rank 0
+[rank2]:[cosmos] 2025-12-10 00:10:57,412 - cosmos - INFO - Saving huggingface checkpoint at step 80 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:11:04,782 - cosmos - INFO - Saved chunk 0 to 00000.safetensors
+[rank2]:[cosmos] 2025-12-10 00:11:06,015 - cosmos - INFO - Saving cosmos checkpoint at step 80...
+[rank1]:[cosmos] 2025-12-10 00:11:06,015 - cosmos - INFO - Saving cosmos checkpoint at step 80...
+[rank3]:[cosmos] 2025-12-10 00:11:06,015 - cosmos - INFO - Saving cosmos checkpoint at step 80...
+[rank0]:[cosmos] 2025-12-10 00:11:06,013 - cosmos - INFO - Saved chunk 1 to 00001.safetensors
+[rank0]:[cosmos] 2025-12-10 00:11:06,727 - cosmos - INFO - Saving cosmos checkpoint at step 80...
+[rank3]:[cosmos] 2025-12-10 00:11:09,986 - cosmos - INFO - [Policy] Step: 80, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_80/policy.
+[rank2]:[cosmos] 2025-12-10 00:11:09,941 - cosmos - INFO - [Policy] Step: 80, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_80/policy.
+[rank1]:[cosmos] 2025-12-10 00:11:11,093 - cosmos - INFO - [Policy] Step: 80, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_80/policy.
+[rank0]:[cosmos] 2025-12-10 00:11:12,768 - cosmos - INFO - [Policy] Step: 80, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_80/policy.
+[rank0]:[cosmos] 2025-12-10 00:11:24,879 - cosmos - INFO - Step: 81/182, Loss: 1.66644, Grad norm: 1.98312, Learning rate: 1.00000e-06, Iteration time: 11.04s.
+[rank0]:[cosmos] 2025-12-10 00:11:29,161 - cosmos - INFO - Step: 82/182, Loss: 1.68670, Grad norm: 2.05248, Learning rate: 1.00000e-06, Iteration time: 4.00s.
+[rank0]:[cosmos] 2025-12-10 00:11:33,828 - cosmos - INFO - Step: 83/182, Loss: 1.66007, Grad norm: 1.91704, Learning rate: 1.00000e-06, Iteration time: 4.36s.
+[rank0]:[cosmos] 2025-12-10 00:11:38,186 - cosmos - INFO - Step: 84/182, Loss: 1.63115, Grad norm: 1.98444, Learning rate: 1.00000e-06, Iteration time: 4.04s.
+[rank0]:[cosmos] 2025-12-10 00:11:42,518 - cosmos - INFO - Step: 85/182, Loss: 1.65070, Grad norm: 1.82836, Learning rate: 1.00000e-06, Iteration time: 4.03s.
+[rank0]:[cosmos] 2025-12-10 00:11:46,949 - cosmos - INFO - Step: 86/182, Loss: 1.64795, Grad norm: 1.91100, Learning rate: 1.00000e-06, Iteration time: 4.09s.
+[rank0]:[cosmos] 2025-12-10 00:11:52,030 - cosmos - INFO - Step: 87/182, Loss: 1.66482, Grad norm: 1.87799, Learning rate: 1.00000e-06, Iteration time: 4.77s.
+[rank0]:[cosmos] 2025-12-10 00:11:56,370 - cosmos - INFO - Step: 88/182, Loss: 1.64333, Grad norm: 1.78465, Learning rate: 1.00000e-06, Iteration time: 4.00s.
+[rank0]:[cosmos] 2025-12-10 00:12:01,294 - cosmos - INFO - Step: 89/182, Loss: 1.66259, Grad norm: 1.82043, Learning rate: 1.00000e-06, Iteration time: 4.63s.
+[rank0]:[cosmos] 2025-12-10 00:12:05,658 - cosmos - INFO - Step: 90/182, Loss: 1.65004, Grad norm: 1.87232, Learning rate: 1.00000e-06, Iteration time: 4.07s.
+[rank0]:[cosmos] 2025-12-10 00:12:09,968 - cosmos - INFO - Step: 91/182, Loss: 1.65623, Grad norm: 1.77976, Learning rate: 1.00000e-06, Iteration time: 4.01s.
+[rank0]:[cosmos] 2025-12-10 00:12:14,374 - cosmos - INFO - Step: 92/182, Loss: 1.62122, Grad norm: 1.78609, Learning rate: 1.00000e-06, Iteration time: 4.10s.
+[rank0]:[cosmos] 2025-12-10 00:12:18,639 - cosmos - INFO - Step: 93/182, Loss: 1.63051, Grad norm: 1.70969, Learning rate: 1.00000e-06, Iteration time: 3.96s.
+[rank0]:[cosmos] 2025-12-10 00:12:22,916 - cosmos - INFO - Step: 94/182, Loss: 1.66599, Grad norm: 1.84874, Learning rate: 1.00000e-06, Iteration time: 3.97s.
+[rank0]:[cosmos] 2025-12-10 00:12:27,212 - cosmos - INFO - Step: 95/182, Loss: 1.63272, Grad norm: 1.87611, Learning rate: 1.00000e-06, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:12:31,503 - cosmos - INFO - Step: 96/182, Loss: 1.61534, Grad norm: 1.73892, Learning rate: 1.00000e-06, Iteration time: 3.99s.
+[rank0]:[cosmos] 2025-12-10 00:12:35,764 - cosmos - INFO - Step: 97/182, Loss: 1.62452, Grad norm: 1.93844, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:12:40,000 - cosmos - INFO - Step: 98/182, Loss: 1.64652, Grad norm: 1.85672, Learning rate: 1.00000e-06, Iteration time: 3.94s.
+[rank0]:[cosmos] 2025-12-10 00:12:44,283 - cosmos - INFO - Step: 99/182, Loss: 1.60972, Grad norm: 1.87905, Learning rate: 1.00000e-06, Iteration time: 4.00s.
+[rank1]:[cosmos] 2025-12-10 00:12:48,540 - cosmos - INFO - Saving huggingface checkpoint at step 100 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank3]:[cosmos] 2025-12-10 00:12:48,540 - cosmos - INFO - Saving huggingface checkpoint at step 100 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:12:48,540 - cosmos - INFO - Step: 100/182, Loss: 1.64852, Grad norm: 1.83572, Learning rate: 1.00000e-06, Iteration time: 3.93s.
+[rank0]:[cosmos] 2025-12-10 00:12:48,540 - cosmos - INFO - Saving huggingface checkpoint at step 100 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:12:48,540 - cosmos - INFO - Prepare to exporting safetensors to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_100 at rank 0
+[rank2]:[cosmos] 2025-12-10 00:12:48,540 - cosmos - INFO - Saving huggingface checkpoint at step 100 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:12:55,935 - cosmos - INFO - Saved chunk 0 to 00000.safetensors
+[rank2]:[cosmos] 2025-12-10 00:12:57,124 - cosmos - INFO - Saving cosmos checkpoint at step 100...
+[rank1]:[cosmos] 2025-12-10 00:12:57,124 - cosmos - INFO - Saving cosmos checkpoint at step 100...
+[rank3]:[cosmos] 2025-12-10 00:12:57,124 - cosmos - INFO - Saving cosmos checkpoint at step 100...
+[rank0]:[cosmos] 2025-12-10 00:12:57,122 - cosmos - INFO - Saved chunk 1 to 00001.safetensors
+[rank0]:[cosmos] 2025-12-10 00:12:57,876 - cosmos - INFO - Saving cosmos checkpoint at step 100...
+[rank3]:[cosmos] 2025-12-10 00:13:01,175 - cosmos - INFO - [Policy] Step: 100, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_100/policy.
+[rank2]:[cosmos] 2025-12-10 00:13:01,162 - cosmos - INFO - [Policy] Step: 100, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_100/policy.
+[rank1]:[cosmos] 2025-12-10 00:13:02,215 - cosmos - INFO - [Policy] Step: 100, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_100/policy.
+[rank0]:[cosmos] 2025-12-10 00:13:03,875 - cosmos - INFO - [Policy] Step: 100, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_100/policy.
+[rank0]:[cosmos] 2025-12-10 00:13:16,080 - cosmos - INFO - Step: 101/182, Loss: 1.62060, Grad norm: 1.82847, Learning rate: 1.00000e-06, Iteration time: 11.08s.
+[rank0]:[cosmos] 2025-12-10 00:13:20,536 - cosmos - INFO - Step: 102/182, Loss: 1.60857, Grad norm: 1.78635, Learning rate: 1.00000e-06, Iteration time: 4.15s.
+[rank0]:[cosmos] 2025-12-10 00:13:24,969 - cosmos - INFO - Step: 103/182, Loss: 1.63743, Grad norm: 1.84972, Learning rate: 1.00000e-06, Iteration time: 4.11s.
+[rank0]:[cosmos] 2025-12-10 00:13:29,320 - cosmos - INFO - Step: 104/182, Loss: 1.65366, Grad norm: 1.94979, Learning rate: 1.00000e-06, Iteration time: 4.03s.
+[rank0]:[cosmos] 2025-12-10 00:13:33,653 - cosmos - INFO - Step: 105/182, Loss: 1.61302, Grad norm: 1.80573, Learning rate: 1.00000e-06, Iteration time: 4.02s.
+[rank0]:[cosmos] 2025-12-10 00:13:38,020 - cosmos - INFO - Step: 106/182, Loss: 1.60785, Grad norm: 1.83318, Learning rate: 1.00000e-06, Iteration time: 4.05s.
+[rank0]:[cosmos] 2025-12-10 00:13:42,422 - cosmos - INFO - Step: 107/182, Loss: 1.62208, Grad norm: 1.91700, Learning rate: 1.00000e-06, Iteration time: 4.09s.
+[rank0]:[cosmos] 2025-12-10 00:13:46,654 - cosmos - INFO - Step: 108/182, Loss: 1.64875, Grad norm: 1.78127, Learning rate: 1.00000e-06, Iteration time: 3.92s.
+[rank0]:[cosmos] 2025-12-10 00:13:50,990 - cosmos - INFO - Step: 109/182, Loss: 1.62236, Grad norm: 1.70153, Learning rate: 1.00000e-06, Iteration time: 4.02s.
+[rank0]:[cosmos] 2025-12-10 00:13:55,412 - cosmos - INFO - Step: 110/182, Loss: 1.62025, Grad norm: 1.85494, Learning rate: 1.00000e-06, Iteration time: 4.10s.
+[rank0]:[cosmos] 2025-12-10 00:13:59,784 - cosmos - INFO - Step: 111/182, Loss: 1.64765, Grad norm: 1.81622, Learning rate: 1.00000e-06, Iteration time: 4.05s.
+[rank0]:[cosmos] 2025-12-10 00:14:04,192 - cosmos - INFO - Step: 112/182, Loss: 1.60792, Grad norm: 1.78473, Learning rate: 1.00000e-06, Iteration time: 4.10s.
+[rank0]:[cosmos] 2025-12-10 00:14:08,555 - cosmos - INFO - Step: 113/182, Loss: 1.61430, Grad norm: 1.82250, Learning rate: 1.00000e-06, Iteration time: 4.06s.
+[rank0]:[cosmos] 2025-12-10 00:14:12,882 - cosmos - INFO - Step: 114/182, Loss: 1.62346, Grad norm: 1.94569, Learning rate: 1.00000e-06, Iteration time: 4.01s.
+[rank0]:[cosmos] 2025-12-10 00:14:17,150 - cosmos - INFO - Step: 115/182, Loss: 1.63535, Grad norm: 1.92753, Learning rate: 1.00000e-06, Iteration time: 3.96s.
+[rank0]:[cosmos] 2025-12-10 00:14:21,450 - cosmos - INFO - Step: 116/182, Loss: 1.59761, Grad norm: 1.77402, Learning rate: 1.00000e-06, Iteration time: 3.99s.
+[rank0]:[cosmos] 2025-12-10 00:14:25,687 - cosmos - INFO - Step: 117/182, Loss: 1.60022, Grad norm: 1.79452, Learning rate: 1.00000e-06, Iteration time: 3.91s.
+[rank0]:[cosmos] 2025-12-10 00:14:29,971 - cosmos - INFO - Step: 118/182, Loss: 1.63981, Grad norm: 1.82700, Learning rate: 1.00000e-06, Iteration time: 3.99s.
+[rank0]:[cosmos] 2025-12-10 00:14:34,224 - cosmos - INFO - Step: 119/182, Loss: 1.63020, Grad norm: 1.83339, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank2]:[cosmos] 2025-12-10 00:14:38,419 - cosmos - INFO - Saving huggingface checkpoint at step 120 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank1]:[cosmos] 2025-12-10 00:14:38,418 - cosmos - INFO - Saving huggingface checkpoint at step 120 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank3]:[cosmos] 2025-12-10 00:14:38,418 - cosmos - INFO - Saving huggingface checkpoint at step 120 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:14:38,419 - cosmos - INFO - Step: 120/182, Loss: 1.61436, Grad norm: 1.81225, Learning rate: 1.00000e-06, Iteration time: 3.88s.
+[rank0]:[cosmos] 2025-12-10 00:14:38,419 - cosmos - INFO - Saving huggingface checkpoint at step 120 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:14:38,419 - cosmos - INFO - Prepare to exporting safetensors to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_120 at rank 0
+[rank0]:[cosmos] 2025-12-10 00:14:45,565 - cosmos - INFO - Saved chunk 0 to 00000.safetensors
+[rank2]:[cosmos] 2025-12-10 00:14:46,524 - cosmos - INFO - Saving cosmos checkpoint at step 120...
+[rank1]:[cosmos] 2025-12-10 00:14:46,524 - cosmos - INFO - Saving cosmos checkpoint at step 120...
+[rank3]:[cosmos] 2025-12-10 00:14:46,524 - cosmos - INFO - Saving cosmos checkpoint at step 120...
+[rank0]:[cosmos] 2025-12-10 00:14:46,523 - cosmos - INFO - Saved chunk 1 to 00001.safetensors
+[rank0]:[cosmos] 2025-12-10 00:14:47,220 - cosmos - INFO - Saving cosmos checkpoint at step 120...
+[rank2]:[cosmos] 2025-12-10 00:14:50,522 - cosmos - INFO - [Policy] Step: 120, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_120/policy.
+[rank3]:[cosmos] 2025-12-10 00:14:50,537 - cosmos - INFO - [Policy] Step: 120, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_120/policy.
+[rank1]:[cosmos] 2025-12-10 00:14:51,908 - cosmos - INFO - [Policy] Step: 120, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_120/policy.
+[rank0]:[cosmos] 2025-12-10 00:14:52,933 - cosmos - INFO - [Policy] Step: 120, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_120/policy.
+[rank0]:[cosmos] 2025-12-10 00:14:58,667 - cosmos - INFO - Removed old checkpoint: /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_20
+[rank0]:[cosmos] 2025-12-10 00:14:59,577 - cosmos - INFO - Removed old safetensors: /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_20
+[rank0]:[cosmos] 2025-12-10 00:15:08,428 - cosmos - INFO - Step: 121/182, Loss: 1.61382, Grad norm: 1.79750, Learning rate: 1.00000e-06, Iteration time: 8.35s.
+[rank0]:[cosmos] 2025-12-10 00:15:12,843 - cosmos - INFO - Step: 122/182, Loss: 1.61167, Grad norm: 1.80875, Learning rate: 1.00000e-06, Iteration time: 4.10s.
+[rank0]:[cosmos] 2025-12-10 00:15:17,142 - cosmos - INFO - Step: 123/182, Loss: 1.63846, Grad norm: 1.79189, Learning rate: 1.00000e-06, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:15:21,469 - cosmos - INFO - Step: 124/182, Loss: 1.63103, Grad norm: 1.83055, Learning rate: 1.00000e-06, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:15:25,852 - cosmos - INFO - Step: 125/182, Loss: 1.60893, Grad norm: 1.80004, Learning rate: 1.00000e-06, Iteration time: 4.07s.
+[rank0]:[cosmos] 2025-12-10 00:15:30,500 - cosmos - INFO - Step: 126/182, Loss: 1.63965, Grad norm: 1.79471, Learning rate: 1.00000e-06, Iteration time: 4.30s.
+[rank0]:[cosmos] 2025-12-10 00:15:34,789 - cosmos - INFO - Step: 127/182, Loss: 1.62690, Grad norm: 1.84004, Learning rate: 1.00000e-06, Iteration time: 3.89s.
+[rank0]:[cosmos] 2025-12-10 00:15:39,372 - cosmos - INFO - Step: 128/182, Loss: 1.63910, Grad norm: 1.93518, Learning rate: 1.00000e-06, Iteration time: 4.25s.
+[rank0]:[cosmos] 2025-12-10 00:15:43,978 - cosmos - INFO - Step: 129/182, Loss: 1.63530, Grad norm: 1.78371, Learning rate: 1.00000e-06, Iteration time: 4.29s.
+[rank0]:[cosmos] 2025-12-10 00:15:48,622 - cosmos - INFO - Step: 130/182, Loss: 1.61677, Grad norm: 1.81937, Learning rate: 1.00000e-06, Iteration time: 4.33s.
+[rank0]:[cosmos] 2025-12-10 00:15:52,971 - cosmos - INFO - Step: 131/182, Loss: 1.60239, Grad norm: 1.76650, Learning rate: 1.00000e-06, Iteration time: 4.02s.
+[rank0]:[cosmos] 2025-12-10 00:15:57,228 - cosmos - INFO - Step: 132/182, Loss: 1.58639, Grad norm: 1.71685, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:16:01,462 - cosmos - INFO - Step: 133/182, Loss: 1.61463, Grad norm: 1.90975, Learning rate: 1.00000e-06, Iteration time: 3.92s.
+[rank0]:[cosmos] 2025-12-10 00:16:05,699 - cosmos - INFO - Step: 134/182, Loss: 1.60754, Grad norm: 1.87339, Learning rate: 1.00000e-06, Iteration time: 3.93s.
+[rank0]:[cosmos] 2025-12-10 00:16:09,915 - cosmos - INFO - Step: 135/182, Loss: 1.61387, Grad norm: 1.93578, Learning rate: 1.00000e-06, Iteration time: 3.91s.
+[rank0]:[cosmos] 2025-12-10 00:16:14,170 - cosmos - INFO - Step: 136/182, Loss: 1.61270, Grad norm: 1.74231, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:16:18,435 - cosmos - INFO - Step: 137/182, Loss: 1.61023, Grad norm: 1.87383, Learning rate: 1.00000e-06, Iteration time: 3.93s.
+[rank0]:[cosmos] 2025-12-10 00:16:22,698 - cosmos - INFO - Step: 138/182, Loss: 1.61034, Grad norm: 1.79888, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:16:26,947 - cosmos - INFO - Step: 139/182, Loss: 1.62848, Grad norm: 1.79847, Learning rate: 1.00000e-06, Iteration time: 3.93s.
+[rank2]:[cosmos] 2025-12-10 00:16:31,228 - cosmos - INFO - Saving huggingface checkpoint at step 140 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank1]:[cosmos] 2025-12-10 00:16:31,228 - cosmos - INFO - Saving huggingface checkpoint at step 140 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank3]:[cosmos] 2025-12-10 00:16:31,228 - cosmos - INFO - Saving huggingface checkpoint at step 140 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:16:31,229 - cosmos - INFO - Step: 140/182, Loss: 1.59942, Grad norm: 1.72047, Learning rate: 1.00000e-06, Iteration time: 3.97s.
+[rank0]:[cosmos] 2025-12-10 00:16:31,229 - cosmos - INFO - Saving huggingface checkpoint at step 140 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:16:31,229 - cosmos - INFO - Prepare to exporting safetensors to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_140 at rank 0
+[rank0]:[cosmos] 2025-12-10 00:16:38,831 - cosmos - INFO - Saved chunk 0 to 00000.safetensors
+[rank3]:[cosmos] 2025-12-10 00:16:40,013 - cosmos - INFO - Saving cosmos checkpoint at step 140...
+[rank0]:[cosmos] 2025-12-10 00:16:40,012 - cosmos - INFO - Saved chunk 1 to 00001.safetensors
+[rank2]:[cosmos] 2025-12-10 00:16:40,013 - cosmos - INFO - Saving cosmos checkpoint at step 140...
+[rank1]:[cosmos] 2025-12-10 00:16:40,013 - cosmos - INFO - Saving cosmos checkpoint at step 140...
+[rank0]:[cosmos] 2025-12-10 00:16:40,746 - cosmos - INFO - Saving cosmos checkpoint at step 140...
+[rank3]:[cosmos] 2025-12-10 00:16:43,928 - cosmos - INFO - [Policy] Step: 140, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_140/policy.
+[rank2]:[cosmos] 2025-12-10 00:16:44,005 - cosmos - INFO - [Policy] Step: 140, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_140/policy.
+[rank1]:[cosmos] 2025-12-10 00:16:45,158 - cosmos - INFO - [Policy] Step: 140, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_140/policy.
+[rank0]:[cosmos] 2025-12-10 00:16:46,648 - cosmos - INFO - [Policy] Step: 140, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_140/policy.
+[rank0]:[cosmos] 2025-12-10 00:16:52,698 - cosmos - INFO - Removed old checkpoint: /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_40
+[rank0]:[cosmos] 2025-12-10 00:16:53,590 - cosmos - INFO - Removed old safetensors: /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_40
+[rank0]:[cosmos] 2025-12-10 00:17:01,872 - cosmos - INFO - Step: 141/182, Loss: 1.61410, Grad norm: 1.85499, Learning rate: 1.00000e-06, Iteration time: 7.76s.
+[rank0]:[cosmos] 2025-12-10 00:17:06,100 - cosmos - INFO - Step: 142/182, Loss: 1.59201, Grad norm: 1.75202, Learning rate: 1.00000e-06, Iteration time: 3.89s.
+[rank0]:[cosmos] 2025-12-10 00:17:10,342 - cosmos - INFO - Step: 143/182, Loss: 1.60591, Grad norm: 1.69587, Learning rate: 1.00000e-06, Iteration time: 3.92s.
+[rank0]:[cosmos] 2025-12-10 00:17:14,575 - cosmos - INFO - Step: 144/182, Loss: 1.60793, Grad norm: 1.85824, Learning rate: 1.00000e-06, Iteration time: 3.92s.
+[rank0]:[cosmos] 2025-12-10 00:17:18,809 - cosmos - INFO - Step: 145/182, Loss: 1.61684, Grad norm: 1.89308, Learning rate: 1.00000e-06, Iteration time: 3.93s.
+[rank0]:[cosmos] 2025-12-10 00:17:23,039 - cosmos - INFO - Step: 146/182, Loss: 1.59304, Grad norm: 1.79667, Learning rate: 1.00000e-06, Iteration time: 3.93s.
+[rank0]:[cosmos] 2025-12-10 00:17:27,332 - cosmos - INFO - Step: 147/182, Loss: 1.64434, Grad norm: 1.84178, Learning rate: 1.00000e-06, Iteration time: 3.97s.
+[rank0]:[cosmos] 2025-12-10 00:17:31,619 - cosmos - INFO - Step: 148/182, Loss: 1.58249, Grad norm: 1.70434, Learning rate: 1.00000e-06, Iteration time: 3.97s.
+[rank0]:[cosmos] 2025-12-10 00:17:35,915 - cosmos - INFO - Step: 149/182, Loss: 1.60746, Grad norm: 1.82984, Learning rate: 1.00000e-06, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:17:40,225 - cosmos - INFO - Step: 150/182, Loss: 1.61068, Grad norm: 1.85785, Learning rate: 1.00000e-06, Iteration time: 4.00s.
+[rank0]:[cosmos] 2025-12-10 00:17:44,492 - cosmos - INFO - Step: 151/182, Loss: 1.62442, Grad norm: 1.80152, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:17:48,744 - cosmos - INFO - Step: 152/182, Loss: 1.58775, Grad norm: 1.75402, Learning rate: 1.00000e-06, Iteration time: 3.94s.
+[rank0]:[cosmos] 2025-12-10 00:17:53,016 - cosmos - INFO - Step: 153/182, Loss: 1.62074, Grad norm: 1.72261, Learning rate: 1.00000e-06, Iteration time: 3.92s.
+[rank0]:[cosmos] 2025-12-10 00:17:57,238 - cosmos - INFO - Step: 154/182, Loss: 1.63360, Grad norm: 1.82036, Learning rate: 1.00000e-06, Iteration time: 3.91s.
+[rank0]:[cosmos] 2025-12-10 00:18:01,424 - cosmos - INFO - Step: 155/182, Loss: 1.58403, Grad norm: 1.74157, Learning rate: 1.00000e-06, Iteration time: 3.88s.
+[rank0]:[cosmos] 2025-12-10 00:18:05,736 - cosmos - INFO - Step: 156/182, Loss: 1.60792, Grad norm: 1.75154, Learning rate: 1.00000e-06, Iteration time: 4.00s.
+[rank0]:[cosmos] 2025-12-10 00:18:09,957 - cosmos - INFO - Step: 157/182, Loss: 1.57565, Grad norm: 1.84516, Learning rate: 1.00000e-06, Iteration time: 3.88s.
+[rank0]:[cosmos] 2025-12-10 00:18:14,197 - cosmos - INFO - Step: 158/182, Loss: 1.60572, Grad norm: 1.77001, Learning rate: 1.00000e-06, Iteration time: 3.92s.
+[rank0]:[cosmos] 2025-12-10 00:18:18,422 - cosmos - INFO - Step: 159/182, Loss: 1.60889, Grad norm: 1.78583, Learning rate: 1.00000e-06, Iteration time: 3.92s.
+[rank1]:[cosmos] 2025-12-10 00:18:22,703 - cosmos - INFO - Saving huggingface checkpoint at step 160 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank3]:[cosmos] 2025-12-10 00:18:22,703 - cosmos - INFO - Saving huggingface checkpoint at step 160 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:18:22,703 - cosmos - INFO - Step: 160/182, Loss: 1.57424, Grad norm: 1.85950, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:18:22,704 - cosmos - INFO - Saving huggingface checkpoint at step 160 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:18:22,704 - cosmos - INFO - Prepare to exporting safetensors to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_160 at rank 0
+[rank2]:[cosmos] 2025-12-10 00:18:22,703 - cosmos - INFO - Saving huggingface checkpoint at step 160 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:18:30,035 - cosmos - INFO - Saved chunk 0 to 00000.safetensors
+[rank2]:[cosmos] 2025-12-10 00:18:31,144 - cosmos - INFO - Saving cosmos checkpoint at step 160...
+[rank1]:[cosmos] 2025-12-10 00:18:31,144 - cosmos - INFO - Saving cosmos checkpoint at step 160...
+[rank3]:[cosmos] 2025-12-10 00:18:31,144 - cosmos - INFO - Saving cosmos checkpoint at step 160...
+[rank0]:[cosmos] 2025-12-10 00:18:31,143 - cosmos - INFO - Saved chunk 1 to 00001.safetensors
+[rank0]:[cosmos] 2025-12-10 00:18:31,873 - cosmos - INFO - Saving cosmos checkpoint at step 160...
+[rank3]:[cosmos] 2025-12-10 00:18:35,181 - cosmos - INFO - [Policy] Step: 160, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_160/policy.
+[rank2]:[cosmos] 2025-12-10 00:18:35,210 - cosmos - INFO - [Policy] Step: 160, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_160/policy.
+[rank1]:[cosmos] 2025-12-10 00:18:36,248 - cosmos - INFO - [Policy] Step: 160, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_160/policy.
+[rank0]:[cosmos] 2025-12-10 00:18:37,788 - cosmos - INFO - [Policy] Step: 160, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_160/policy.
+[rank0]:[cosmos] 2025-12-10 00:18:43,745 - cosmos - INFO - Removed old checkpoint: /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_60
+[rank0]:[cosmos] 2025-12-10 00:18:44,641 - cosmos - INFO - Removed old safetensors: /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_60
+[rank0]:[cosmos] 2025-12-10 00:18:53,592 - cosmos - INFO - Step: 161/182, Loss: 1.59224, Grad norm: 1.81150, Learning rate: 1.00000e-06, Iteration time: 8.41s.
+[rank0]:[cosmos] 2025-12-10 00:18:58,014 - cosmos - INFO - Step: 162/182, Loss: 1.61689, Grad norm: 1.89772, Learning rate: 1.00000e-06, Iteration time: 4.12s.
+[rank0]:[cosmos] 2025-12-10 00:19:02,367 - cosmos - INFO - Step: 163/182, Loss: 1.61034, Grad norm: 1.71833, Learning rate: 1.00000e-06, Iteration time: 4.05s.
+[rank0]:[cosmos] 2025-12-10 00:19:06,628 - cosmos - INFO - Step: 164/182, Loss: 1.61984, Grad norm: 1.93471, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:19:10,945 - cosmos - INFO - Step: 165/182, Loss: 1.59792, Grad norm: 1.72744, Learning rate: 1.00000e-06, Iteration time: 4.01s.
+[rank0]:[cosmos] 2025-12-10 00:19:15,213 - cosmos - INFO - Step: 166/182, Loss: 1.59919, Grad norm: 1.72143, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:19:19,447 - cosmos - INFO - Step: 167/182, Loss: 1.60207, Grad norm: 1.72471, Learning rate: 1.00000e-06, Iteration time: 3.91s.
+[rank0]:[cosmos] 2025-12-10 00:19:23,694 - cosmos - INFO - Step: 168/182, Loss: 1.61509, Grad norm: 1.70748, Learning rate: 1.00000e-06, Iteration time: 3.94s.
+[rank0]:[cosmos] 2025-12-10 00:19:27,978 - cosmos - INFO - Step: 169/182, Loss: 1.59026, Grad norm: 1.72664, Learning rate: 1.00000e-06, Iteration time: 3.97s.
+[rank0]:[cosmos] 2025-12-10 00:19:32,909 - cosmos - INFO - Step: 170/182, Loss: 1.60378, Grad norm: 1.80725, Learning rate: 1.00000e-06, Iteration time: 4.62s.
+[rank0]:[cosmos] 2025-12-10 00:19:37,754 - cosmos - INFO - Step: 171/182, Loss: 1.59067, Grad norm: 1.81661, Learning rate: 1.00000e-06, Iteration time: 4.53s.
+[rank0]:[cosmos] 2025-12-10 00:19:42,347 - cosmos - INFO - Step: 172/182, Loss: 1.61441, Grad norm: 1.98695, Learning rate: 1.00000e-06, Iteration time: 4.29s.
+[rank0]:[cosmos] 2025-12-10 00:19:46,610 - cosmos - INFO - Step: 173/182, Loss: 1.56595, Grad norm: 1.74152, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:19:50,883 - cosmos - INFO - Step: 174/182, Loss: 1.59472, Grad norm: 1.72106, Learning rate: 1.00000e-06, Iteration time: 3.96s.
+[rank0]:[cosmos] 2025-12-10 00:19:55,192 - cosmos - INFO - Step: 175/182, Loss: 1.58310, Grad norm: 1.76552, Learning rate: 1.00000e-06, Iteration time: 3.98s.
+[rank0]:[cosmos] 2025-12-10 00:19:59,397 - cosmos - INFO - Step: 176/182, Loss: 1.58195, Grad norm: 1.87746, Learning rate: 1.00000e-06, Iteration time: 3.85s.
+[rank0]:[cosmos] 2025-12-10 00:20:03,650 - cosmos - INFO - Step: 177/182, Loss: 1.61229, Grad norm: 1.75132, Learning rate: 1.00000e-06, Iteration time: 3.95s.
+[rank0]:[cosmos] 2025-12-10 00:20:07,935 - cosmos - INFO - Step: 178/182, Loss: 1.60702, Grad norm: 1.84757, Learning rate: 1.00000e-06, Iteration time: 3.96s.
+[rank0]:[cosmos] 2025-12-10 00:20:12,219 - cosmos - INFO - Step: 179/182, Loss: 1.64352, Grad norm: 1.98783, Learning rate: 1.00000e-06, Iteration time: 3.96s.
+[rank1]:[cosmos] 2025-12-10 00:20:16,465 - cosmos - INFO - Saving huggingface checkpoint at step 180 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank3]:[cosmos] 2025-12-10 00:20:16,465 - cosmos - INFO - Saving huggingface checkpoint at step 180 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:20:16,466 - cosmos - INFO - Step: 180/182, Loss: 1.60353, Grad norm: 1.84241, Learning rate: 1.00000e-06, Iteration time: 3.94s.
+[rank0]:[cosmos] 2025-12-10 00:20:16,466 - cosmos - INFO - Saving huggingface checkpoint at step 180 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:20:16,466 - cosmos - INFO - Prepare to exporting safetensors to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_180 at rank 0
+[rank2]:[cosmos] 2025-12-10 00:20:16,465 - cosmos - INFO - Saving huggingface checkpoint at step 180 to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:20:23,943 - cosmos - INFO - Saved chunk 0 to 00000.safetensors
+[rank1]:[cosmos] 2025-12-10 00:20:25,186 - cosmos - INFO - Saving cosmos checkpoint at step 180...
+[rank3]:[cosmos] 2025-12-10 00:20:25,186 - cosmos - INFO - Saving cosmos checkpoint at step 180...
+[rank0]:[cosmos] 2025-12-10 00:20:25,185 - cosmos - INFO - Saved chunk 1 to 00001.safetensors
+[rank2]:[cosmos] 2025-12-10 00:20:25,186 - cosmos - INFO - Saving cosmos checkpoint at step 180...
+[rank0]:[cosmos] 2025-12-10 00:20:25,929 - cosmos - INFO - Saving cosmos checkpoint at step 180...
+[rank3]:[cosmos] 2025-12-10 00:20:29,111 - cosmos - INFO - [Policy] Step: 180, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_180/policy.
+[rank2]:[cosmos] 2025-12-10 00:20:29,147 - cosmos - INFO - [Policy] Step: 180, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_180/policy.
+[rank1]:[cosmos] 2025-12-10 00:20:30,222 - cosmos - INFO - [Policy] Step: 180, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_180/policy.
+[rank0]:[cosmos] 2025-12-10 00:20:31,958 - cosmos - INFO - [Policy] Step: 180, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_180/policy.
+[rank0]:[cosmos] 2025-12-10 00:20:38,008 - cosmos - INFO - Removed old checkpoint: /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_80
+[rank0]:[cosmos] 2025-12-10 00:20:38,908 - cosmos - INFO - Removed old safetensors: /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_80
+[rank0]:[cosmos] 2025-12-10 00:20:47,257 - cosmos - INFO - Step: 181/182, Loss: 1.59121, Grad norm: 1.88647, Learning rate: 1.00000e-06, Iteration time: 7.82s.
+[rank1]:[cosmos] 2025-12-10 00:20:49,911 - cosmos - INFO - Saving final huggingface checkpoint to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank3]:[cosmos] 2025-12-10 00:20:49,911 - cosmos - INFO - Saving final huggingface checkpoint to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:20:49,912 - cosmos - INFO - Step: 182/182, Loss: 1.59007, Grad norm: 2.41931, Learning rate: 1.00000e-06, Iteration time: 2.46s.
+[rank0]:[cosmos] 2025-12-10 00:20:49,912 - cosmos - INFO - Saving final huggingface checkpoint to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:20:49,912 - cosmos - INFO - Prepare to exporting safetensors to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_182 at rank 0
+[rank2]:[cosmos] 2025-12-10 00:20:49,911 - cosmos - INFO - Saving final huggingface checkpoint to /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302...
+[rank0]:[cosmos] 2025-12-10 00:20:57,377 - cosmos - INFO - Saved chunk 0 to 00000.safetensors
+[rank3]:[cosmos] 2025-12-10 00:20:58,558 - cosmos - INFO - Training finished at step 182/182, saving final cosmos checkpoint...
+[rank0]:[cosmos] 2025-12-10 00:20:58,556 - cosmos - INFO - Saved chunk 1 to 00001.safetensors
+[rank2]:[cosmos] 2025-12-10 00:20:58,558 - cosmos - INFO - Training finished at step 182/182, saving final cosmos checkpoint...
+[rank1]:[cosmos] 2025-12-10 00:20:58,558 - cosmos - INFO - Training finished at step 182/182, saving final cosmos checkpoint...
+[rank0]:[cosmos] 2025-12-10 00:20:59,279 - cosmos - INFO - Training finished at step 182/182, saving final cosmos checkpoint...
+[rank3]:[cosmos] 2025-12-10 00:21:08,149 - cosmos - INFO - [Policy] Step: 182, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_182/policy.
+[rank2]:[cosmos] 2025-12-10 00:21:08,258 - cosmos - INFO - [Policy] Step: 182, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_182/policy.
+[rank1]:[cosmos] 2025-12-10 00:21:10,792 - cosmos - INFO - [Policy] Step: 182, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_182/policy.
+[rank2]:[cosmos] 2025-12-10 00:21:10,841 - cosmos - INFO - Process group destroyed.
+[rank0]:[cosmos] 2025-12-10 00:21:14,007 - cosmos - INFO - [Policy] Step: 182, checkpoint saved successfully at /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_182/policy.
+[rank0]:[cosmos] 2025-12-10 00:21:19,605 - cosmos - INFO - Removed old checkpoint: /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/checkpoints/step_100
+[rank1]:[cosmos] 2025-12-10 00:21:20,575 - cosmos - INFO - Process group destroyed.
+[rank3]:[cosmos] 2025-12-10 00:21:20,580 - cosmos - INFO - Process group destroyed.
+[rank0]:[cosmos] 2025-12-10 00:21:20,494 - cosmos - INFO - Removed old safetensors: /tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/safetensors/step_100
+[rank0]:[cosmos] 2025-12-10 00:21:20,495 - cosmos - INFO - Best checkpoint updated to step_182 with score: -1
+[rank0]:[cosmos] 2025-12-10 00:21:20,495 - cosmos - INFO - Best safetensors updated to step_182
+[rank0]:[cosmos] 2025-12-10 00:21:20,967 - cosmos - INFO - Process group destroyed.
+[rank3]:INFO 12-10 00:03:17 [__init__.py:216] Automatically detected platform cuda.
+[rank0]:INFO 12-10 00:03:17 [__init__.py:216] Automatically detected platform cuda.
+[rank1]:INFO 12-10 00:03:17 [__init__.py:216] Automatically detected platform cuda.
+[rank2]:INFO 12-10 00:03:17 [__init__.py:216] Automatically detected platform cuda.
+[rank3]:grouped_gemm is not available. Please run:pip install git+https://github.com/fanshiqing/grouped_gemm@v1.1.4
+[rank0]:grouped_gemm is not available. Please run:pip install git+https://github.com/fanshiqing/grouped_gemm@v1.1.4
+[rank1]:grouped_gemm is not available. Please run:pip install git+https://github.com/fanshiqing/grouped_gemm@v1.1.4
+[rank2]:grouped_gemm is not available. Please run:pip install git+https://github.com/fanshiqing/grouped_gemm@v1.1.4
+[rank1]:[Gloo] Rank 1 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[rank0]:[Gloo] Rank 0 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[rank2]:[Gloo] Rank 2 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[rank3]:[Gloo] Rank 3 is connected to 3 peer ranks. Expected number of connected peer ranks is : 3
+[rank0]:[1;34mwandb[0m: 
+[rank0]:[1;34mwandb[0m: 🚀 View run [33mcosmos_rl/llava_sft/20251210000302[0m at: [34m[0m
+[rank0]:[1;34mwandb[0m: Find logs at: [1;35m../../../../../../../tmp/cosmos_reason2/cosmos_rl/outputs/llava_sft/20251210000302/wandb/run-20251210_000321-20251210000302/logs[0m
