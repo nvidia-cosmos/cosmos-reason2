@@ -101,21 +101,21 @@ class SamplingOverrides(pydantic.BaseModel):
         # Source: https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#evaluation-reproduction
         if reasoning:
             return kwargs | dict(
-                top_p=0.8,
-                top_k=20,
-                repetition_penalty=1.0,
-                presence_penalty=1.5,
-                temperature=0.7,
-                seed=3407,
-            )
-        else:
-            return kwargs | dict(
                 top_p=0.95,
                 top_k=20,
                 repetition_penalty=1.0,
                 presence_penalty=0.0,
                 temperature=0.6,
                 seed=1234,
+            )
+        else:
+            return kwargs | dict(
+                top_p=0.8,
+                top_k=20,
+                repetition_penalty=1.0,
+                presence_penalty=1.5,
+                temperature=0.7,
+                seed=3407,
             )
 
 
