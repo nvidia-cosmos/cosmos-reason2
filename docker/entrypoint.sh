@@ -19,6 +19,6 @@
 
 set -e
 
-uv sync --locked || true
+uv sync --locked --extra=$(cat /root/.cuda-name) || true
 
 exec "$@"

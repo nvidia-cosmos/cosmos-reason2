@@ -1,8 +1,23 @@
 default:
   just --list
 
-install *args:
-  uv sync {{args}}
+default_cuda_name := "cu128"
+
+# Install the repository
+install cuda_name=default_cuda_name *args:
+  echo {{cuda_name}} > .cuda-name
+  uv sync --extra={{cuda_name}} {{args}}
+
+# Run uv sync
+_uv-sync *args:
+  if [ ! -f .cuda-name ]; then \
+    echo {{default_cuda_name}} > .cuda-name; \
+  fi
+  uv sync --extra=$(cat .cuda-name) {{args}}
+
+# Run a command in the package environment
+run *args: _uv-sync
+  uv run --no-sync {{args}}
 
 # Setup the repository
 _pre-commit-install:
@@ -18,25 +33,19 @@ _pre-commit *args:
 # Run linting and formatting
 lint: _pre-commit-install _pre-commit-base _pre-commit notebooks-sync license
 
-# Run pyrefly
-_pyrefly *args:
-  uv run pyrefly check --output-format=min-text --remove-unused-ignores {{args}}
-
-_pyrefly-ignore *args: (_pyrefly '--suppress-errors' args)
-
 # Run tests
-test:
-  uv run pytest -vv
+test: _uv-sync
+  uv run --no-sync pytest -vv
 
 # Run pip-licenses
-_pip-licenses *args:
+_pip-licenses *args: _uv-sync
   #!/usr/bin/env bash
   set -euxo pipefail
   temp_dir=$(mktemp -d)
   uv venv --clear $temp_dir
   python_path="$temp_dir/bin/python"
   uv pip install -r requirements.txt --python $python_path
-  uv run pip-licenses \
+  uv run --no-sync pip-licenses \
     --python $python_path \
     --format=plain-vertical \
     --with-license-file \
@@ -49,10 +58,6 @@ _pip-licenses *args:
 
 # Update the license
 license: _pip-licenses
-
-# Export config defaults and schemas
-export-configs *args:
-  uv run --all-extras python scripts/export_configs.py {{args}}
 
 # Sync jupytext notebooks
 [working-directory: 'examples/notebooks']
@@ -74,11 +79,12 @@ _docker build_args='' run_args='':
     -v /workspace/.venv \
     -v /workspace/examples/cosmos_rl/.venv \
     -v /root/.cache:/root/.cache \
+    -e HF_TOKEN="$HF_TOKEN" \
     {{run_args}} \
     $image_tag
 
 # Run the CUDA 12.8 docker container.
-docker-cu128 *run_args: (_docker '' run_args)
+docker-cu128 *run_args: (_docker '--build-arg=CUDA_VERSION=12.8.1' run_args)
 
 # Run the CUDA 13.0 docker container.
-docker-cu130 *run_args: (_docker '-f docker/nightly.Dockerfile' run_args)
+docker-cu130 *run_args: (_docker '--build-arg=CUDA_VERSION=13.0.0' run_args)

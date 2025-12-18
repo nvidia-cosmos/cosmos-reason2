@@ -17,18 +17,22 @@
 # /// script
 # requires-python = ">=3.10"
 # dependencies = [
-#   "accelerate>=1.12.0",
-#   "pillow>=12.0.0",
-#   "transformers>=4.57.0",
-#   "torch==2.8.0",
+#   "accelerate==1.12.0",
+#   "pillow==12.0.0",
+#   "transformers==4.57.3",
+#   "torch==2.9.0",
 #   "torchvision",
-#   "torchcodec==0.7.0",
+#   "torchcodec==0.9.1",
 # ]
 # ///
 
 """Minimal example of inference with Cosmos-Reason2."""
 
 # Source: https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#new-qwen-vl-utils-usage
+
+import warnings
+
+warnings.filterwarnings("ignore")
 
 from pathlib import Path
 
@@ -43,14 +47,15 @@ PIXELS_PER_TOKEN = 32**2
 
 
 def main():
+    # Ensure reproducibility
+    transformers.set_seed(0)
+
     # Load model
     model_name = "nvidia/Cosmos-Reason2-2B"
     model = transformers.Qwen3VLForConditionalGeneration.from_pretrained(
         model_name, dtype=torch.float16, device_map="auto", attn_implementation="sdpa"
     )
-    processor: transformers.Qwen3VLProcessor = (
-        transformers.AutoProcessor.from_pretrained(model_name)
-    )
+    processor = transformers.Qwen3VLProcessor.from_pretrained(model_name)
 
     # Optional: Limit vision tokens
     min_vision_tokens = 256

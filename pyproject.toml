@@ -18,12 +18,12 @@ name = "cosmos-reason2"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
-  "cosmos-reason2-utils[inference,cu128_torch29]",
+  "cosmos-reason2-utils[inference]",
 ]
 
 [project.optional-dependencies]
-quantize = ["llmcompressor"]
-cosmos-rl = ["cosmos-reason2-utils[cosmos-rl]"]
+cu128 = ["cosmos-reason2-utils[cu128_torch29]"]
+cu130 = ["cosmos-reason2-utils[cu130_torch29]"]
 
 [dependency-groups]
 dev = [
@@ -32,11 +32,6 @@ dev = [
     "pytest>=9.0.1",
     "ruff==0.14.8",
     "tomlkit>=0.13.3",
-]
-
-[tool.uv]
-override-dependencies = [
-  "numpy>=2"
 ]
 
 [tool.uv.sources]

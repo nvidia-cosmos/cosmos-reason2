@@ -32,7 +32,7 @@
 # [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nvidia-cosmos/cosmos-reason2/blob/main/examples/notebooks/trl_sft.ipynb)
 #
 # - [TRL GitHub Repository](https://github.com/huggingface/trl)
-# - [Official TRL Examples](https://huggingface.co/docs/trl/example_overview)  
+# - [Official TRL Examples](https://huggingface.co/docs/trl/example_overview)
 # - [Community Tutorials](https://huggingface.co/docs/trl/community_tutorials)
 
 # %% [markdown]

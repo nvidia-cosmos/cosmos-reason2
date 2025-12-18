@@ -22,6 +22,7 @@
 /examples/**/outputs
 /examples/**/results
 /examples/**/checkpoints
+.cuda-name
 
 # Data types
 *.jit
