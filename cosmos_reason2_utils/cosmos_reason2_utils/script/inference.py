@@ -18,6 +18,7 @@
 # Sources
 # * https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#deployment
 
+import time
 from cosmos_reason2_utils.init import init_script
 
 init_script()
@@ -271,7 +272,6 @@ def offline_inference(args: Offline):
         revision=args.revision,
         max_model_len=args.max_model_len,
         limit_mm_per_prompt={"image": len(args.images), "video": len(args.videos)},
-        enforce_eager=True,
     )
 
     # Process inputs
@@ -400,12 +400,15 @@ def inference(args: Offline | Online):
     if args.verbose:
         pprint_dict(args.sampling_kwargs, "SamplingParams")
 
+    start = time.time()
     if isinstance(args, Offline):
         offline_inference(args)
     elif isinstance(args, Online):
         online_inference(args)
     else:
         assert_never(args)
+    duration = time.time() - start
+    print(f"Inference time: {duration:.2f} seconds")
 
 
 def main():

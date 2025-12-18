@@ -37,7 +37,7 @@ ______________________________________________________________________
 <!--TOC-->
 
 ## News!
-* [December 11, 2025] We have released the Cosmos-Reason2 models and code. The 2B and 8B models are now available. For more details, please check our blog!
+* [December 19, 2025] We have released the Cosmos-Reason2 models and code. The 2B and 8B models are now available. For more details, please check our blog!
 
 ## Model Family
 * [Cosmos-Reason2-2B](https://huggingface.co/nvidia/Cosmos-Reason2-2B)
@@ -88,9 +88,9 @@ CUDA variants:
 | CUDA Version | Arguments | Notes |
 | --- | --- | --- |
 | CUDA 12.8 | `--extra cu128` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/12.8.1/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
-| CUDA 13.0 | `--extra cu130` | [NVIDIA Driver](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-components) |
+| CUDA 13.0 | `--extra cu130` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/13.0.0/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
 
-> vLLM is not yet supported on ARM with CUDA 13.0.
+> CUDA 13.0 vLLM support is experimental and uses vLLM nightly. We recommend using CUDA 12.8 if your GPU supports it.
 
 ### Docker Container
 
@@ -108,6 +108,8 @@ CUDA variants:
 | --- | --- | --- |
 | CUDA 12.8 | `--build-arg=CUDA_VERSION=12.8.1` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/12.8.1/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
 | CUDA 13.0 | `--build-arg=CUDA_VERSION=13.0.0` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/13.0.0/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions)  |
+
+> CUDA 13.0 vLLM support is experimental and uses vLLM nightly. We recommend using CUDA 12.8 if your GPU supports it.
 
 Run the container:
 
@@ -223,9 +225,9 @@ Common arguments:
 * `--model nvidia/Cosmos-Reason2-2B`: Model name or path.
 * `--precision fp4`: Precision to use for quantization.
 
-## Tutorials
+## Post-Training
 
-* [Notebooks](examples/notebooks/README.md)
+* [TRL](examples/notebooks/README.md)
 * [Cosmos-RL](examples/cosmos_rl/README.md)
 
 ## Troubleshooting

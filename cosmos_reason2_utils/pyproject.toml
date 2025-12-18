@@ -72,9 +72,9 @@ cu128_torch29 = [
   "torchao==0.14.1", # version compatible with torch 2.9: https://github.com/pytorch/ao/issues/2919
   "torchcodec==0.9.1; platform_machine != 'aarch64'", # version compatible with torch 2.9: https://github.com/meta-pytorch/torchcodec/releases
 ]
-# CUDA 13.0
+# vLLM 0.13
 cu130_torch29 = [
-  "vllm==0.12.0; platform_machine != 'aarch64'",
+  "vllm",
   "torch==2.9.0",
   "torchvision", # version pinned by torch
   "torchao==0.14.1", # version compatible with torch 2.9: https://github.com/pytorch/ao/issues/2919
@@ -105,7 +105,7 @@ torchvision = [
   { index = "pytorch-cu130", extra = "cu130_torch29" },
 ]
 vllm = [
-  { url = "https://github.com/vllm-project/vllm/releases/download/v0.12.0/vllm-0.12.0+cu130-cp38-abi3-manylinux_2_31_x86_64.whl", extra = "cu130_torch29" },
+  { index = "vllm13-cu130", extra = "cu130_torch29" },
 ]
 
 [[tool.uv.index]]
@@ -116,6 +116,11 @@ explicit = true
 [[tool.uv.index]]
 name = "pytorch-cu130"
 url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[[tool.uv.index]]
+name = "vllm13-cu130"
+url = "https://wheels.vllm.ai/55f1fc1b1b4044e5b5055c968cf6d956a865476f/cu130"
 explicit = true
 
 [project.scripts]

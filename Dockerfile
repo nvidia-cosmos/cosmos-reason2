@@ -74,6 +74,9 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Place executables in the environment at the front of the path
 ENV PATH="/workspace/.venv/bin:$PATH"
 
+# Triton bundled ptxas doesn't support latest GPU architectures
+ENV TRITON_PTXAS_PATH="/usr/local/cuda/bin/ptxas"
+
 ENTRYPOINT ["/workspace/docker/entrypoint.sh"]
 
 CMD ["/bin/bash"]
