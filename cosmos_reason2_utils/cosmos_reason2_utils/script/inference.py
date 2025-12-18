@@ -19,6 +19,7 @@
 # * https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#deployment
 
 import time
+
 from cosmos_reason2_utils.init import init_script
 
 init_script()

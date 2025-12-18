@@ -14,7 +14,6 @@
 # limitations under the License.
 
 ARG BASE_IMAGE=nvcr.io/nvidia/vllm:25.11-py3
-
 FROM ${BASE_IMAGE}
 
 # Set the DEBIAN_FRONTEND environment variable to avoid interactive prompts during apt operations.
@@ -29,27 +28,26 @@ RUN --mount=type=cache,target=/var/cache/apt \
         ffmpeg \
         git-lfs \
         gpg \
-        lsb-release \
         tree \
         wget
 
-# Install redis: https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-redis/install-redis-on-linux/#install-on-ubuntudebian
-RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=cache,target=/var/lib/apt \
-    curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg && \
-    chmod 644 /usr/share/keyrings/redis-archive-keyring.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends redis
-
 # Install uv: https://docs.astral.sh/uv/getting-started/installation/
+# https://github.com/astral-sh/uv-docker-example/blob/main/Dockerfile
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # Copy from the cache instead of linking since it's a mounted volume
 ENV UV_LINK_MODE=copy
+# Ensure installed tools can be executed out of the box
+ENV UV_TOOL_BIN_DIR=/usr/local/bin
+
+# Install just: https://just.systems/man/en/pre-built-binaries.html
+RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin --tag 1.44.0
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=docker/nightly-requirements.txt,target=requirements.txt \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=.python-version,target=.python-version \
     --mount=type=bind,source=cosmos_reason2_utils,target=cosmos_reason2_utils \
-    uv pip install --system --break-system-packages -r requirements.txt
+    pip freeze > excludes.txt && \
+    uv pip install --system --break-system-packages --excludes excludes.txt .
 
 ENTRYPOINT ["/bin/bash"]

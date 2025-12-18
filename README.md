@@ -27,7 +27,7 @@ ______________________________________________________________________
     - [Online Serving](#online-serving)
     - [Offline Inference](#offline-inference)
 - [Quantization](#quantization)
-- [Tutorials](#tutorials)
+- [Post-Training](#post-training)
 - [Troubleshooting](#troubleshooting)
 - [Additional Resources](#additional-resources)
 - [License and Contact](#license-and-contact)
