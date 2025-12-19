@@ -74,7 +74,7 @@ _docker build_args='' run_args='':
   image_tag=$(docker build {{build_args}} -q .)
   docker run \
     -it \
-    --gpus all \
+    --runtime=nvidia \
     --ipc=host \
     --rm \
     -v .:/workspace \

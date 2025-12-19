@@ -114,7 +114,7 @@ CUDA variants:
 Run the container:
 
 ```bash
-docker run -it --gpus all --ipc=host --rm -v .:/workspace -v /workspace/.venv -v /workspace/examples/cosmos_rl/.venv -v /root/.cache:/root/.cache -e HF_TOKEN="$HF_TOKEN" $image_tag
+docker run -it --runtime=nvidia --ipc=host --rm -v .:/workspace -v /workspace/.venv -v /workspace/examples/cosmos_rl/.venv -v /root/.cache:/root/.cache -e HF_TOKEN="$HF_TOKEN" $image_tag
 ```
 
 Optional arguments:
