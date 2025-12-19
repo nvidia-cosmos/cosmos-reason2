@@ -19,15 +19,15 @@ ______________________________________________________________________
 - [News!](#news)
 - [Model Family](#model-family)
 - [Setup](#setup)
-  - [Virtual Environment](#virtual-environment)
-  - [Docker Container](#docker-container)
 - [Inference](#inference)
+  - [Minimum GPU Memory](#minimum-gpu-memory)
+  - [Tested Platforms](#tested-platforms)
   - [Transformers](#transformers)
   - [Deployment](#deployment)
     - [Online Serving](#online-serving)
     - [Offline Inference](#offline-inference)
-- [Quantization](#quantization)
 - [Post-Training](#post-training)
+- [Quantization](#quantization)
 - [Troubleshooting](#troubleshooting)
 - [Additional Resources](#additional-resources)
 - [License and Contact](#license-and-contact)
@@ -54,7 +54,9 @@ git clone https://github.com/nvidia-cosmos/cosmos-reason2.git
 cd cosmos-reason2
 ```
 
-### Virtual Environment
+Install one of the following environments:
+
+<details id="virtual-environment"><summary><b>Virtual Environment</b></summary>
 
 Install system dependencies:
 
@@ -92,7 +94,9 @@ CUDA variants:
 
 > CUDA 13.0 vLLM support is experimental and uses vLLM nightly. We recommend using CUDA 12.8 if your GPU supports it.
 
-### Docker Container
+</details>
+
+<details id="docker-container"><summary><b>Docker Container</b></summary>
 
 Please make sure you have access to Docker on your machine and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) is installed.
 
@@ -123,6 +127,8 @@ Optional arguments:
 * `-v /root/.cache:/root/.cache`: Mount host cache to avoid re-downloading cache entries.
 * `-e HF_TOKEN="$HF_TOKEN"`: Set Hugging Face token to avoid re-authenticating.
 
+</details>
+
 ## Inference
 
 ### Minimum GPU Memory
@@ -134,10 +140,13 @@ Optional arguments:
 
 ### Tested Platforms
 
-Inference has been tested on:
-* NVIDIA GB200, H100 and A100
-* DGX Spark using Hugging Face Transformers and vLLM
-* Jetson AGX Thor (Edge) using Hugging Face Transformers
+Examples have been tested on the following devices:
+
+* NVIDIA H100: inference/post-training/quantization
+* NVIDIA DGX Spark: inference
+* NVIDIA Jetson AGX Thor (Edge): Transformers inference. vLLM inference is coming soon!
+
+Additional hardware configurations may work but are not officially validated at the time of this release.
 
 ### Transformers
 
@@ -151,7 +160,7 @@ python scripts/inference_sample.py
 
 ### Deployment
 
-For deployment and batch inference, we recommend using [`vllm`](https://docs.vllm.ai/en/stable/).
+For deployment and batch inference, we recommend using [`vllm>=11.0.0`](https://docs.vllm.ai/en/stable/).
 
 #### Online Serving
 
@@ -211,31 +220,14 @@ Common arguments:
 
 * `--model nvidia/Cosmos-Reason2-2B`: Model name or path.
 
-## Quantization
-
-For model quantization, we recommend using [llmcompressor](https://github.com/vllm-project/llm-compressor)
-
-[Example](scripts/quantize.py) ([sample output](assets/outputs/quantize.log)):
-
-```shell
-./scripts/quantize.py -o /tmp/cosmos-reason2/checkpoints
-```
-
-To list available arguments:
-
-```shell
-./scripts/quantize.py --help
-```
-
-Common arguments:
-
-* `--model nvidia/Cosmos-Reason2-2B`: Model name or path.
-* `--precision fp4`: Precision to use for quantization.
-
 ## Post-Training
 
 * [TRL](examples/notebooks/README.md)
 * [Cosmos-RL](examples/cosmos_rl/README.md)
+
+## Quantization
+
+* [llmcompressor](docs/llmcompressor.md)
 
 ## Troubleshooting
 
