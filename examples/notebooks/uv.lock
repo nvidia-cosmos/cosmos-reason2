@@ -744,7 +744,7 @@ cu130-torch29 = [
     { name = "torchcodec", version = "0.9.1", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine != 'aarch64'" },
     { name = "torchvision", version = "0.24.0", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "(python_full_version < '3.15' and platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform == 'linux' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (python_full_version >= '3.15' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (platform_machine != 'aarch64' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (platform_python_implementation != 'CPython' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (sys_platform != 'linux' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
     { name = "torchvision", version = "0.24.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "(python_full_version >= '3.15' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (python_full_version < '3.15' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (platform_machine != 'aarch64' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (platform_python_implementation != 'CPython' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (sys_platform != 'linux' and extra != 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (sys_platform != 'linux' and extra != 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
-    { name = "vllm", version = "0.13.0rc4+cu130", source = { registry = "https://wheels.vllm.ai/55f1fc1b1b4044e5b5055c968cf6d956a865476f/cu130" } },
+    { name = "vllm", version = "0.13.0+cu130", source = { registry = "https://wheels.vllm.ai/72506c98349d6bcd32b4e33eec7b5513453c1502/cu130" } },
 ]
 dev = [
     { name = "pytest" },
@@ -795,7 +795,7 @@ requires-dist = [
     { name = "tyro", specifier = ">=0.9.35" },
     { name = "vllm", marker = "extra == 'cu128-torch28'", specifier = "==0.11.0" },
     { name = "vllm", marker = "extra == 'cu128-torch29'", specifier = "==0.12.0" },
-    { name = "vllm", marker = "extra == 'cu130-torch29'", index = "https://wheels.vllm.ai/55f1fc1b1b4044e5b5055c968cf6d956a865476f/cu130", conflict = { package = "cosmos-reason2-utils", extra = "cu130-torch29" } },
+    { name = "vllm", marker = "extra == 'cu130-torch29'", index = "https://wheels.vllm.ai/72506c98349d6bcd32b4e33eec7b5513453c1502/cu130", conflict = { package = "cosmos-reason2-utils", extra = "cu130-torch29" } },
     { name = "wandb", marker = "extra == 'cosmos-rl'", specifier = ">=0.23.0" },
 ]
 provides-extras = ["dev", "cosmos-rl", "trl", "cu128-torch28", "cu128-torch29", "cu130-torch29"]
@@ -847,7 +847,7 @@ dependencies = [
     { name = "uvicorn" },
     { name = "vllm", version = "0.11.0", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
     { name = "vllm", version = "0.12.0", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra != 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
-    { name = "vllm", version = "0.13.0rc4+cu130", source = { registry = "https://wheels.vllm.ai/55f1fc1b1b4044e5b5055c968cf6d956a865476f/cu130" }, marker = "(extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
+    { name = "vllm", version = "0.13.0+cu130", source = { registry = "https://wheels.vllm.ai/72506c98349d6bcd32b4e33eec7b5513453c1502/cu130" }, marker = "(extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/a4/a9/526006a482a7fdeff1381b7badea0b70db8e88d8970c736ceedfb1bff09f/cosmos_rl-0.3.8.tar.gz", hash = "sha256:7256e6537267b74438fb81069b2357d58869f3cbf8b8762322c20ea644f6c47b", size = 4694148, upload-time = "2025-12-12T07:41:56.443Z" }
 wheels = [
@@ -5964,8 +5964,8 @@ wheels = [
 
 [[package]]
 name = "vllm"
-version = "0.13.0rc4+cu130"
-source = { registry = "https://wheels.vllm.ai/55f1fc1b1b4044e5b5055c968cf6d956a865476f/cu130" }
+version = "0.13.0+cu130"
+source = { registry = "https://wheels.vllm.ai/72506c98349d6bcd32b4e33eec7b5513453c1502/cu130" }
 resolution-markers = [
     "(python_full_version >= '3.15' and sys_platform == 'linux') or (platform_machine != 'aarch64' and sys_platform == 'linux') or (platform_python_implementation != 'CPython' and sys_platform == 'linux')",
     "sys_platform != 'linux'",
@@ -6034,8 +6034,8 @@ dependencies = [
     { name = "xgrammar", version = "0.1.27", source = { registry = "https://pypi.org/simple" }, marker = "(platform_machine == 'aarch64' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (platform_machine == 'arm64' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (platform_machine == 'ppc64le' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (platform_machine == 's390x' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (platform_machine == 'x86_64' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
 ]
 wheels = [
-    { url = "https://wheels.vllm.ai/55f1fc1b1b4044e5b5055c968cf6d956a865476f/vllm-0.13.0rc4%2Bcu130-cp38-abi3-manylinux_2_35_aarch64.whl" },
-    { url = "https://wheels.vllm.ai/55f1fc1b1b4044e5b5055c968cf6d956a865476f/vllm-0.13.0rc4%2Bcu130-cp38-abi3-manylinux_2_35_x86_64.whl" },
+    { url = "https://wheels.vllm.ai/72506c98349d6bcd32b4e33eec7b5513453c1502/vllm-0.13.0%2Bcu130-cp38-abi3-manylinux_2_35_aarch64.whl" },
+    { url = "https://wheels.vllm.ai/72506c98349d6bcd32b4e33eec7b5513453c1502/vllm-0.13.0%2Bcu130-cp38-abi3-manylinux_2_35_x86_64.whl" },
 ]
 
 [[package]]

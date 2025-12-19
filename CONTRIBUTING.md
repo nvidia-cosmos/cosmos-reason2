@@ -58,10 +58,13 @@ All submissions, including submissions by project members, require review. We us
   * Any contribution which contains commits that are not Signed-Off will not be accepted.
 
 * To sign off on a commit you simply use the `--signoff` (or `-s`) option when committing your changes:
+
   ```bash
-  $ git commit -s -m "Add cool feature."
+  git commit -s -m "Add cool feature."
   ```
+
   This will append the following to your commit message:
+
   ```
   Signed-off-by: Your Name <your@email.com>
   ```

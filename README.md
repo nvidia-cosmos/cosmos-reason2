@@ -37,9 +37,11 @@ ______________________________________________________________________
 <!--TOC-->
 
 ## News!
+
 * [December 19, 2025] We have released the Cosmos-Reason2 models and code for Physical AI common sense and embodied reasoning. The 2B and 8B models are now available on Hugging Face.
 
 ## Model Family
+
 * [Cosmos-Reason2-2B](https://huggingface.co/nvidia/Cosmos-Reason2-2B)
 * [Cosmos-Reason2-8B](https://huggingface.co/nvidia/Cosmos-Reason2-8B)
 
@@ -92,8 +94,6 @@ CUDA variants:
 | CUDA 12.8 | `--extra cu128` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/12.8.1/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
 | CUDA 13.0 | `--extra cu130` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/13.0.0/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
 
-> CUDA 13.0 vLLM support is experimental and uses vLLM nightly. We recommend using CUDA 12.8 if your GPU supports it.
-
 </details>
 
 <details id="docker-container"><summary><b>Docker Container</b></summary>
@@ -111,9 +111,7 @@ CUDA variants:
 | CUDA Version | Arguments | Notes |
 | --- | --- | --- |
 | CUDA 12.8 | `--build-arg=CUDA_VERSION=12.8.1` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/12.8.1/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
-| CUDA 13.0 | `--build-arg=CUDA_VERSION=13.0.0` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/13.0.0/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions)  |
-
-> CUDA 13.0 vLLM support is experimental and uses vLLM nightly. We recommend using CUDA 12.8 if your GPU supports it.
+| CUDA 13.0 | `--build-arg=CUDA_VERSION=13.0.0` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/13.0.0/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
 
 Run the container:
 
@@ -140,13 +138,16 @@ Optional arguments:
 
 ### Tested Platforms
 
+Cosmos-Reason2 works on Hopper and Blackwell. Additional hardware configurations may work but are not officially validated at the time of this release.
+
 Examples have been tested on the following devices:
 
-* NVIDIA H100: inference/post-training/quantization
-* NVIDIA DGX Spark: inference
-* NVIDIA Jetson AGX Thor (Edge): Transformers inference. vLLM inference is coming soon!
-
-Additional hardware configurations may work but are not officially validated at the time of this release.
+| GPU | Notes |
+| --- | --- |
+| NVIDIA H100 | inference/post-training/quantization |
+| NVIDIA GB200 | inference |
+| NVIDIA DGX Spark | inference |
+| NVIDIA Jetson AGX Thor (Edge) | Transformers inference. vLLM inference is coming soon! |
 
 ### Transformers
 

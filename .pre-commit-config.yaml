@@ -63,6 +63,11 @@ repos:
         args: [--fix]
         exclude: ^examples/notebooks/
       - id: ruff-format
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.47.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
   - repo: https://github.com/tcort/markdown-link-check
     rev: v3.14.2
     hooks:

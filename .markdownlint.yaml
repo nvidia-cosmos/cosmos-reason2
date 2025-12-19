@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Markdownlint configuration for Cosmos Cookbook
+# See: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+# Disable specific rules that conflict with our documentation style
+MD004: false # Unordered list style
+MD013: false # Line length - we allow longer lines for readability
+MD026: false # Trailing punctuation in heading
+MD033: false # Allow inline HTML for enhanced formatting
+MD041: false # Allow documents without top-level H1 (for SUMMARY.md files)
+MD024: false # Allow duplicate headings (common in examples)
+MD025: false # Allow multiple H1 headings per document
+MD028: false # Allow blank lines between blockquotes (for separate quote sections)
+MD036: false # Enforce proper headings instead of emphasis
+MD040: false # Allow fenced code blocks without language specification
+MD045: false # Allow images without alt text (for now)
+MD046: false # Allow mixed code block styles (needed for admonitions)

@@ -120,7 +120,7 @@ explicit = true
 
 [[tool.uv.index]]
 name = "vllm13-cu130"
-url = "https://wheels.vllm.ai/55f1fc1b1b4044e5b5055c968cf6d956a865476f/cu130"
+url = "https://wheels.vllm.ai/72506c98349d6bcd32b4e33eec7b5513453c1502/cu130"
 explicit = true
 
 [project.scripts]
