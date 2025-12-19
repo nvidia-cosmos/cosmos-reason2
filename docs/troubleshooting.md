@@ -1,14 +1,39 @@
 # Troubleshooting
 
+<!--TOC-->
+
+______________________________________________________________________
+
+**Table of Contents**
+
+- [Resources](#resources)
+- [FAQ](#faq)
+  - [Where is requirements.txt](#where-is-requirementstxt)
+- [Errors](#errors)
+  - [OpenAI API Connection Error](#openai-api-connection-error)
+  - [PTXAS Error](#ptxas-error)
+
+______________________________________________________________________
+
+<!--TOC-->
+
 ## Resources
 
 * [vLLM Troubleshooting](https://docs.vllm.ai/en/latest/usage/troubleshooting/#hangs-loading-a-model-from-disk)
 
-## Common Fixes
+## FAQ
 
-1. Re-install: `uv sync --extra cu128 --reinstall && source .venv/bin/activate`
+### Where is requirements.txt
 
-## Common Errors
+For most use cases, you should not need `requirements.txt`. `pip` can install directly from `pyproject.toml`. See the [nightly Dockerfile](../docker/nightly.Dockerfile) for an example installing into the NVIDIA vLLM container.
+
+You can generate a `requirements.txt` file with [`uv export`](https://docs.astral.sh/uv/concepts/projects/export/).
+
+```shell
+uv export --format requirements.txt --output-file requirements.txt
+```
+
+## Errors
 
 ### OpenAI API Connection Error
 

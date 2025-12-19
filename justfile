@@ -46,7 +46,7 @@ _pip-licenses *args:
   venv_dir=$(mktemp -d -p "${venv_dir}")
   uv venv --clear "$venv_dir"
   python_path="$venv_dir/bin/python"
-  uv pip install --no-deps -r requirements.txt --python $python_path
+  uv pip install --no-deps -r ci/license-requirements.txt --python $python_path
   uvx pip-licenses@5.5.0 \
     --python $python_path \
     --format=plain-vertical \
@@ -64,7 +64,7 @@ license: _pip-licenses
 # Sync jupytext notebooks
 [working-directory: 'examples/notebooks']
 notebooks-sync:
-  uv run jupytext --sync *.ipynb --pipe 'ruff format -'
+  uvx --with "ruff==0.14.8" jupytext@1.18.1 --sync *.ipynb --pipe 'ruff format -'
 
 # Run the docker container
 _docker build_args='' run_args='':
