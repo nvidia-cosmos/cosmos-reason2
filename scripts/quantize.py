@@ -242,6 +242,10 @@ def quantize(args: Args):
     output_dir = Path(args.output_dir) / f"model_{args.precision}"
     sequential_targets = ["Qwen3VLTextDecoderLayer"]
 
+    setattr(model.config, "num_attention_heads", model.config.text_config.num_attention_heads)
+    setattr(model.config, "num_key_value_heads", model.config.text_config.num_key_value_heads)
+    setattr(model.config, "head_dim", model.config.text_config.head_dim)
+
     print(f"Loading calibration dataset: {dataset_id}")
     ds = load_dataset(dataset_id, split=dataset_split)
     ds = ds.shuffle(seed=args.seed)
