@@ -50,4 +50,12 @@ Check the server log. Common issues:
 
 Error message: `(EngineCore_DP0 pid=1477831) ptxas fatal   : Value 'sm_121a' is not defined for option 'gpu-name'`
 
-Fix: Use CUDA 13.0 Docker container.
+Fix: Use CUDA 13.0 [Docker container](../README.md#setup)
+
+Alternatively, to use the virtual environment, set `TRITON_PTXAS_PATH` to your system `PTXAS`:
+
+```shell
+export TRITON_PTXAS_PATH="/usr/local/cuda/bin/ptxas"
+```
+
+Your system CUDA version must match the torch CUDA version.

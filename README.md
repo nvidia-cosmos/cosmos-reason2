@@ -94,6 +94,12 @@ CUDA variants:
 | CUDA 12.8 | `--extra cu128` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/12.8.1/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
 | CUDA 13.0 | `--extra cu130` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/13.0.0/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
 
+For DGX Spark and Jetson AGX, you must use CUDA 13.0. Additionally, you must set `TRITON_PTXAS_PATH` to your system `PTXAS`:
+
+```shell
+export TRITON_PTXAS_PATH="/usr/local/cuda/bin/ptxas"
+```
+
 </details>
 
 <details id="docker-container"><summary><b>Docker Container</b></summary>
@@ -112,6 +118,8 @@ CUDA variants:
 | --- | --- | --- |
 | CUDA 12.8 | `--build-arg=CUDA_VERSION=12.8.1` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/12.8.1/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
 | CUDA 13.0 | `--build-arg=CUDA_VERSION=13.0.0` | [NVIDIA Driver](https://docs.nvidia.com/cuda/archive/13.0.0/cuda-toolkit-release-notes/index.html#cuda-toolkit-major-component-versions) |
+
+For DGX Spark and Jetson AGX, you must use CUDA 13.0.
 
 Run the container:
 
@@ -142,12 +150,12 @@ Cosmos-Reason2 works on Hopper and Blackwell. Additional hardware configurations
 
 Examples have been tested on the following devices:
 
-| GPU | Notes |
-| --- | --- |
-| NVIDIA H100 | inference/post-training/quantization |
-| NVIDIA GB200 | inference |
-| NVIDIA DGX Spark | inference |
-| NVIDIA Jetson AGX Thor (Edge) | Transformers inference. vLLM inference is coming soon! |
+| GPU | CUDA Version | Functionality |
+| --- | --- | --- |
+| NVIDIA H100 | 12.8 | inference/post-training/quantization |
+| NVIDIA GB200 | 13.0 | inference |
+| NVIDIA DGX Spark | 13.0 | inference |
+| NVIDIA Jetson AGX Thor (Edge) | 13.0 | Transformers inference. vLLM inference is coming soon! |
 
 ### Transformers
 
