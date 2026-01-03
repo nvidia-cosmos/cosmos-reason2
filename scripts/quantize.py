@@ -76,7 +76,7 @@ from huggingface_hub import snapshot_download
 from compressed_tensors.quantization.quant_scheme import FP8
 import shutil
 
-Precision = Literal["fp4", "fp8"]
+Precision = Literal["nvfp4", "fp8", "fp8_dynamic"]
 KvPrecision = Literal["bf16", "fp8"]
 
 
@@ -89,7 +89,7 @@ class Args(pydantic.BaseModel):
     """Local path to a model or model name from https://huggingface.co/collections/nvidia/cosmos-reason2."""
     num_samples: int = 512
     """Number of samples to use for calibration."""
-    precision: Precision = "fp4"
+    precision: Precision = "nvfp4"
     """Precision to use for quantization."""
     kv_precision: KvPrecision = "bf16"
     """Precision to use for the KV cache quantization."""
@@ -152,7 +152,7 @@ def get_quantization_recipe(
         ),
         QuantizationModifier(
             targets="Linear",
-            scheme=precision,
+            scheme=precision.upper(),
             ignore=[
                 "re:.*lm_head",
                 "re:visual.*",
@@ -238,7 +238,6 @@ def quantize(args: Args):
     model = replace_modules_for_calibration(model)
     dataset_id = "lmms-lab/flickr30k"
     dataset_split = {"calibration": f"test[:{args.num_samples}]"}
-    precision = "NVFP4" if args.precision == "fp4" else "FP8"
     output_dir = Path(args.output_dir) / f"model_{args.precision}"
     sequential_targets = ["Qwen3VLTextDecoderLayer"]
 
@@ -255,9 +254,9 @@ def quantize(args: Args):
         batched=False,
         remove_columns=ds["calibration"].column_names,
     )
-    recipe = get_quantization_recipe(precision, args.kv_precision, args.smoothing_strength)
+    recipe = get_quantization_recipe(args.precision, args.kv_precision, args.smoothing_strength)
 
-    print(f"Starting {precision} quantization process...")
+    print(f"Starting {args.precision} quantization process...")
     oneshot(
         model=model,
         recipe=recipe,
