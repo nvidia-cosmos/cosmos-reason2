@@ -169,7 +169,7 @@ python scripts/inference_sample.py
 
 ### Deployment
 
-For deployment and batch inference, we recommend using [`vllm>=11.0.0`](https://docs.vllm.ai/en/stable/).
+For deployment and batch inference, we recommend using [`vllm>=0.11.0`](https://docs.vllm.ai/en/stable/).
 
 #### Online Serving
 
