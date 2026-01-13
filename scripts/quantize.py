@@ -55,6 +55,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 import base64
 import json
+import shutil
 from io import BytesIO
 from pathlib import Path
 
@@ -63,7 +64,7 @@ import requests
 import torch
 import tyro
 from datasets import load_dataset
-from compressed_tensors.quantization import QuantizationScheme, QuantizationArgs
+from huggingface_hub import snapshot_download
 from llmcompressor import oneshot
 from llmcompressor.modeling import replace_modules_for_calibration
 from llmcompressor.modifiers.quantization import QuantizationModifier
@@ -72,9 +73,6 @@ from llmcompressor.utils import dispatch_for_generation
 from PIL import Image
 from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor, Qwen3VLForConditionalGeneration
-from huggingface_hub import snapshot_download
-from compressed_tensors.quantization.quant_scheme import FP8
-import shutil
 
 Precision = Literal["nvfp4", "fp8", "fp8_dynamic"]
 KvPrecision = Literal["bf16", "fp8"]
@@ -96,7 +94,7 @@ class Args(pydantic.BaseModel):
     smoothing_strength: float = 0.8
     """Smoothing strength to use for SmoothQuant."""
     max_sequence_length: int = 262144
-    """Maximum sequence length to use for quantization."""
+    """Maximum sequence length to use for quantization. (Defaults to CR2/Qwen3-VL max model len)"""
     seed: int = 42
     """Seed to use for random number generator."""
 
@@ -141,7 +139,11 @@ def data_collator(batch: list[dict]) -> dict:
 def get_quantization_recipe(
     precision: Precision, kv_precision: KvPrecision, smoothing_strength: float
 ) -> list[SmoothQuantModifier | QuantizationModifier]:
-    kv_scheme = None if kv_precision == "bf16" else {"num_bits": 8, "type": "float", "strategy": "tensor", "dynamic": False}
+    kv_scheme = (
+        None
+        if kv_precision == "bf16"
+        else {"num_bits": 8, "type": "float", "strategy": "tensor", "dynamic": False}
+    )
     recipe = [
         SmoothQuantModifier(
             smoothing_strength=smoothing_strength,
@@ -159,7 +161,7 @@ def get_quantization_recipe(
                 "re:model.visual.*",
                 "re:.*mlp.gate$",
             ],
-            kv_cache_scheme=kv_scheme
+            kv_cache_scheme=kv_scheme,
         ),
     ]
     return recipe
@@ -241,9 +243,10 @@ def quantize(args: Args):
     output_dir = Path(args.output_dir) / f"model_{args.precision}"
     sequential_targets = ["Qwen3VLTextDecoderLayer"]
 
-    setattr(model.config, "num_attention_heads", model.config.text_config.num_attention_heads)
-    setattr(model.config, "num_key_value_heads", model.config.text_config.num_key_value_heads)
-    setattr(model.config, "head_dim", model.config.text_config.head_dim)
+    # workaround to register KV metadata to the VLM HF config
+    model.config.num_attention_heads = model.config.text_config.num_attention_heads
+    model.config.num_key_value_heads = model.config.text_config.num_key_value_heads
+    model.config.head_dim = model.config.text_config.head_dim
 
     print(f"Loading calibration dataset: {dataset_id}")
     ds = load_dataset(dataset_id, split=dataset_split)
@@ -254,7 +257,9 @@ def quantize(args: Args):
         batched=False,
         remove_columns=ds["calibration"].column_names,
     )
-    recipe = get_quantization_recipe(args.precision, args.kv_precision, args.smoothing_strength)
+    recipe = get_quantization_recipe(
+        args.precision, args.kv_precision, args.smoothing_strength
+    )
 
     print(f"Starting {args.precision} quantization process...")
     oneshot(
@@ -275,16 +280,20 @@ def quantize(args: Args):
     print(f"Postprocessing config file {config_path}...")
     postprocess_config(config_path)
     if not (model_path := Path(args.model)).exists():
+        # path for remote model / HF ID
         snapshot_download(
             repo_id=args.model,
             ignore_patterns=["config.json", "*.safetensors*"],
             local_dir=output_dir,
         )
     else:
+        # path for local model directory
         files_to_copy = [
             f
             for f in model_path.glob("*")
-            if f.name != "config.json" and "safetensors" not in f.name and not f.is_dir()
+            if f.name != "config.json"
+            and "safetensors" not in f.name
+            and not f.is_dir()
         ]
         for file in files_to_copy:
             shutil.copy(file, output_dir / file.name)
