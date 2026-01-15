@@ -78,7 +78,7 @@ cu130_torch29 = [
   "torch==2.9.0",
   "torchvision", # version pinned by torch
   "torchao==0.14.1", # version compatible with torch 2.9: https://github.com/pytorch/ao/issues/2919
-  "torchcodec==0.9.1; platform_machine != 'aarch64'", # version compatible with torch 2.9: https://github.com/meta-pytorch/torchcodec/releases
+  "torchcodec==0.9.1", # version compatible with torch 2.9: https://github.com/meta-pytorch/torchcodec/releases
 ]
 
 [tool.uv]
@@ -92,12 +92,15 @@ conflicts = [
 
 [tool.uv.sources]
 flash-attn = [
-  { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp313-cp313-linux_x86_64.whl" , extra = "cu128_torch28" },
+  { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp312-cp312-linux_x86_64.whl" , extra = "cu128_torch28" },
 ]
 torch = [
   { index = "pytorch-cu128", extra = "cu128_torch28" },
   { index = "pytorch-cu128", extra = "cu128_torch29" },
   { index = "pytorch-cu130", extra = "cu130_torch29" },
+]
+torchcodec = [
+  { index = "cosmos-cu130", extra = "cu130_torch29", marker = "platform_machine == 'aarch64'" },
 ]
 torchvision = [
   { index = "pytorch-cu128", extra = "cu128_torch28" },
@@ -107,6 +110,11 @@ torchvision = [
 vllm = [
   { index = "vllm13-cu130", extra = "cu130_torch29" },
 ]
+
+[[tool.uv.index]]
+name = "cosmos-cu130"
+url = "https://nvidia-cosmos.github.io/cosmos-dependencies/v1.4.0/cu130_torch29/simple"
+explicit = true
 
 [[tool.uv.index]]
 name = "pytorch-cu128"
