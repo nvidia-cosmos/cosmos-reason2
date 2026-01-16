@@ -21,6 +21,7 @@ run *args: _uv-sync
 
 # Setup the repository
 _pre-commit-install:
+  uv python install
   uv tool install "pre-commit>=4.5.0"
   pre-commit install -c .pre-commit-config-base.yaml
 

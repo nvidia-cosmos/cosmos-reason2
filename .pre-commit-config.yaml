@@ -15,7 +15,7 @@
 
 default_language_version:
   node: 25.2.1
-  python: python3.13
+  python: python3.12
 exclude: (?x)(
     ^assets/|
     ATTRIBUTIONS.md

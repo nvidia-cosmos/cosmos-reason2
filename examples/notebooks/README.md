@@ -18,7 +18,7 @@ Install the package:
 ```shell
 cd examples/notebooks
 uv sync
-source .venv/bin/python
+source .venv/bin/activate
 ```
 
 Notebooks can be run as regular Python scripts:

@@ -76,8 +76,7 @@ source $HOME/.local/bin/env
 * [Hugging Face CLI](https://huggingface.co/docs/huggingface_hub/en/guides/cli)
 
 ```shell
-uv tool install -U huggingface_hub
-hf auth login
+uvx hf auth login
 ```
 
 Install the repository:
