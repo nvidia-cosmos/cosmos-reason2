@@ -1189,7 +1189,7 @@ requires-dist = [
     { name = "accelerate", specifier = ">=1.12.0" },
     { name = "av", specifier = ">=16.0.1" },
     { name = "bitsandbytes", marker = "extra == 'trl'", specifier = ">=0.49.0" },
-    { name = "cosmos-rl", marker = "extra == 'cosmos-rl'", specifier = ">=0.3.6" },
+    { name = "cosmos-rl", marker = "extra == 'cosmos-rl'", specifier = "==0.3.6" },
     { name = "datasets", marker = "extra == 'cosmos-rl'", specifier = ">=4.4.1" },
     { name = "flash-attn", marker = "platform_machine != 'aarch64' and extra == 'cu128-torch28'", url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp312-cp312-linux_x86_64.whl" },
     { name = "imageio-ffmpeg", specifier = ">=0.6.0" },
@@ -1200,7 +1200,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.12.4" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=9.0.1" },
     { name = "pyyaml", specifier = ">=6.0.3" },
-    { name = "qwen-vl-utils", specifier = ">=0.0.14" },
+    { name = "qwen-vl-utils", specifier = "==0.0.14" },
     { name = "rich", specifier = ">=14.2.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = "==0.14.8" },
     { name = "tensorboard", marker = "extra == 'trl'", specifier = ">=2.20.0" },
@@ -1230,7 +1230,7 @@ provides-extras = ["dev", "cosmos-rl", "trl", "cu128-torch28", "cu128-torch29", 
 
 [[package]]
 name = "cosmos-rl"
-version = "0.3.8"
+version = "0.3.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "accelerate" },
@@ -1277,9 +1277,9 @@ dependencies = [
     { name = "vllm", version = "0.12.0", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra != 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
     { name = "vllm", version = "0.13.0+cu130", source = { registry = "https://wheels.vllm.ai/72506c98349d6bcd32b4e33eec7b5513453c1502/cu130" }, marker = "(extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a4/a9/526006a482a7fdeff1381b7badea0b70db8e88d8970c736ceedfb1bff09f/cosmos_rl-0.3.8.tar.gz", hash = "sha256:7256e6537267b74438fb81069b2357d58869f3cbf8b8762322c20ea644f6c47b", size = 4694148, upload-time = "2025-12-12T07:41:56.443Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c5/c9/3581de1bd22ee6adee5e2b1ecaaa533e513a130a5dc3ef5a5512c3c7bc0e/cosmos_rl-0.3.6.tar.gz", hash = "sha256:275e8e5f8e6179cbd1c61c8a51a68097dd708835b265a8bcb0e3637eef12f167", size = 4666192, upload-time = "2025-11-27T03:27:41.376Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/71/51/33ee540f4cca9d641da33d3a811d241b747b3329bafe263d8c08a6f73342/cosmos_rl-0.3.8-py3-none-any.whl", hash = "sha256:d750e8961f809d7b38c2e741568a7378482e271725b3ed0886c3bf1f58b98548", size = 677012, upload-time = "2025-12-12T07:41:54.246Z" },
+    { url = "https://files.pythonhosted.org/packages/dd/96/76cddb1570ada602907a716fc313229712effdec9a0a2aaaa6a8d441ff32/cosmos_rl-0.3.6-py3-none-any.whl", hash = "sha256:ec755b3b82849b2e97a4446ef4e9878293ef32afcb450d49e18621be65dfe80c", size = 636370, upload-time = "2025-11-27T03:27:38.816Z" },
 ]
 
 [[package]]
