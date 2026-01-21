@@ -18,11 +18,12 @@
 # requires-python = ">=3.10"
 # dependencies = [
 #   "accelerate==1.12.0",
+#   "av==16.1.0",
 #   "pillow==12.0.0",
 #   "transformers==4.57.3",
 #   "torch==2.9.0",
 #   "torchvision",
-#   "torchcodec==0.9.1",
+#   "torchcodec==0.9.1; platform_machine != 'aarch64'",
 # ]
 # ///
 
