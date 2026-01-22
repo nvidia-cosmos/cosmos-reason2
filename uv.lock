@@ -1154,7 +1154,7 @@ cosmos-rl = [
     { name = "wandb" },
 ]
 cu128-torch28 = [
-    { name = "flash-attn", version = "2.8.3", source = { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp312-cp312-linux_x86_64.whl" }, marker = "python_full_version >= '3.12' and platform_machine != 'aarch64'" },
+    { name = "flash-attn", version = "2.8.3", source = { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp312-cp312-linux_x86_64.whl" }, marker = "platform_machine != 'aarch64'" },
     { name = "torch", version = "2.8.0+cu128", source = { registry = "https://download.pytorch.org/whl/cu128" } },
     { name = "torchao", version = "0.13.0", source = { registry = "https://pypi.org/simple" } },
     { name = "torchcodec", version = "0.7.0", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine != 'aarch64'" },
@@ -1194,7 +1194,7 @@ requires-dist = [
     { name = "accelerate", specifier = ">=1.12.0" },
     { name = "av", specifier = ">=16.0.1" },
     { name = "bitsandbytes", marker = "extra == 'trl'", specifier = ">=0.49.0" },
-    { name = "cosmos-rl", marker = "extra == 'cosmos-rl'", specifier = "==0.3.6" },
+    { name = "cosmos-rl", marker = "extra == 'cosmos-rl'", specifier = "==0.3.9" },
     { name = "datasets", marker = "extra == 'cosmos-rl'", specifier = ">=4.4.1" },
     { name = "flash-attn", marker = "platform_machine != 'aarch64' and extra == 'cu128-torch28'", url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp312-cp312-linux_x86_64.whl" },
     { name = "imageio-ffmpeg", specifier = ">=0.6.0" },
@@ -1235,7 +1235,7 @@ provides-extras = ["dev", "cosmos-rl", "trl", "cu128-torch28", "cu128-torch29", 
 
 [[package]]
 name = "cosmos-rl"
-version = "0.3.6"
+version = "0.3.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "accelerate" },
@@ -1244,16 +1244,19 @@ dependencies = [
     { name = "click" },
     { name = "cloudpickle" },
     { name = "datasets" },
+    { name = "diffusers" },
     { name = "fastapi" },
     { name = "flash-attn", version = "2.8.3", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' or extra == 'extra-20-cosmos-reason2-utils-cu130-torch29' or extra != 'extra-20-cosmos-reason2-utils-cu128-torch28'" },
-    { name = "flash-attn", version = "2.8.3", source = { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp312-cp312-linux_x86_64.whl" }, marker = "(python_full_version >= '3.12' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch28') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
+    { name = "flash-attn", version = "2.8.3", source = { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp312-cp312-linux_x86_64.whl" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
     { name = "kernels" },
     { name = "liger-kernel" },
     { name = "math-verify" },
     { name = "modelscope" },
     { name = "msgpack" },
+    { name = "nest-asyncio" },
     { name = "nvidia-nccl-cu12", version = "2.27.3", source = { registry = "https://pypi.org/simple" }, marker = "(sys_platform == 'linux' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch28') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
     { name = "nvidia-nccl-cu12", version = "2.27.5", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform != 'linux' or extra != 'extra-20-cosmos-reason2-utils-cu128-torch28' or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
+    { name = "peft" },
     { name = "pybind11", extra = ["global"] },
     { name = "pydantic" },
     { name = "pynvml" },
@@ -1283,9 +1286,9 @@ dependencies = [
     { name = "vllm", version = "0.13.0", source = { registry = "https://pypi.org/simple" }, marker = "(extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra != 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra != 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
     { name = "vllm", version = "0.13.0+cu130", source = { registry = "https://wheels.vllm.ai/72506c98349d6bcd32b4e33eec7b5513453c1502/cu130" }, marker = "(extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra != 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c5/c9/3581de1bd22ee6adee5e2b1ecaaa533e513a130a5dc3ef5a5512c3c7bc0e/cosmos_rl-0.3.6.tar.gz", hash = "sha256:275e8e5f8e6179cbd1c61c8a51a68097dd708835b265a8bcb0e3637eef12f167", size = 4666192, upload-time = "2025-11-27T03:27:41.376Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ca/0a/50b647f25c5c6004261844cc7a876eeb7bd1b929ff910ba9b984ced285e0/cosmos_rl-0.3.9.tar.gz", hash = "sha256:3bc09f2101bd6debac6ac1a570821fe2fd40214378b8a82c7c2e8f81db7a6d5c", size = 5285759, upload-time = "2026-01-16T07:16:00.651Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/dd/96/76cddb1570ada602907a716fc313229712effdec9a0a2aaaa6a8d441ff32/cosmos_rl-0.3.6-py3-none-any.whl", hash = "sha256:ec755b3b82849b2e97a4446ef4e9878293ef32afcb450d49e18621be65dfe80c", size = 636370, upload-time = "2025-11-27T03:27:38.816Z" },
+    { url = "https://files.pythonhosted.org/packages/f3/5c/e9c3a840562daf2d2529a2ae2ffaf8821cd17df4703ee1b726bdd7c1d1ba/cosmos_rl-0.3.9-py3-none-any.whl", hash = "sha256:53b7cb988bc74a91c4c0882a145bbf74fa6856ec1a35ba30f6844979a91759ac", size = 1352105, upload-time = "2026-01-16T07:15:58.496Z" },
 ]
 
 [[package]]
@@ -1522,6 +1525,26 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/88/35/83fb0178212279aa0af031031905804c6de5618435d229f41ed21bb9ad2c/depyf-0.20.0.tar.gz", hash = "sha256:fb7683bd72c44f67b56029df2c47721e9a02ffa4d7b19095f1c54c4ebf797a98", size = 6168761, upload-time = "2025-10-13T12:33:38.589Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/cf/65/4df6936130b56e1429114e663e7c1576cf845f3aef1b2dd200c0a5d19dba/depyf-0.20.0-py3-none-any.whl", hash = "sha256:d31effad4261cebecb58955d832e448ace88f432328f95f82fd99c30fd9308d4", size = 39381, upload-time = "2025-10-13T12:33:33.647Z" },
+]
+
+[[package]]
+name = "diffusers"
+version = "0.36.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "filelock" },
+    { name = "httpx" },
+    { name = "huggingface-hub" },
+    { name = "importlib-metadata" },
+    { name = "numpy" },
+    { name = "pillow" },
+    { name = "regex" },
+    { name = "requests" },
+    { name = "safetensors" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/88/45/ccb2e2180ddf475a0f931dac6a50346310e4c464ce3cccb8a65d1fc1e16d/diffusers-0.36.0.tar.gz", hash = "sha256:a9cde8721b415bde6a678f2d02abb85396487e1b0e0d2b4abb462d14a9825ab0", size = 3795088, upload-time = "2025-12-08T10:14:34.255Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/35/50/281f92cb1f83854dbd79b6e958b3bc5018607e2542971d41604ba7a14b2f/diffusers-0.36.0-py3-none-any.whl", hash = "sha256:525d42abc74bfc3b2db594999961295c054b48ef40a11724dacf50e6abd1af98", size = 4597884, upload-time = "2025-12-08T10:14:31.979Z" },
 ]
 
 [[package]]
@@ -1885,10 +1908,14 @@ source = { url = "https://github.com/Dao-AILab/flash-attention/releases/download
 resolution-markers = [
     "python_full_version >= '3.12' and sys_platform == 'linux'",
     "python_full_version >= '3.12' and sys_platform != 'linux'",
+    "python_full_version == '3.11.*' and sys_platform == 'linux'",
+    "python_full_version < '3.11' and sys_platform == 'linux'",
+    "python_full_version == '3.11.*' and sys_platform != 'linux'",
+    "python_full_version < '3.11' and sys_platform != 'linux'",
 ]
 dependencies = [
-    { name = "einops", marker = "(python_full_version >= '3.12' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch28') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
-    { name = "torch", version = "2.8.0+cu128", source = { registry = "https://download.pytorch.org/whl/cu128" }, marker = "(python_full_version >= '3.12' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch28') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu128-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29') or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
+    { name = "einops", marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
+    { name = "torch", version = "2.8.0+cu128", source = { registry = "https://download.pytorch.org/whl/cu128" }, marker = "extra == 'extra-20-cosmos-reason2-utils-cu128-torch28' or (extra == 'extra-20-cosmos-reason2-utils-cu128-torch29' and extra == 'extra-20-cosmos-reason2-utils-cu130-torch29')" },
 ]
 wheels = [
     { url = "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp312-cp312-linux_x86_64.whl", hash = "sha256:f25da18657a87fc83dc1bfb8b7751b82246e9db355510226b674fd437c34b5fb" },
@@ -2495,6 +2522,18 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/a0/2d/43c8522a2038e9d0e7dbdf3a61195ecc31ca576fb1527a528c877e87d973/imageio_ffmpeg-0.6.0-py3-none-manylinux2014_x86_64.whl", hash = "sha256:c7e46fcec401dd990405049d2e2f475e2b397779df2519b544b8aab515195282", size = 29498237, upload-time = "2025-01-16T21:34:13.726Z" },
     { url = "https://files.pythonhosted.org/packages/a0/13/59da54728351883c3c1d9fca1710ab8eee82c7beba585df8f25ca925f08f/imageio_ffmpeg-0.6.0-py3-none-win32.whl", hash = "sha256:196faa79366b4a82f95c0f4053191d2013f4714a715780f0ad2a68ff37483cc2", size = 19652251, upload-time = "2025-01-16T21:34:06.812Z" },
     { url = "https://files.pythonhosted.org/packages/2c/c6/fa760e12a2483469e2bf5058c5faff664acf66cadb4df2ad6205b016a73d/imageio_ffmpeg-0.6.0-py3-none-win_amd64.whl", hash = "sha256:02fa47c83703c37df6bfe4896aab339013f62bf02c5ebf2dce6da56af04ffc0a", size = 31246824, upload-time = "2025-01-16T21:34:28.6Z" },
+]
+
+[[package]]
+name = "importlib-metadata"
+version = "8.7.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "zipp" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f3/49/3b30cad09e7771a4982d9975a8cbf64f00d4a1ececb53297f1d9a7be1b10/importlib_metadata-8.7.1.tar.gz", hash = "sha256:49fef1ae6440c182052f407c8d34a68f72efc36db9ca90dc0113398f2fdde8bb", size = 57107, upload-time = "2025-12-21T10:00:19.278Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fa/5e/f8e9a1d23b9c20a551a8a02ea3637b4642e22c2626e3a13a9a29cdea99eb/importlib_metadata-8.7.1-py3-none-any.whl", hash = "sha256:5a1f80bf1daa489495071efbb095d75a634cf28a8bc299581244063b53176151", size = 27865, upload-time = "2025-12-21T10:00:18.329Z" },
 ]
 
 [[package]]
@@ -3689,6 +3728,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/ee/25/7d7e78e750bc1aecfaf0efbf826c69a791d2eeaf29cf20cba93ff4cced78/multiprocess-0.70.18-py313-none-any.whl", hash = "sha256:871743755f43ef57d7910a38433cfe41319e72be1bbd90b79c7a5ac523eb9334", size = 151917, upload-time = "2025-04-17T03:11:24.044Z" },
     { url = "https://files.pythonhosted.org/packages/3b/c3/ca84c19bd14cdfc21c388fdcebf08b86a7a470ebc9f5c3c084fc2dbc50f7/multiprocess-0.70.18-py38-none-any.whl", hash = "sha256:dbf705e52a154fe5e90fb17b38f02556169557c2dd8bb084f2e06c2784d8279b", size = 132636, upload-time = "2025-04-17T03:11:24.936Z" },
     { url = "https://files.pythonhosted.org/packages/6c/28/dd72947e59a6a8c856448a5e74da6201cb5502ddff644fbc790e4bd40b9a/multiprocess-0.70.18-py39-none-any.whl", hash = "sha256:e78ca805a72b1b810c690b6b4cc32579eba34f403094bbbae962b7b5bf9dfcb8", size = 133478, upload-time = "2025-04-17T03:11:26.253Z" },
+]
+
+[[package]]
+name = "nest-asyncio"
+version = "1.6.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/83/f8/51569ac65d696c8ecbee95938f89d4abf00f47d58d48f6fbabfe8f0baefe/nest_asyncio-1.6.0.tar.gz", hash = "sha256:6f172d5449aca15afd6c646851f4e31e02c598d553a667e38cafa997cfec55fe", size = 7418, upload-time = "2024-01-21T14:25:19.227Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a0/c4/c2971a3ba4c6103a3d10c4b0f24f461ddc027f0f09763220cf35ca1401b3/nest_asyncio-1.6.0-py3-none-any.whl", hash = "sha256:87af6efd6b5e897c81050477ef65c62e2b2f35d51703cae01aff2905b1852e1c", size = 5195, upload-time = "2024-01-21T14:25:17.223Z" },
 ]
 
 [[package]]
@@ -8802,4 +8850,13 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/f9/86/0f0dccb6e59a9e7f122c5afd43568b1d31b8ab7dda5f1b01fb5c7025c9a9/yarl-1.22.0-cp314-cp314t-win_amd64.whl", hash = "sha256:9fb17ea16e972c63d25d4a97f016d235c78dd2344820eb35bc034bc32012ee27", size = 96292, upload-time = "2025-10-06T14:12:15.398Z" },
     { url = "https://files.pythonhosted.org/packages/48/b7/503c98092fb3b344a179579f55814b613c1fbb1c23b3ec14a7b008a66a6e/yarl-1.22.0-cp314-cp314t-win_arm64.whl", hash = "sha256:9f6d73c1436b934e3f01df1e1b21ff765cd1d28c77dfb9ace207f746d4610ee1", size = 85171, upload-time = "2025-10-06T14:12:16.935Z" },
     { url = "https://files.pythonhosted.org/packages/73/ae/b48f95715333080afb75a4504487cbe142cae1268afc482d06692d605ae6/yarl-1.22.0-py3-none-any.whl", hash = "sha256:1380560bdba02b6b6c90de54133c81c9f2a453dee9912fe58c1dcced1edb7cff", size = 46814, upload-time = "2025-10-06T14:12:53.872Z" },
+]
+
+[[package]]
+name = "zipp"
+version = "3.23.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e3/02/0f2892c661036d50ede074e376733dca2ae7c6eb617489437771209d4180/zipp-3.23.0.tar.gz", hash = "sha256:a07157588a12518c9d4034df3fbbee09c814741a33ff63c05fa29d26a2404166", size = 25547, upload-time = "2025-06-08T17:06:39.4Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2e/54/647ade08bf0db230bfea292f893923872fd20be6ac6f53b2b936ba839d75/zipp-3.23.0-py3-none-any.whl", hash = "sha256:071652d6115ed432f5ce1d34c336c0adfd6a884660d1e9712a256d3d3bd4b14e", size = 10276, upload-time = "2025-06-08T17:06:38.034Z" },
 ]

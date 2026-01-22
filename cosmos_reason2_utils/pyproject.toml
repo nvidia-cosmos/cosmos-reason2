@@ -44,7 +44,7 @@ dev = [
     "ruff==0.14.8",
 ]
 cosmos-rl = [
-  "cosmos-rl==0.3.6", # unstable api
+  "cosmos-rl==0.3.9", # unstable api
   "datasets>=4.4.1",
   "toml>=0.10.2",
   "wandb>=0.23.0",
