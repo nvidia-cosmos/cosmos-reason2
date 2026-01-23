@@ -2,7 +2,7 @@
 name: SA issue template
 about: A template for SAs to report
 title: ''
-labels: SA
+labels: ''
 assignees: pjannaty
 
 ---
