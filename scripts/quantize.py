@@ -52,6 +52,15 @@ import os
 from typing import Annotated, Literal
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["TORCH_LOGS"] = "-dynamo"
+
+import logging
+import warnings
+
+warnings.filterwarnings("ignore", module="dill")
+warnings.filterwarnings("ignore", message=".*weights are not tied.*")
+
+logging.getLogger("accelerate").setLevel(logging.ERROR)
 
 import base64
 import json
@@ -66,10 +75,14 @@ import tyro
 from datasets import load_dataset
 from huggingface_hub import snapshot_download
 from llmcompressor import oneshot
-from llmcompressor.modeling import replace_modules_for_calibration
+from llmcompressor.modeling.moe_context import moe_calibration_context
 from llmcompressor.modifiers.quantization import QuantizationModifier
 from llmcompressor.modifiers.smoothquant import SmoothQuantModifier
 from llmcompressor.utils import dispatch_for_generation
+from loguru import logger as loguru_logger
+
+loguru_logger.disable("llmcompressor")
+
 from PIL import Image
 from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor, Qwen3VLForConditionalGeneration
@@ -237,7 +250,6 @@ def quantize(args: Args):
         args.model, torch_dtype="auto"
     )
     processor = AutoProcessor.from_pretrained(args.model)
-    model = replace_modules_for_calibration(model)
     dataset_id = "lmms-lab/flickr30k"
     dataset_split = {"calibration": f"test[:{args.num_samples}]"}
     output_dir = Path(args.output_dir) / f"model_{args.precision}"
@@ -262,15 +274,16 @@ def quantize(args: Args):
     )
 
     print(f"Starting {args.precision} quantization process...")
-    oneshot(
-        model=model,
-        recipe=recipe,
-        max_seq_length=args.max_sequence_length,
-        num_calibration_samples=args.num_samples,
-        dataset=ds,
-        data_collator=data_collator,
-        sequential_targets=sequential_targets,
-    )
+    with moe_calibration_context(model):
+        oneshot(
+            model=model,
+            recipe=recipe,
+            max_seq_length=args.max_sequence_length,
+            num_calibration_samples=args.num_samples,
+            dataset=ds,
+            data_collator=data_collator,
+            sequential_targets=sequential_targets,
+        )
     print("Quantization complete!")
     print("Running sample generation...")
     run_sample_generation(model, processor, args.max_sequence_length)

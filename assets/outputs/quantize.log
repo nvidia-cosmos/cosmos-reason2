@@ -1,204 +1,398 @@
-/home/joallen/private/code/cosmos-reason2/./scripts/quantize.py:230: DeprecationWarning: The function `replace_modules_for_calibration` has been deprecated. Please use `moe_calibration_context` instead. 
-  model = replace_modules_for_calibration(model)
-  0%|          | 0/695 [00:00<?, ?it/s]100%|██████████| 695/695 [00:00<00:00, 3171970.92it/s]
-/root/.cache/uv/environments-v2/quantize-eec261c7be8471d3/lib/python3.13/site-packages/dill/_dill.py:422: PicklingWarning: Cannot locate reference to <class '__main__.Args'>.
-  StockPickler.save(self, obj, save_persistent_id)
-/root/.cache/uv/environments-v2/quantize-eec261c7be8471d3/lib/python3.13/site-packages/dill/_dill.py:422: PicklingWarning: Cannot pickle <class '__main__.Args'>: __main__.Args has recursive self-references that trigger a RecursionError.
-  StockPickler.save(self, obj, save_persistent_id)
 Loading calibration dataset: lmms-lab/flickr30k
 Preprocessing dataset...
-Map:   0%|          | 0/2 [00:00<?, ? examples/s]Map:  50%|█████     | 1/2 [00:00<00:00,  9.76 examples/s]Map: 100%|██████████| 2/2 [00:00<00:00, 11.07 examples/s]
-Starting NVFP4 quantization process...
-2025-12-08T18:42:32.158410+0000 | reset | INFO - Compression lifecycle reset
-2025-12-08T18:42:32.159306+0000 | from_modifiers | INFO - Creating recipe from modifiers
-2025-12-08T18:42:33.226830+0000 | initialize | INFO - Compression lifecycle initialized for 2 modifiers
-2025-12-08T18:42:33.228077+0000 | IndependentPipeline | INFO - Inferred `SequentialPipeline` for `SmoothQuantModifier`
-Preparing cache:   0%|          | 0/2 [00:00<?, ?it/s]Preparing cache:  50%|█████     | 1/2 [00:00<00:00,  1.39it/s]Preparing cache: 100%|██████████| 2/2 [00:00<00:00,  2.44it/s]
-(1/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](1/29): Calibrating:  50%|█████     | 1/2 [00:00<00:00,  1.04it/s](1/29): Calibrating: 100%|██████████| 2/2 [00:01<00:00,  1.93it/s]
-2025-12-08T18:42:36.521681+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.0.input_layernorm
-2025-12-08T18:42:36.550006+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.0.post_attention_layernorm
-(1/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](1/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 33.57it/s]
-(2/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](2/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 47.76it/s]
-2025-12-08T18:42:37.468625+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.1.input_layernorm
-2025-12-08T18:42:37.472409+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.1.post_attention_layernorm
-(2/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](2/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 363.93it/s]
-(3/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](3/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 68.29it/s]
-2025-12-08T18:42:37.572017+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.2.input_layernorm
-2025-12-08T18:42:37.575671+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.2.post_attention_layernorm
-(3/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](3/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 377.00it/s]
-(4/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](4/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 69.02it/s]
-2025-12-08T18:42:37.673320+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.3.input_layernorm
-2025-12-08T18:42:37.677226+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.3.post_attention_layernorm
-(4/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](4/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 387.09it/s]
-(5/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](5/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 69.45it/s]
-2025-12-08T18:42:37.792523+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.4.input_layernorm
-2025-12-08T18:42:37.796645+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.4.post_attention_layernorm
-(5/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](5/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 416.43it/s]
-(6/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](6/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 57.79it/s]
-2025-12-08T18:42:37.899500+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.5.input_layernorm
-2025-12-08T18:42:37.903196+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.5.post_attention_layernorm
-(6/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](6/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 418.32it/s]
-(7/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](7/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 70.46it/s]
-2025-12-08T18:42:37.999554+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.6.input_layernorm
-2025-12-08T18:42:38.003328+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.6.post_attention_layernorm
-(7/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](7/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 433.88it/s]
-(8/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](8/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 63.69it/s]
-2025-12-08T18:42:38.103027+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.7.input_layernorm
-2025-12-08T18:42:38.106944+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.7.post_attention_layernorm
-(8/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](8/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 441.83it/s]
-(9/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](9/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 68.78it/s]
-2025-12-08T18:42:38.203021+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.8.input_layernorm
-2025-12-08T18:42:38.206923+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.8.post_attention_layernorm
-(9/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](9/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 424.95it/s]
-(10/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](10/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 69.92it/s]
-2025-12-08T18:42:38.304346+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.9.input_layernorm
-2025-12-08T18:42:38.308018+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.9.post_attention_layernorm
-(10/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](10/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 431.38it/s]
-(11/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](11/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 69.78it/s]
-2025-12-08T18:42:38.404660+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.10.input_layernorm
-2025-12-08T18:42:38.408415+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.10.post_attention_layernorm
-(11/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](11/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 403.63it/s]
-(12/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](12/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 65.07it/s]
-2025-12-08T18:42:38.509016+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.11.input_layernorm
-2025-12-08T18:42:38.513221+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.11.post_attention_layernorm
-(12/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](12/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 442.39it/s]
-(13/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](13/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 55.62it/s]
-2025-12-08T18:42:38.614810+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.12.input_layernorm
-2025-12-08T18:42:38.620645+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.12.post_attention_layernorm
-(13/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](13/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 432.29it/s]
-(14/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](14/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 68.06it/s]
-2025-12-08T18:42:38.718605+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.13.input_layernorm
-2025-12-08T18:42:38.719490+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.13.post_attention_layernorm
-(14/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](14/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 435.30it/s]
-(15/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](15/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 70.30it/s]
-2025-12-08T18:42:38.812080+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.14.input_layernorm
-2025-12-08T18:42:38.815973+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.14.post_attention_layernorm
-(15/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](15/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 430.10it/s]
-(16/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](16/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 26.20it/s]
-2025-12-08T18:42:38.960643+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.15.input_layernorm
-2025-12-08T18:42:38.974590+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.15.post_attention_layernorm
-(16/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](16/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 403.80it/s]
-(17/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](17/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 61.59it/s]
-2025-12-08T18:42:39.086537+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.16.input_layernorm
-2025-12-08T18:42:39.088626+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.16.post_attention_layernorm
-(17/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](17/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 408.56it/s]
-(18/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](18/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 29.27it/s]
-2025-12-08T18:42:39.232893+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.17.input_layernorm
-2025-12-08T18:42:39.236648+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.17.post_attention_layernorm
-(18/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](18/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 397.73it/s]
-(19/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](19/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 46.30it/s]
-2025-12-08T18:42:39.350298+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.18.input_layernorm
-2025-12-08T18:42:39.354806+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.18.post_attention_layernorm
-(19/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](19/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 400.72it/s]
-(20/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](20/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 68.42it/s]
-2025-12-08T18:42:39.459001+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.19.input_layernorm
-2025-12-08T18:42:39.462995+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.19.post_attention_layernorm
-(20/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](20/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 400.70it/s]
-(21/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](21/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 72.86it/s]
-2025-12-08T18:42:39.563323+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.20.input_layernorm
-2025-12-08T18:42:39.567032+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.20.post_attention_layernorm
-(21/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](21/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 403.22it/s]
-(22/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](22/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 71.62it/s]
-2025-12-08T18:42:39.666095+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.21.input_layernorm
-2025-12-08T18:42:39.672710+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.21.post_attention_layernorm
-(22/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](22/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 400.20it/s]
-(23/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](23/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 72.36it/s]
-2025-12-08T18:42:39.772783+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.22.input_layernorm
-2025-12-08T18:42:39.776383+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.22.post_attention_layernorm
-(23/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](23/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 394.81it/s]
-(24/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](24/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 68.11it/s]
-2025-12-08T18:42:39.874415+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.23.input_layernorm
-2025-12-08T18:42:39.877883+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.23.post_attention_layernorm
-(24/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](24/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 407.12it/s]
-(25/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](25/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 70.95it/s]
-2025-12-08T18:42:39.975324+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.24.input_layernorm
-2025-12-08T18:42:39.981700+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.24.post_attention_layernorm
-(25/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](25/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 413.78it/s]
-(26/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](26/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 69.66it/s]
-2025-12-08T18:42:40.079665+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.25.input_layernorm
-2025-12-08T18:42:40.083449+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.25.post_attention_layernorm
-(26/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](26/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 402.68it/s]
-(27/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](27/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 73.62it/s]
-2025-12-08T18:42:40.185506+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.26.input_layernorm
-2025-12-08T18:42:40.189296+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.26.post_attention_layernorm
-(27/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](27/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 397.98it/s]
-(28/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](28/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 71.14it/s]
-2025-12-08T18:42:40.288233+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.27.input_layernorm
-2025-12-08T18:42:40.292114+0000 | _apply_smoothing | INFO - Smoothing with model.language_model.layers.27.post_attention_layernorm
-(28/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](28/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 376.91it/s]
-(29/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](29/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 186.43it/s]
-(29/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](29/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 1236.71it/s]
-2025-12-08T18:42:40.822059+0000 | IndependentPipeline | INFO - Inferred `SequentialPipeline` for `QuantizationModifier`
-Updating global scales:   0%|          | 0/196 [00:00<?, ?it/s]Updating global scales:  20%|█▉        | 39/196 [00:00<00:00, 386.66it/s]Updating global scales:  41%|████▏     | 81/196 [00:00<00:00, 405.96it/s]Updating global scales:  63%|██████▎   | 124/196 [00:00<00:00, 411.76it/s]Updating global scales:  85%|████████▌ | 167/196 [00:00<00:00, 414.71it/s]Updating global scales: 100%|██████████| 196/196 [00:00<00:00, 412.32it/s]
-Fusing global scales: 0it [00:00, ?it/s]Fusing global scales: 535it [00:00, 5288.13it/s]Fusing global scales: 1064it [00:00, 3433.06it/s]Fusing global scales: 1087it [00:00, 3618.22it/s]
-Calibrating weights:   0%|          | 0/196 [00:00<?, ?it/s]Calibrating weights:   6%|▌         | 12/196 [00:00<00:01, 116.82it/s]Calibrating weights:  13%|█▎        | 25/196 [00:00<00:01, 120.84it/s]Calibrating weights:  19%|█▉        | 38/196 [00:00<00:01, 118.46it/s]Calibrating weights:  26%|██▌       | 50/196 [00:00<00:01, 114.58it/s]Calibrating weights:  32%|███▏      | 63/196 [00:00<00:01, 115.45it/s]Calibrating weights:  39%|███▉      | 76/196 [00:00<00:01, 118.20it/s]Calibrating weights:  45%|████▍     | 88/196 [00:00<00:00, 117.12it/s]Calibrating weights:  51%|█████     | 100/196 [00:00<00:00, 115.55it/s]Calibrating weights:  57%|█████▋    | 112/196 [00:01<00:00, 90.54it/s] Calibrating weights:  63%|██████▎   | 123/196 [00:01<00:00, 94.65it/s]Calibrating weights:  68%|██████▊   | 134/196 [00:01<00:00, 97.88it/s]Calibrating weights:  74%|███████▍  | 145/196 [00:01<00:00, 84.62it/s]Calibrating weights:  80%|███████▉  | 156/196 [00:01<00:00, 90.42it/s]Calibrating weights:  85%|████████▌ | 167/196 [00:01<00:00, 95.02it/s]Calibrating weights:  92%|█████████▏| 180/196 [00:01<00:00, 101.28it/s]Calibrating weights:  97%|█████████▋| 191/196 [00:01<00:00, 84.76it/s] Calibrating weights: 100%|██████████| 196/196 [00:02<00:00, 97.86it/s]
-Preparing cache:   0%|          | 0/2 [00:00<?, ?it/s]Preparing cache:  50%|█████     | 1/2 [00:01<00:01,  1.79s/it]Preparing cache: 100%|██████████| 2/2 [00:02<00:00,  1.04s/it]
-(1/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](1/29): Calibrating:  50%|█████     | 1/2 [00:01<00:01,  1.31s/it](1/29): Calibrating: 100%|██████████| 2/2 [00:01<00:00,  1.48it/s]
-(1/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](1/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 27.81it/s]
-(2/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](2/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 19.47it/s](2/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 19.43it/s]
-(2/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](2/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 91.60it/s]
-(3/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](3/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 34.81it/s]
-(3/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](3/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 91.78it/s]
-(4/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](4/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 35.32it/s]
-(4/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](4/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.05it/s]
-(5/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](5/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.02it/s]
-(5/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](5/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 91.96it/s]
-(6/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](6/29): Calibrating:  50%|█████     | 1/2 [00:00<00:00,  7.30it/s](6/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 13.21it/s]
-(6/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](6/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.29it/s]
-(7/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](7/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 33.55it/s]
-(7/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](7/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.40it/s]
-(8/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](8/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 18.90it/s](8/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 18.87it/s]
-(8/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](8/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.61it/s]
-(9/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](9/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 26.13it/s]
-(9/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](9/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 89.55it/s]
-(10/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](10/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 35.05it/s]
-(10/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](10/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.14it/s]
-(11/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](11/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 32.64it/s]
-(11/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](11/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.01it/s]
-(12/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](12/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 19.06it/s](12/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 19.03it/s]
-(12/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](12/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.64it/s]
-(13/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](13/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.74it/s]
-(13/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](13/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 88.36it/s]
-(14/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](14/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.22it/s]
-(14/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](14/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.17it/s]
-(15/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](15/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.46it/s]
-(15/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](15/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 94.11it/s]
-(16/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](16/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.40it/s]
-(16/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](16/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 94.24it/s]
-(17/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](17/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.97it/s]
-(17/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](17/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.17it/s]
-(18/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](18/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.67it/s]
-(18/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](18/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.90it/s]
-(19/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](19/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.41it/s]
-(19/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](19/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.14it/s]
-(20/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](20/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.38it/s]
-(20/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](20/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.23it/s]
-(21/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](21/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.77it/s]
-(21/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](21/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.69it/s]
-(22/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](22/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.68it/s]
-(22/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](22/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.01it/s]
-(23/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](23/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.91it/s]
-(23/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](23/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.08it/s]
-(24/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](24/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.42it/s]
-(24/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](24/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.32it/s]
-(25/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](25/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.84it/s]
-(25/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](25/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.49it/s]
-(26/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](26/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 34.97it/s]
-(26/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](26/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 91.15it/s]
-(27/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](27/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.54it/s]
-(27/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](27/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 91.98it/s]
-(28/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](28/29): Calibrating:  50%|█████     | 1/2 [00:00<00:00,  5.43it/s](28/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00,  9.45it/s]
-(28/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](28/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 90.77it/s]
-(29/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s](29/29): Calibrating:  50%|█████     | 1/2 [00:00<00:00,  8.50it/s](29/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 16.70it/s]
-(29/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s](29/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 1246.45it/s]
-2025-12-08T18:42:54.597704+0000 | finalize | INFO - Compression lifecycle finalized for 2 modifiers
-2025-12-08T18:42:54.672239+0000 | post_process | WARNING - Optimized model is not saved. To save, please provide`output_dir` as input arg.Ex. `oneshot(..., output_dir=...)`
-The model weights are not tied. Please use the `tie_weights` method before using the `infer_auto_device` function.
-W1208 18:42:58.882000 3684978 torch/_dynamo/convert_frame.py:1016] [0/8] torch._dynamo hit config.recompile_limit (8)
-W1208 18:42:58.882000 3684978 torch/_dynamo/convert_frame.py:1016] [0/8]    function: 'cast_to_fp4' (/root/.cache/uv/environments-v2/quantize-eec261c7be8471d3/lib/python3.13/site-packages/compressed_tensors/quantization/quant_args.py:64)
-W1208 18:42:58.882000 3684978 torch/_dynamo/convert_frame.py:1016] [0/8]    last reason: 0/7: tensor 'x' rank mismatch. expected 4, actual 3
-W1208 18:42:58.882000 3684978 torch/_dynamo/convert_frame.py:1016] [0/8] To log all recompilation reasons, use TORCH_LOGS="recompiles".
-W1208 18:42:58.882000 3684978 torch/_dynamo/convert_frame.py:1016] [0/8] To diagnose recompilation issues, see https://pytorch.org/docs/main/torch.compiler_troubleshooting.html.
+
+Map:   0%|          | 0/2 [00:00<?, ? examples/s]
+Map: 100%|██████████| 2/2 [00:00<00:00, 12.51 examples/s]
+Map: 100%|██████████| 2/2 [00:00<00:00, 12.15 examples/s]
+Starting nvfp4 quantization process...
+
+Preparing cache:   0%|          | 0/2 [00:00<?, ?it/s]
+Preparing cache:  50%|█████     | 1/2 [00:00<00:00,  1.78it/s]
+Preparing cache: 100%|██████████| 2/2 [00:00<00:00,  3.06it/s]
+
+(1/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(1/29): Calibrating:  50%|█████     | 1/2 [00:00<00:00,  1.60it/s]
+(1/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00,  2.90it/s]
+
+(1/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(1/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 35.23it/s]
+
+(2/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(2/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 59.40it/s]
+
+(2/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(2/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 404.21it/s]
+
+(3/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(3/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 76.03it/s]
+
+(3/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(3/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 402.23it/s]
+
+(4/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(4/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 63.83it/s]
+
+(4/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(4/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 400.20it/s]
+
+(5/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(5/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 80.49it/s]
+
+(5/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(5/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 435.95it/s]
+
+(6/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(6/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 79.89it/s]
+
+(6/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(6/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 406.50it/s]
+
+(7/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(7/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 75.00it/s]
+
+(7/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(7/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 442.48it/s]
+
+(8/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(8/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 60.67it/s]
+
+(8/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(8/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 439.54it/s]
+
+(9/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(9/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 82.27it/s]
+
+(9/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(9/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 438.57it/s]
+
+(10/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(10/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 83.57it/s]
+
+(10/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(10/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 439.59it/s]
+
+(11/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(11/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 79.27it/s]
+
+(11/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(11/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 418.66it/s]
+
+(12/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(12/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 78.77it/s]
+
+(12/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(12/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 438.14it/s]
+
+(13/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(13/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 78.72it/s]
+
+(13/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(13/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 429.13it/s]
+
+(14/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(14/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 79.23it/s]
+
+(14/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(14/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 435.84it/s]
+
+(15/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(15/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 72.24it/s]
+
+(15/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(15/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 415.85it/s]
+
+(16/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(16/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 70.86it/s]
+
+(16/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(16/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 415.05it/s]
+
+(17/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(17/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 74.51it/s]
+
+(17/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(17/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 404.04it/s]
+
+(18/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(18/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 73.82it/s]
+
+(18/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(18/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 446.56it/s]
+
+(19/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(19/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 69.21it/s]
+
+(19/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(19/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 433.74it/s]
+
+(20/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(20/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 79.62it/s]
+
+(20/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(20/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 434.40it/s]
+
+(21/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(21/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 74.61it/s]
+
+(21/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(21/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 409.66it/s]
+
+(22/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(22/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 64.07it/s]
+
+(22/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(22/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 419.56it/s]
+
+(23/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(23/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 76.18it/s]
+
+(23/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(23/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 425.43it/s]
+
+(24/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(24/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 78.34it/s]
+
+(24/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(24/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 425.08it/s]
+
+(25/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(25/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 74.09it/s]
+
+(25/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(25/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 438.90it/s]
+
+(26/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(26/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 62.98it/s]
+
+(26/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(26/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 412.72it/s]
+
+(27/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(27/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 75.72it/s]
+
+(27/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(27/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 416.66it/s]
+
+(28/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(28/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 79.07it/s]
+
+(28/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(28/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 423.37it/s]
+
+(29/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(29/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 214.13it/s]
+
+(29/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(29/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 1260.69it/s]
+
+Updating global scales:   0%|          | 0/196 [00:00<?, ?it/s]
+Updating global scales:  20%|█▉        | 39/196 [00:00<00:00, 386.66it/s]
+Updating global scales:  40%|████      | 79/196 [00:00<00:00, 394.29it/s]
+Updating global scales:  61%|██████    | 120/196 [00:00<00:00, 400.95it/s]
+Updating global scales:  82%|████████▏ | 161/196 [00:00<00:00, 400.42it/s]
+Updating global scales: 100%|██████████| 196/196 [00:00<00:00, 399.93it/s]
+
+Fusing global scales: 0it [00:00, ?it/s]
+Fusing global scales: 521it [00:00, 5193.47it/s]
+Fusing global scales: 1041it [00:00, 3348.30it/s]
+Fusing global scales: 1087it [00:00, 3477.20it/s]
+
+Calibrating weights:   0%|          | 0/196 [00:00<?, ?it/s]
+Calibrating weights:   7%|▋         | 13/196 [00:00<00:01, 117.15it/s]
+Calibrating weights:  13%|█▎        | 25/196 [00:00<00:01, 116.87it/s]
+Calibrating weights:  19%|█▉        | 37/196 [00:00<00:01, 112.54it/s]
+Calibrating weights:  25%|██▌       | 49/196 [00:00<00:01, 111.60it/s]
+Calibrating weights:  32%|███▏      | 62/196 [00:00<00:01, 114.31it/s]
+Calibrating weights:  38%|███▊      | 75/196 [00:00<00:01, 116.56it/s]
+Calibrating weights:  44%|████▍     | 87/196 [00:00<00:00, 116.03it/s]
+Calibrating weights:  51%|█████     | 99/196 [00:00<00:00, 113.46it/s]
+Calibrating weights:  57%|█████▋    | 111/196 [00:00<00:00, 114.76it/s]
+Calibrating weights:  63%|██████▎   | 124/196 [00:01<00:00, 116.93it/s]
+Calibrating weights:  69%|██████▉   | 136/196 [00:01<00:00, 117.34it/s]
+Calibrating weights:  76%|███████▌  | 148/196 [00:01<00:00, 113.64it/s]
+Calibrating weights:  82%|████████▏ | 160/196 [00:01<00:00, 114.94it/s]
+Calibrating weights:  88%|████████▊ | 173/196 [00:01<00:00, 116.56it/s]
+Calibrating weights:  94%|█████████▍| 185/196 [00:01<00:00, 116.20it/s]
+Calibrating weights: 100%|██████████| 196/196 [00:01<00:00, 115.15it/s]
+
+Preparing cache:   0%|          | 0/2 [00:00<?, ?it/s]
+Preparing cache:  50%|█████     | 1/2 [00:01<00:01,  1.18s/it]
+Preparing cache: 100%|██████████| 2/2 [00:01<00:00,  1.43it/s]
+
+(1/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(1/29): Calibrating:  50%|█████     | 1/2 [00:01<00:01,  1.13s/it]
+(1/29): Calibrating: 100%|██████████| 2/2 [00:01<00:00,  1.72it/s]
+
+(1/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(1/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 28.80it/s]
+
+(2/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(2/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 30.44it/s]
+
+(2/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(2/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 94.04it/s]
+
+(3/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(3/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 26.98it/s]
+
+(3/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(3/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.42it/s]
+
+(4/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(4/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.80it/s]
+
+(4/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(4/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 91.94it/s]
+
+(5/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(5/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.60it/s]
+
+(5/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(5/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.00it/s]
+
+(6/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(6/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 38.19it/s]
+
+(6/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(6/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.46it/s]
+
+(7/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(7/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 39.95it/s]
+
+(7/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(7/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.06it/s]
+
+(8/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(8/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.29it/s]
+
+(8/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(8/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 94.83it/s]
+
+(9/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(9/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 35.25it/s]
+
+(9/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(9/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 94.21it/s]
+
+(10/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(10/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 38.60it/s]
+
+(10/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(10/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.50it/s]
+
+(11/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(11/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 33.67it/s]
+
+(11/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(11/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.99it/s]
+
+(12/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(12/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.93it/s]
+
+(12/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(12/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.80it/s]
+
+(13/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(13/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 38.28it/s]
+
+(13/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(13/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 96.03it/s]
+
+(14/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(14/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 32.19it/s]
+
+(14/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(14/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 95.84it/s]
+
+(15/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(15/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.35it/s]
+
+(15/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(15/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 94.88it/s]
+
+(16/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(16/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 39.21it/s]
+
+(16/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(16/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 86.93it/s]
+
+(17/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(17/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 39.11it/s]
+
+(17/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(17/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.27it/s]
+
+(18/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(18/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 38.98it/s]
+
+(18/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(18/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.63it/s]
+
+(19/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(19/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 38.46it/s]
+
+(19/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(19/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 95.80it/s]
+
+(20/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(20/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.38it/s]
+
+(20/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(20/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 94.81it/s]
+
+(21/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(21/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 33.51it/s]
+
+(21/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(21/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.09it/s]
+
+(22/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(22/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.25it/s]
+
+(22/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(22/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 92.98it/s]
+
+(23/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(23/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 30.21it/s]
+
+(23/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(23/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.57it/s]
+
+(24/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(24/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.89it/s]
+
+(24/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(24/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.86it/s]
+
+(25/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(25/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 37.20it/s]
+
+(25/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(25/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 95.23it/s]
+
+(26/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(26/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.22it/s]
+
+(26/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(26/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 95.13it/s]
+
+(27/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(27/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 36.22it/s]
+
+(27/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(27/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.36it/s]
+
+(28/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(28/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 34.80it/s]
+
+(28/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(28/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 93.42it/s]
+
+(29/29): Calibrating:   0%|          | 0/2 [00:00<?, ?it/s]
+(29/29): Calibrating: 100%|██████████| 2/2 [00:00<00:00, 38.62it/s]
+
+(29/29): Propagating:   0%|          | 0/2 [00:00<?, ?it/s]
+(29/29): Propagating: 100%|██████████| 2/2 [00:00<00:00, 679.07it/s]
 Quantization complete!
 Running sample generation...
 ========== SAMPLE GENERATION ==============
@@ -207,10 +401,71 @@ Generated: user
 Please describe the animal in this image
 
 assistant
-A fluffy white kitten with a soft, silky coat sits comfortably on a white keyboard. Its face is turned slightly to the side, revealing its adorable features: large, expressive eyes and small, pointed ears. The kitten's fur is pristine and immaculate, adding to its charm. With its front paws resting on the keyboard, it exudes a sense of relaxation and contentment.
+The kitten, covered in fluffy white fur, sits comfortably on a white keyboard, embodying a serene and playful demeanor. Its soft and adorable features, including large expressive eyes and a tiny nose, contribute to its charming appearance. With its ears perking up attentively, the kitten gazes directly at the viewer, exuding a sense of curiosity and innocence. The kitten's posture, nestled comfortably on the keyboard, blends the innocence of youth with the playful nature of the scene.
 ==========================================
-Saving quantized model to: /tmp/cosmos-reason2/checkpoints/model_fp4...
-2025-12-08T18:43:31.755844+0000 | get_model_compressor | INFO - skip_sparsity_compression_stats set to True. Skipping sparsity compression statistic calculations. No sparsity compressor will be applied.
-Compressing model: 0it [00:00, ?it/s]Compressing model: 1it [00:02,  2.97s/it]Compressing model: 2it [00:03,  1.46s/it]Compressing model: 6it [00:03,  2.83it/s]Compressing model: 12it [00:03,  6.94it/s]Compressing model: 18it [00:03, 11.84it/s]Compressing model: 23it [00:03, 16.02it/s]Compressing model: 28it [00:03, 20.38it/s]Compressing model: 34it [00:04, 26.35it/s]Compressing model: 40it [00:04, 31.68it/s]Compressing model: 46it [00:04, 36.65it/s]Compressing model: 51it [00:04, 37.06it/s]Compressing model: 56it [00:04, 37.63it/s]Compressing model: 61it [00:04, 39.98it/s]Compressing model: 66it [00:04, 38.39it/s]Compressing model: 71it [00:04, 33.64it/s]Compressing model: 75it [00:05, 34.66it/s]Compressing model: 79it [00:05, 31.35it/s]Compressing model: 83it [00:05, 29.43it/s]Compressing model: 87it [00:05, 30.78it/s]Compressing model: 91it [00:05, 24.02it/s]Compressing model: 96it [00:05, 26.39it/s]Compressing model: 99it [00:06, 22.43it/s]Compressing model: 103it [00:06, 24.23it/s]Compressing model: 106it [00:06, 20.76it/s]Compressing model: 110it [00:06, 23.30it/s]Compressing model: 113it [00:06, 20.07it/s]Compressing model: 117it [00:06, 22.48it/s]Compressing model: 120it [00:07, 18.89it/s]Compressing model: 124it [00:07, 21.64it/s]Compressing model: 127it [00:07, 18.39it/s]Compressing model: 131it [00:07, 20.89it/s]Compressing model: 134it [00:07, 18.63it/s]Compressing model: 138it [00:07, 21.34it/s]Compressing model: 141it [00:08, 18.87it/s]Compressing model: 145it [00:08, 21.84it/s]Compressing model: 148it [00:08, 19.77it/s]Compressing model: 152it [00:08, 22.71it/s]Compressing model: 155it [00:08, 20.17it/s]Compressing model: 159it [00:08, 23.25it/s]Compressing model: 162it [00:09, 20.57it/s]Compressing model: 166it [00:09, 23.60it/s]Compressing model: 169it [00:09, 20.57it/s]Compressing model: 173it [00:09, 23.16it/s]Compressing model: 176it [00:09, 20.19it/s]Compressing model: 180it [00:09, 22.78it/s]Compressing model: 183it [00:10, 19.56it/s]Compressing model: 187it [00:10, 22.07it/s]Compressing model: 190it [00:10, 18.59it/s]Compressing model: 194it [00:10, 21.15it/s]Compressing model: 196it [00:10, 18.08it/s]
-Postprocessing config file /tmp/cosmos-reason2/checkpoints/model_fp4/config.json...
-Quantization complete! Model saved to: /tmp/cosmos-reason2/checkpoints/model_fp4
+Saving quantized model to: output/model_nvfp4...
+
+Compressing model: 0it [00:00, ?it/s]
+Compressing model: 1it [00:02,  2.84s/it]
+Compressing model: 2it [00:03,  1.55s/it]
+Compressing model: 5it [00:03,  2.15it/s]
+Compressing model: 7it [00:03,  3.21it/s]
+Compressing model: 12it [00:03,  7.02it/s]
+Compressing model: 15it [00:04,  8.74it/s]
+Compressing model: 19it [00:04, 12.31it/s]
+Compressing model: 22it [00:04, 13.37it/s]
+Compressing model: 26it [00:04, 17.27it/s]
+Compressing model: 29it [00:04, 17.13it/s]
+Compressing model: 33it [00:04, 21.04it/s]
+Compressing model: 36it [00:04, 19.68it/s]
+Compressing model: 40it [00:05, 23.09it/s]
+Compressing model: 43it [00:05, 20.77it/s]
+Compressing model: 47it [00:05, 23.94it/s]
+Compressing model: 50it [00:05, 21.62it/s]
+Compressing model: 54it [00:05, 25.10it/s]
+Compressing model: 57it [00:05, 22.15it/s]
+Compressing model: 61it [00:05, 25.58it/s]
+Compressing model: 64it [00:06, 23.01it/s]
+Compressing model: 68it [00:06, 26.21it/s]
+Compressing model: 71it [00:06, 20.95it/s]
+Compressing model: 75it [00:06, 24.92it/s]
+Compressing model: 78it [00:06, 22.77it/s]
+Compressing model: 83it [00:06, 24.55it/s]
+Compressing model: 87it [00:06, 27.14it/s]
+Compressing model: 90it [00:07, 23.77it/s]
+Compressing model: 94it [00:07, 26.59it/s]
+Compressing model: 97it [00:07, 23.64it/s]
+Compressing model: 101it [00:07, 26.61it/s]
+Compressing model: 104it [00:07, 23.58it/s]
+Compressing model: 108it [00:07, 26.91it/s]
+Compressing model: 111it [00:07, 23.84it/s]
+Compressing model: 115it [00:08, 27.14it/s]
+Compressing model: 118it [00:08, 24.39it/s]
+Compressing model: 123it [00:08, 29.72it/s]
+Compressing model: 127it [00:08, 23.72it/s]
+Compressing model: 131it [00:08, 26.60it/s]
+Compressing model: 135it [00:08, 24.89it/s]
+Compressing model: 138it [00:09, 25.65it/s]
+Compressing model: 141it [00:09, 22.44it/s]
+Compressing model: 145it [00:09, 25.63it/s]
+Compressing model: 148it [00:09, 22.74it/s]
+Compressing model: 152it [00:09, 26.06it/s]
+Compressing model: 155it [00:09, 22.86it/s]
+Compressing model: 159it [00:09, 25.84it/s]
+Compressing model: 162it [00:10, 22.73it/s]
+Compressing model: 166it [00:10, 26.06it/s]
+Compressing model: 169it [00:10, 22.86it/s]
+Compressing model: 173it [00:10, 26.27it/s]
+Compressing model: 176it [00:10, 23.62it/s]
+Compressing model: 180it [00:10, 27.09it/s]
+Compressing model: 183it [00:10, 24.26it/s]
+Compressing model: 187it [00:10, 27.86it/s]
+Compressing model: 191it [00:11, 26.23it/s]
+Compressing model: 195it [00:11, 25.48it/s]
+Compressing model: 196it [00:11, 17.21it/s]
+Postprocessing config file output/model_nvfp4/config.json...
+
+Fetching 12 files:   0%|          | 0/12 [00:00<?, ?it/s]
+Fetching 12 files:  42%|████▏     | 5/12 [00:00<00:00, 30.14it/s]
+Fetching 12 files: 100%|██████████| 12/12 [00:00<00:00, 72.27it/s]
+Quantization complete! Model saved to: output/model_nvfp4

@@ -63,7 +63,7 @@ Install one of the following environments:
 Install system dependencies:
 
 ```shell
-sudo apt-get install curl ffmpeg git git-lfs
+sudo apt-get install curl ffmpeg git git-lfs unzip
 ```
 
 * [uv](https://docs.astral.sh/uv/getting-started/installation/)
@@ -172,7 +172,10 @@ For deployment and batch inference, we recommend using [`vllm>=0.11.0`](https://
 
 #### Online Serving
 
-Start the server in a separate terminal or a background process:
+Start the server in a separate terminal or a background process.
+
+> [!TIP]
+> **Docker users:** Run `docker exec -it <CONTAINER_ID> bash` to exec into your container. Find your container ID with `docker ps`.
 
 ```shell
 vllm serve nvidia/Cosmos-Reason2-2B \
@@ -190,7 +193,10 @@ Optional arguments:
 * `--reasoning-parser qwen3`: Parse reasoning trace.
 * `--port 8000`: Server port. Change if you encounter `Address already in use` errors.
 
-Wait a few minutes for the server to startup. Once complete, it will print `Application startup complete.`.
+> [!NOTE]
+> **First startup takes a couple minutes** for model loading and CUDA graph compilation. Subsequent starts are faster with cached graphs.
+
+Once ready, the server will print `Application startup complete.`.
 
 Caption a video ([sample output](assets/outputs/caption.log)):
 
