@@ -51,15 +51,21 @@ Example:
 import os
 from typing import Annotated, Literal
 
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-os.environ["TORCH_LOGS"] = "-dynamo"
 
-import logging
-import warnings
+def init():
+    import logging
+    import warnings
 
-warnings.filterwarnings("ignore")
+    os.environ["TOKENIZERS_PARALLELISM"] = "false"
+    os.environ["TORCH_LOGS"] = "-dynamo"
+    os.environ["LOGURU_LEVEL"] = "ERROR"
 
-logging.getLogger("accelerate").setLevel(logging.ERROR)
+    warnings.filterwarnings("ignore")
+    logging.basicConfig(level=logging.ERROR)
+
+
+init()
+
 
 import base64
 import json
