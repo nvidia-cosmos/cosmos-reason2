@@ -49,7 +49,12 @@ Example:
 """
 
 import os
+import shutil
+import subprocess
 from typing import Annotated, Literal
+
+# Capture uv path before venv modifies PATH (needed for uvx download method)
+UV_PATH = shutil.which("uv")
 
 
 def init():
@@ -58,18 +63,17 @@ def init():
 
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
     os.environ["TORCH_LOGS"] = "-dynamo"
-    os.environ["LOGURU_LEVEL"] = "ERROR"
 
     warnings.filterwarnings("ignore")
     logging.basicConfig(level=logging.ERROR)
 
 
 init()
+print("Loading dependencies...")
 
 
 import base64
 import json
-import shutil
 from io import BytesIO
 from pathlib import Path
 
@@ -84,6 +88,9 @@ from llmcompressor.modeling.moe_context import moe_calibration_context
 from llmcompressor.modifiers.quantization import QuantizationModifier
 from llmcompressor.modifiers.smoothquant import SmoothQuantModifier
 from llmcompressor.utils import dispatch_for_generation
+from loguru import logger as loguru_logger
+
+loguru_logger.remove()
 from PIL import Image
 from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor, Qwen3VLForConditionalGeneration
@@ -111,6 +118,48 @@ class Args(pydantic.BaseModel):
     """Maximum sequence length to use for quantization. (Defaults to CR2/Qwen3-VL max model len)"""
     seed: int = 42
     """Seed to use for random number generator."""
+
+
+def download_assets(model: str) -> Path:
+    """Pre-download dataset and model & returns model path."""
+    if UV_PATH is None:
+        raise RuntimeError("uv not found in PATH - required for downloads")
+
+    print("Pre-downloading dataset: lmms-lab/flickr30k")
+    subprocess.run(
+        [
+            UV_PATH,
+            "tool",
+            "run",
+            "--from",
+            "huggingface_hub[hf-xfer]",
+            "hf",
+            "download",
+            "lmms-lab/flickr30k",
+            "--repo-type",
+            "dataset",
+        ],
+        check=True,
+    )
+
+    if (model_path := Path(model)).exists():
+        return model_path
+
+    print(f"Pre-downloading model: {model}")
+    subprocess.run(
+        [
+            UV_PATH,
+            "tool",
+            "run",
+            "--from",
+            "huggingface_hub[hf-xfer]",
+            "hf",
+            "download",
+            model,
+        ],
+        check=True,
+    )
+    return Path(snapshot_download(model))
 
 
 def preprocess_and_tokenize(
@@ -244,7 +293,12 @@ def postprocess_config(config_path: Path):
         json.dump(clean_config, f, indent=2)
 
 
+def ignore_weights(dir: str, files: list[str]) -> list[str]:
+    return [f for f in files if f == "config.json" or "safetensors" in f]
+
+
 def quantize(args: Args):
+    model_source_path = download_assets(args.model)
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     model = Qwen3VLForConditionalGeneration.from_pretrained(
@@ -293,24 +347,9 @@ def quantize(args: Args):
     config_path = output_dir / "config.json"
     print(f"Postprocessing config file {config_path}...")
     postprocess_config(config_path)
-    if not (model_path := Path(args.model)).exists():
-        # path for remote model / HF ID
-        snapshot_download(
-            repo_id=args.model,
-            ignore_patterns=["config.json", "*.safetensors*"],
-            local_dir=output_dir,
-        )
-    else:
-        # path for local model directory
-        files_to_copy = [
-            f
-            for f in model_path.glob("*")
-            if f.name != "config.json"
-            and "safetensors" not in f.name
-            and not f.is_dir()
-        ]
-        for file in files_to_copy:
-            shutil.copy(file, output_dir / file.name)
+    shutil.copytree(
+        model_source_path, output_dir, ignore=ignore_weights, dirs_exist_ok=True
+    )
     print(f"Quantization complete! Model saved to: {output_dir}")
 
 
