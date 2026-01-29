@@ -16,7 +16,12 @@ To list available arguments:
 ./scripts/quantize.py --help
 ```
 
-Common arguments:
+## Quantization Options
 
-* `--model nvidia/Cosmos-Reason2-2B`: Model name or path.
-* `--precision fp4`: Precision to use for quantization.
+| Option | Values | Default | Description |
+| ------ | ------ | ------- | ----------- |
+| `--model` | string | `nvidia/Cosmos-Reason2-2B` | Model name or local path |
+| `--precision` | `nvfp4`, `fp8`, `fp8_dynamic` | `nvfp4` | `nvfp4` (smallest/fastest), `fp8` (better quality), `fp8_dynamic` (best quality, slower inference) |
+| `--kv-precision` | `bf16`, `fp8` | `bf16` | KV cache precision |
+| `--num-samples` | integer | `512` | Calibration samples. Increase for better accuracy & longer runtime |
+| `--smoothing-strength` | 0.0-1.0 | `0.8` | SmoothQuant strength for handling outliers |
