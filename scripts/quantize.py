@@ -57,8 +57,7 @@ os.environ["TORCH_LOGS"] = "-dynamo"
 import logging
 import warnings
 
-warnings.filterwarnings("ignore", module="dill")
-warnings.filterwarnings("ignore", message=".*weights are not tied.*")
+warnings.filterwarnings("ignore")
 
 logging.getLogger("accelerate").setLevel(logging.ERROR)
 
