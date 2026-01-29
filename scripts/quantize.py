@@ -84,9 +84,6 @@ from llmcompressor.modeling.moe_context import moe_calibration_context
 from llmcompressor.modifiers.quantization import QuantizationModifier
 from llmcompressor.modifiers.smoothquant import SmoothQuantModifier
 from llmcompressor.utils import dispatch_for_generation
-from loguru import logger as loguru_logger
-
-loguru_logger.disable("llmcompressor")
 
 from PIL import Image
 from qwen_vl_utils import process_vision_info
