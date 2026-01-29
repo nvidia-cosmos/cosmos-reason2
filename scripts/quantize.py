@@ -84,7 +84,6 @@ from llmcompressor.modeling.moe_context import moe_calibration_context
 from llmcompressor.modifiers.quantization import QuantizationModifier
 from llmcompressor.modifiers.smoothquant import SmoothQuantModifier
 from llmcompressor.utils import dispatch_for_generation
-
 from PIL import Image
 from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor, Qwen3VLForConditionalGeneration
