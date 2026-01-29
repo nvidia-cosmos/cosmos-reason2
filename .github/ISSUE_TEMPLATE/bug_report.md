@@ -17,11 +17,12 @@ Commands to reproduce the behavior.
 If applicable, add screenshots to help explain your problem.
 
 **System (please complete the following information):**
- - Environment: [e.g. Virtual Environment, Docker] 
- - Hardware: [e.g. DGX H100] 
- - OS: [e.g. Ubuntu 24.04]
- - GPU Driver [e.g. 580.95.05]
- - CUDA Version [e.g. 12.8.1]
+
+- Environment: [e.g. Virtual Environment, Docker]
+- Hardware: [e.g. DGX H100]
+- OS: [e.g. Ubuntu 24.04]
+- GPU Driver [e.g. 580.95.05]
+- CUDA Version [e.g. 12.8.1]
 
 **Additional context**
 Add any other context about the problem here.
