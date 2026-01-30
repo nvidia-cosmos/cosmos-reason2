@@ -69,25 +69,26 @@ class CustomDataset(torch.utils.data.Dataset):
             conversations = sample[
                 self.config.train.train_policy.conversation_column_name
             ]
-
-            if isinstance(conversations, str):
-                conversations = json.loads(conversations)
-            elif not isinstance(conversations, list):
-                raise ValueError(
-                    f"Conversation column must be a list or JSON string, got: {type(conversations).__name__}"
-                )
-
-            set_vision_kwargs(conversations, self.vision_kwargs)
-            return conversations
-        except (json.JSONDecodeError, KeyError, ValueError) as e:
+        except KeyError as e:
             logger.error(f"Failed to process sample at index {idx}: {e}")
-            if isinstance(e, KeyError):
-                logger.error(f"Available keys: {list(sample.keys())}")
-            elif isinstance(e, json.JSONDecodeError):
+            logger.error(f"Available keys: {list(sample.keys())}")
+            raise
+
+        if isinstance(conversations, str):
+            try:
+                conversations = json.loads(conversations)
+            except json.JSONDecodeError:
                 logger.error(
                     f"Conversation content (first 200 chars): {conversations[:200]}..."
                 )
-            raise
+                raise
+        elif not isinstance(conversations, list):
+            raise ValueError(
+                f"Conversation column must be a list or JSON string, got: {type(conversations).__name__}"
+            )
+
+        set_vision_kwargs(conversations, self.vision_kwargs)
+        return conversations
 
 
 if __name__ == "__main__":

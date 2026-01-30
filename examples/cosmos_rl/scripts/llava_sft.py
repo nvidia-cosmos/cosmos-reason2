@@ -75,43 +75,47 @@ class CustomDataset(torch.utils.data.Dataset):
 
             user_prompt = sample["conversations"][0]["value"]
             response = sample["conversations"][1]["value"]
-            images = sample.get("image", None) or sample.get("images", None)
-            if images and isinstance(images, str):
-                images = [images]
-            videos = sample.get("video", None)
-            if videos and isinstance(videos, str):
-                videos = [videos]
-
-            # If self.media_path is not empty, join it with each image/video path
-            if self.media_path != "":
-                if images:
-                    images = [os.path.join(self.media_path, img) for img in images]
-                if videos:
-                    videos = [os.path.join(self.media_path, vid) for vid in videos]
-
-            # cosmos-rl expects base64 encoded images
-            for i, image in enumerate(images):
-                images[i] = base64.b64encode(open(image, "rb").read())
-
-            # Remove image and video tags from user prompt
-            user_prompt = re.sub(r"(\n)?</?(image|video)>(\n)?", "", user_prompt)
-
-            conversations = create_conversation(
-                system_prompt=self.system_prompt,
-                user_prompt=user_prompt,
-                response=response,
-                images=images,
-                videos=videos,
-                vision_kwargs=self.vision_kwargs,
-            )
-            return conversations
-        except (OSError, FileNotFoundError) as e:
-            logger.error(f"Failed to read image file at sample index {idx}: {e}")
-            raise
         except (KeyError, IndexError) as e:
             logger.error(f"Missing required field in sample at index {idx}: {e}")
             logger.error(f"Sample keys: {list(sample.keys())}")
             raise
+
+        images = sample.get("image", None) or sample.get("images", None)
+        if images and isinstance(images, str):
+            images = [images]
+        videos = sample.get("video", None)
+        if videos and isinstance(videos, str):
+            videos = [videos]
+
+        # If self.media_path is not empty, join it with each image/video path
+        if self.media_path != "":
+            if images:
+                images = [os.path.join(self.media_path, img) for img in images]
+            if videos:
+                videos = [os.path.join(self.media_path, vid) for vid in videos]
+
+        # cosmos-rl expects base64 encoded images
+        for i, image in enumerate(images):
+            try:
+                images[i] = base64.b64encode(open(image, "rb").read())
+            except (OSError, FileNotFoundError) as e:
+                logger.error(
+                    f"Failed to read image file at sample index {idx}, image index {i}: {e}"
+                )
+                raise
+
+        # Remove image and video tags from user prompt
+        user_prompt = re.sub(r"(\n)?</?(image|video)>(\n)?", "", user_prompt)
+
+        conversations = create_conversation(
+            system_prompt=self.system_prompt,
+            user_prompt=user_prompt,
+            response=response,
+            images=images,
+            videos=videos,
+            vision_kwargs=self.vision_kwargs,
+        )
+        return conversations
 
 
 if __name__ == "__main__":
