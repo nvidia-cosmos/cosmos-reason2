@@ -82,7 +82,6 @@ import requests
 import torch
 import tyro
 from datasets import load_dataset
-from huggingface_hub import snapshot_download
 from llmcompressor import oneshot
 from llmcompressor.modeling.moe_context import moe_calibration_context
 from llmcompressor.modifiers.quantization import QuantizationModifier
@@ -134,20 +133,6 @@ def _hf_download(cmd_args: list[str]) -> str:
     return subprocess.check_output(
         [*cmd, "--quiet"], text=True, env=dict(os.environ) | {"HF_HUB_OFFLINE": "1"}
     ).strip()
-
-
-def download_assets(model: str) -> Path:
-    """Pre-download dataset and model & returns model path."""
-    print("Pre-downloading dataset: lmms-lab/flickr30k")
-    _hf_download(["lmms-lab/flickr30k", "--repo-type", "dataset"])
-
-    if (model_path := Path(model)).exists():
-        return model_path
-
-    print(f"Pre-downloading model: {model}")
-    _hf_download([model])
-
-    return Path(snapshot_download(model))
 
 
 def preprocess_and_tokenize(
@@ -282,7 +267,14 @@ def postprocess_config(config_path: Path):
 
 
 def quantize(args: Args):
-    model_source_path = download_assets(args.model)
+    print("Pre-downloading dataset: lmms-lab/flickr30k")
+    _hf_download(["lmms-lab/flickr30k", "--repo-type", "dataset"])
+    if os.path.exists(args.model):
+        model_path = Path(args.model)
+    else:
+        print(f"Pre-downloading model: {args.model}")
+        model_path = Path(_hf_download([args.model]))
+
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     model = Qwen3VLForConditionalGeneration.from_pretrained(
@@ -332,7 +324,7 @@ def quantize(args: Args):
     print(f"Postprocessing config file {config_path}...")
     postprocess_config(config_path)
     shutil.copytree(
-        model_source_path,
+        model_path,
         output_dir,
         ignore=lambda dir, files: [
             f for f in files if f == "config.json" or "safetensors" in f
