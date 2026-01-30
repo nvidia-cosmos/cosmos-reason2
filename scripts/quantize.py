@@ -49,20 +49,20 @@ Example:
 """
 
 import os
+import shlex
 import shutil
 import subprocess
 from typing import Annotated, Literal
 
-# Capture uv path before venv modifies PATH (needed for uvx download method)
-UV_PATH = shutil.which("uv")
+_MINIMUM_HF_CLI_VERSION = "1.3.5"
 
 
 def init():
-    import logging
-    import warnings
-
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
     os.environ["TORCH_LOGS"] = "-dynamo"
+
+    import logging
+    import warnings
 
     warnings.filterwarnings("ignore")
     logging.basicConfig(level=logging.ERROR)
@@ -88,9 +88,6 @@ from llmcompressor.modeling.moe_context import moe_calibration_context
 from llmcompressor.modifiers.quantization import QuantizationModifier
 from llmcompressor.modifiers.smoothquant import SmoothQuantModifier
 from llmcompressor.utils import dispatch_for_generation
-from loguru import logger as loguru_logger
-
-loguru_logger.remove()
 from PIL import Image
 from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor, Qwen3VLForConditionalGeneration
@@ -120,45 +117,36 @@ class Args(pydantic.BaseModel):
     """Seed to use for random number generator."""
 
 
+def _hf_download(cmd_args: list[str]) -> str:
+    """Run Hugging Face CLI download command and return the local path.
+
+    Uses a newer Hugging Face CLI version to download checkpoint. The dependency
+    version is very old and not robust.
+    """
+    cmd = [
+        "uvx",
+        f"hf>={_MINIMUM_HF_CLI_VERSION}",
+        "download",
+        *cmd_args,
+    ]
+    print(f"{shlex.join(cmd)}")
+    subprocess.check_call(cmd, text=True)
+    return subprocess.check_output(
+        [*cmd, "--quiet"], text=True, env=dict(os.environ) | {"HF_HUB_OFFLINE": "1"}
+    ).strip()
+
+
 def download_assets(model: str) -> Path:
     """Pre-download dataset and model & returns model path."""
-    if UV_PATH is None:
-        raise RuntimeError("uv not found in PATH - required for downloads")
-
     print("Pre-downloading dataset: lmms-lab/flickr30k")
-    subprocess.run(
-        [
-            UV_PATH,
-            "tool",
-            "run",
-            "--from",
-            "huggingface_hub[hf-xfer]",
-            "hf",
-            "download",
-            "lmms-lab/flickr30k",
-            "--repo-type",
-            "dataset",
-        ],
-        check=True,
-    )
+    _hf_download(["lmms-lab/flickr30k", "--repo-type", "dataset"])
 
     if (model_path := Path(model)).exists():
         return model_path
 
     print(f"Pre-downloading model: {model}")
-    subprocess.run(
-        [
-            UV_PATH,
-            "tool",
-            "run",
-            "--from",
-            "huggingface_hub[hf-xfer]",
-            "hf",
-            "download",
-            model,
-        ],
-        check=True,
-    )
+    _hf_download([model])
+
     return Path(snapshot_download(model))
 
 
@@ -293,10 +281,6 @@ def postprocess_config(config_path: Path):
         json.dump(clean_config, f, indent=2)
 
 
-def ignore_weights(dir: str, files: list[str]) -> list[str]:
-    return [f for f in files if f == "config.json" or "safetensors" in f]
-
-
 def quantize(args: Args):
     model_source_path = download_assets(args.model)
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -348,12 +332,21 @@ def quantize(args: Args):
     print(f"Postprocessing config file {config_path}...")
     postprocess_config(config_path)
     shutil.copytree(
-        model_source_path, output_dir, ignore=ignore_weights, dirs_exist_ok=True
+        model_source_path,
+        output_dir,
+        ignore=lambda dir, files: [
+            f for f in files if f == "config.json" or "safetensors" in f
+        ],
+        dirs_exist_ok=True,
     )
     print(f"Quantization complete! Model saved to: {output_dir}")
 
 
 def main():
+    from loguru import logger as loguru_logger
+
+    loguru_logger.remove()
+
     args = tyro.cli(Args, description=__doc__)
     quantize(args)
 
