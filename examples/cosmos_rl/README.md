@@ -83,6 +83,8 @@ Please update the fields `annotation_path` and `media_path` in the [config](conf
 
 Here is one example of downloading the [Llava-Instruct-150K](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K) dataset and [COCO](https://cocodataset.org/#home) images:
 
+> **Note:** This downloads ~18GB for `train2017.zip` and requires ~36GB total disk space after extraction.
+
 ```shell
 DATASET_DIR="/tmp/cosmos_reason2/cosmos_rl/data/llava_sft"
 mkdir -p $DATASET_DIR
