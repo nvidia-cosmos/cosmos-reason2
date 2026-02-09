@@ -22,20 +22,42 @@
 #   "pillow>=2.2.1",
 #   "pydantic>=2.12.4",
 #   "qwen-vl-utils==0.0.14",
-#   "torch==2.8.0",
-#   "torchcodec>=0.8.1",
+#   "torch==2.8.0; platform_machine != 'aarch64'",
+#   "torch==2.9.0; platform_machine == 'aarch64'",
+#   "torchcodec>=0.8.1; platform_machine != 'aarch64'",
+#   "torchcodec==0.9.1; platform_machine == 'aarch64'",
 #   "torchvision",
 #   "tyro>=0.9.35",
 #   "transformers @ git+https://github.com/huggingface/transformers.git@def9a7ef057b13d04aeeaa150e3ce63afa151d4e",
 # ]
 #
 # [tool.uv.sources]
-# torch = [{ index = "pytorch-cu128"}]
-# torchvision = [{ index = "pytorch-cu128"}]
+# torch = [
+#   { index = "pytorch-cu128", marker = "platform_machine != 'aarch64'" },
+#   { index = "pytorch-cu130", marker = "platform_machine == 'aarch64'" }
+# ]
+# torchvision = [
+#   { index = "pytorch-cu128", marker = "platform_machine != 'aarch64'" },
+#   { index = "pytorch-cu130", marker = "platform_machine == 'aarch64'" }
+# ]
+# torchcodec = [
+#   { index = "pytorch-cu128", marker = "platform_machine != 'aarch64'" },
+#   { index = "cosmos-cu130", marker = "platform_machine == 'aarch64'" }
+# ]
 #
 # [[tool.uv.index]]
 # name = "pytorch-cu128"
 # url = "https://download.pytorch.org/whl/cu128"
+# explicit = true
+#
+# [[tool.uv.index]]
+# name = "pytorch-cu130"
+# url = "https://download.pytorch.org/whl/cu130"
+# explicit = true
+#
+# [[tool.uv.index]]
+# name = "cosmos-cu130"
+# url = "https://nvidia-cosmos.github.io/cosmos-dependencies/v1.4.0/cu130_torch29/simple"
 # explicit = true
 # ///
 
