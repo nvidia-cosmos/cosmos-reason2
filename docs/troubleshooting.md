@@ -93,4 +93,4 @@ Alternatively, to use the virtual environment, set `TRITON_PTXAS_PATH` to your s
 export TRITON_PTXAS_PATH="/usr/local/cuda/bin/ptxas"
 ```
 
-Your system
+Your system CUDA version must match the torch CUDA version.
