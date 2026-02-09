@@ -198,6 +198,12 @@ Optional arguments:
 
 Once ready, the server will print `Application startup complete.`.
 
+> [!WARNING]
+> **Remember to stop the server when done!** The vllm server consumes significant GPU memory while running. To stop it:
+>
+> - If running in foreground: Press `Ctrl+C`
+> - If running in background: Find the process with `ps aux | grep vllm` and kill it with `kill <PID>`
+
 Caption a video ([sample output](assets/outputs/caption.log)):
 
 ```shell
