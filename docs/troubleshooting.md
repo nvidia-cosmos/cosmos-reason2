@@ -12,6 +12,7 @@ ______________________________________________________________________
 - [Migration](#migration)
   - [Reason 1 → Reason 2 Configuration Changes](#reason-1--reason-2-configuration-changes)
 - [Errors](#errors)
+  - [EngineCore Issues](#enginecore-issues)
   - [OpenAI API Connection Error](#openai-api-connection-error)
   - [PTXAS Error](#ptxas-error)
 
