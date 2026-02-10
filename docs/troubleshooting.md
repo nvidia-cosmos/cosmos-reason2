@@ -9,6 +9,8 @@ ______________________________________________________________________
 - [Resources](#resources)
 - [FAQ](#faq)
   - [Where is requirements.txt](#where-is-requirementstxt)
+- [Migration](#migration)
+  - [Reason 1 → Reason 2 Configuration Changes](#reason-1--reason-2-configuration-changes)
 - [Errors](#errors)
   - [EngineCore Issues](#enginecore-issues)
   - [OpenAI API Connection Error](#openai-api-connection-error)
@@ -33,6 +35,39 @@ You can generate a `requirements.txt` file with [`uv export`](https://docs.astra
 ```shell
 uv export --format requirements.txt --output-file requirements.txt
 ```
+
+## Migration
+
+### Reason 1 → Reason 2 Configuration Changes
+
+If you have custom inference scripts or config files from Cosmos Reason 1, update them to use the updated format:
+
+**Reason 2 format:**
+
+```json
+"mm_processor_kwargs": {
+  "size": {
+    "shortest_edge": 1568,
+    "longest_edge": 374544
+  }
+}
+```
+
+**Reason 1 format (deprecated):**
+
+```json
+"mm_processor_kwargs": {
+  "videos_kwargs": {
+    "min_pixels": 1568,
+    "max_pixels": 374544
+  }
+}
+```
+
+**What changed:**
+
+- **Vision processor arguments**: Updated to follow [Qwen3-VL Pixel Control specification](https://github.com/QwenLM/Qwen3-VL#:~:text=Pixel%20Control%20via%20Official%20Processor)
+- **Video timestamps**: No longer overlay timestamps on videos. Timestamps are now included in the model embedding automatically.
 
 ## Errors
 
