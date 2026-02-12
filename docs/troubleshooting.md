@@ -11,6 +11,7 @@ ______________________________________________________________________
   - [Where is requirements.txt](#where-is-requirementstxt)
 - [Migration](#migration)
   - [Reason 1 → Reason 2 Configuration Changes](#reason-1--reason-2-configuration-changes)
+  - [System Prompt (from Cosmos Cookbook)](#system-prompt-from-cosmos-cookbook)
 - [Errors](#errors)
   - [EngineCore Issues](#enginecore-issues)
   - [OpenAI API Connection Error](#openai-api-connection-error)
@@ -67,7 +68,14 @@ If you have custom inference scripts or config files from Cosmos Reason 1, updat
 **What changed:**
 
 - **Vision processor arguments**: Updated to follow [Qwen3-VL Pixel Control specification](https://github.com/QwenLM/Qwen3-VL#:~:text=Pixel%20Control%20via%20Official%20Processor)
+  - **Important**: The semantics of Qwen2.5 vs Qwen3 preprocessing parameters are different. You **cannot** simply replace `min_pixels`/`max_pixels` with `shortest_edge`/`longest_edge` using the same values.
+  - The `shortest_edge` and `longest_edge` parameters control resizing differently than `min_pixels` and `max_pixels`.
+  - **Action required**: Recalculate appropriate values for `shortest_edge` and `longest_edge` based on your desired frame sizes. Refer to the [Qwen3-VL documentation](https://github.com/QwenLM/Qwen3-VL#:~:text=Pixel%20Control%20via%20Official%20Processor) for guidance on choosing appropriate values.
 - **Video timestamps**: No longer overlay timestamps on videos. Timestamps are now included in the model embedding automatically.
+
+### System Prompt (from [Cosmos Cookbook](https://nvidia-cosmos.github.io/cosmos-cookbook/core_concepts/prompt_guide/reason_guide.html#system-prompt))
+
+In Cosmos Reason 2, we are more aligned with Qwen's use of system prompt. In the examples given, we simply use 'You are a helpful assistant.' You may note this is different from Reason 1, where the system prompt was heavily used.
 
 ## Errors
 
