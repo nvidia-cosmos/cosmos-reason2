@@ -46,7 +46,7 @@ ______________________________________________________________________
 
 * [Cosmos-Reason2-2B](https://huggingface.co/nvidia/Cosmos-Reason2-2B)
 * [Cosmos-Reason2-8B](https://huggingface.co/nvidia/Cosmos-Reason2-8B)
-* [Cosmos-Reason2-8B](https://huggingface.co/nvidia/Cosmos-Reason2-32B)
+* [Cosmos-Reason2-32B](https://huggingface.co/nvidia/Cosmos-Reason2-32B)
 
 ## Setup
 
