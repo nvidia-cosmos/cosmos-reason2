@@ -185,7 +185,6 @@ vllm serve nvidia/Cosmos-Reason2-2B \
   --allowed-local-media-path "$(pwd)" \
   --max-model-len 16384 \
   --media-io-kwargs '{"video": {"num_frames": -1}}' \
-  --reasoning-parser qwen3 \
   --port 8000
 ```
 
@@ -193,7 +192,6 @@ Optional arguments:
 
 * `--max-model-len 16384`: Maximum model length to avoid OOM. Recommended range: 8192 - 16384.
 * `--media-io-kwargs '{"video": {"num_frames": -1}}'`: Allow overriding FPS per sample.
-* `--reasoning-parser qwen3`: Parse reasoning trace.
 * `--port 8000`: Server port. Change if you encounter `Address already in use` errors.
 
 > [!NOTE]
