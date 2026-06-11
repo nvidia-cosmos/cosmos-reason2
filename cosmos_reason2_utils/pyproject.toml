@@ -80,6 +80,15 @@ cu130_torch29 = [
   "torchao==0.14.1", # version compatible with torch 2.9: https://github.com/pytorch/ao/issues/2919
   "torchcodec==0.9.1", # version compatible with torch 2.9: https://github.com/meta-pytorch/torchcodec/releases
 ]
+# Jetson AGX Orin (JetPack 6, CUDA 12.6)
+# Uses Jetson AI Lab PyPI: https://pypi.jetson-ai-lab.io/
+# Requires CUDA env vars: see docs/jetson-orin-setup.md
+jp6_cu126 = [
+  "vllm==0.14.0+cu126; platform_machine == 'aarch64'",  # from jp6/cu126 index
+  "triton; platform_machine == 'aarch64'",  # from jp6/cu126 index, required by vllm
+  "torch==2.9.1; platform_machine == 'aarch64'",  # from jp6/cu126 index with sm_87 support
+  "torchvision; platform_machine == 'aarch64'",   # from jp6/cu126 index
+]
 
 [tool.uv]
 conflicts = [
@@ -87,6 +96,15 @@ conflicts = [
     {extra = "cu128_torch28"},
     {extra = "cu128_torch29"},
     {extra = "cu130_torch29"},
+    {extra = "jp6_cu126"},
+  ],
+  [
+    {extra = "jp6_cu126"},
+    {extra = "cosmos-rl"},  # cosmos-rl deps not yet validated on Jetson Orin
+  ],
+  [
+    {extra = "jp6_cu126"},
+    {extra = "trl"},  # trl deps not yet validated on Jetson Orin
   ],
 ]
 
@@ -98,6 +116,7 @@ torch = [
   { index = "pytorch-cu128", extra = "cu128_torch28" },
   { index = "pytorch-cu128", extra = "cu128_torch29" },
   { index = "pytorch-cu130", extra = "cu130_torch29" },
+  { index = "jetson-jp6-cu126", extra = "jp6_cu126" },
 ]
 torchcodec = [
   { index = "cosmos-cu130", extra = "cu130_torch29", marker = "platform_machine == 'aarch64'" },
@@ -106,9 +125,14 @@ torchvision = [
   { index = "pytorch-cu128", extra = "cu128_torch28" },
   { index = "pytorch-cu128", extra = "cu128_torch29" },
   { index = "pytorch-cu130", extra = "cu130_torch29" },
+  { index = "jetson-jp6-cu126", extra = "jp6_cu126" },
 ]
 vllm = [
   { index = "vllm13-cu130", extra = "cu130_torch29" },
+  { index = "jetson-jp6-cu126", extra = "jp6_cu126" },
+]
+triton = [
+  { index = "jetson-jp6-cu126", extra = "jp6_cu126" },
 ]
 
 [[tool.uv.index]]
@@ -129,6 +153,11 @@ explicit = true
 [[tool.uv.index]]
 name = "vllm13-cu130"
 url = "https://wheels.vllm.ai/72506c98349d6bcd32b4e33eec7b5513453c1502/cu130"
+explicit = true
+
+[[tool.uv.index]]
+name = "jetson-jp6-cu126"
+url = "https://pypi.jetson-ai-lab.io/jp6/cu126"
 explicit = true
 
 [project.scripts]

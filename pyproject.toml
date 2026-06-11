@@ -13,6 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "cosmos-reason2"
 version = "1.0.0"
@@ -24,6 +28,7 @@ dependencies = [
 [project.optional-dependencies]
 cu128 = ["cosmos-reason2-utils[cu128_torch29]"]
 cu130 = ["cosmos-reason2-utils[cu130_torch29]"]
+jp6 = ["cosmos-reason2-utils[jp6_cu126]"]  # Jetson AGX Orin (JetPack 6)
 
 [dependency-groups]
 dev = [
@@ -38,3 +43,9 @@ cosmos-reason2-utils = { workspace = true }
 members = [
   "cosmos_reason2_utils",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["cosmos_reason2"]
+
+[tool.hatch.build.targets.sdist]
+include = ["cosmos_reason2"]
